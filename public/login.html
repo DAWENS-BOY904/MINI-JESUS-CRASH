@@ -88,35 +88,55 @@ input:focus { border-color: var(--accent); box-shadow:0 0 10px var(--accent);}
     <a class="oauth" href="/auth/github"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"> GitHub</a>
   </div>
 
-  <span class="switch" onclick="window.location='signup.html'">Don't have an account? Sign up</span>
+  <span class="switch" onclick="window.location='index.html'">Don't have an account? Sign up</span>
 
   <div class="footer">© 2025 MINI JESUS LOGIN</div>
 </div>
 
 <script>
-const photoInput=document.getElementById('photoInput');
-const photoBox=document.getElementById('photoBox');
-photoInput.addEventListener('change', e=>{
-  const file=e.target.files[0];
-  if(file){
-    const reader=new FileReader();
-    reader.onload=e=>{
-      photoBox.innerHTML=`<img src="${e.target.result}" alt="Photo">`;
-    }
+const photoInput = document.getElementById('photoInput');
+const photoBox = document.getElementById('photoBox');
+
+// Photo preview
+photoInput.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      photoBox.innerHTML = `<img src="${e.target.result}" alt="Photo">`;
+    };
     reader.readAsDataURL(file);
   }
 });
 
-document.getElementById('loginBtn').addEventListener('click', async ()=>{
-  const email=document.getElementById('email').value;
-  const password=document.getElementById('password').value;
-  const res=await fetch('/login',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({email,password})
-  });
-  if(res.redirected) window.location=res.url;
-  else alert(await res.text());
+// Login button click
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!email || !password) {
+    alert('Please fill in all fields.');
+    return;
+  }
+
+  try {
+    const res = await fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+
+    // If login is successful, redirect to index.html
+    if (res.ok) {
+      window.location.href = 'signup.html';
+    } else {
+      const msg = await res.text();
+      alert(msg || 'Login failed.');
+    }
+  } catch (err) {
+    console.error(err);
+    alert('An error occurred during login.');
+  }
 });
 </script>
 </body>
