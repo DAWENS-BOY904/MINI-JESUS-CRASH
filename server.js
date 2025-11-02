@@ -175,7 +175,7 @@ function formatToJid(number) {
 // ==================== Routes ====================
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'signup.html'));
+    res.sendFile(path.join(__dirname, 'login.html'));
 });
 
 app.get('/index', (req, res) => {
