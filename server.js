@@ -42,7 +42,7 @@ const PORT = process.env.PORT || 3000;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // ⛔️ Mete kle Gemini ou a nan .env
-const GEMINI_KEY =AIzaSyDcu4quhYj-Jj-syquKknawsvP1lyEqI3A;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 app.post("/api/chat", async (req, res) => {
   try {
