@@ -1,7 +1,7 @@
 // ==================== server.js ====================
 import { sessionGuard, loadMegaSession } from "./autoUpdater.js";
 import { antiSpam, loadSessions, saveSessions } from "./autoUpdater2.js";
-import pairRouter from './pair.js';
+import pairRouter from './Routes/pair.js';
 import axios from 'axios';
 import express from 'express';
 import fs from 'fs';
