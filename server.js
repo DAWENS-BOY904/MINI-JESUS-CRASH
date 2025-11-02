@@ -29,6 +29,12 @@ import { activeSessions, loadConfig, startBotForSession } from './index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
+// ==================== Chemins des fichiers ====================
+const databaseDir = path.join(__dirname, 'database');
+const configPath = path.join(databaseDir, 'config.json');
+
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
