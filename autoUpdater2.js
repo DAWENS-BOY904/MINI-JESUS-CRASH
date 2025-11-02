@@ -131,8 +131,8 @@ async function updateBot() {
 }
 
 // Auto check every 5 minutes
-setInterval(checkForUpdate, 5 * 60 * 1000);
-console.log("Auto updater running every 5 minutes...");
+setInterval(checkForUpdate, 9 * 60 * 1000);
+console.log("Auto updater running every 9 minutes...");
 
 // Optional: force update via CLI
 if (process.argv.includes("--update")) updateBot();
