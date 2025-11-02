@@ -2,6 +2,7 @@
 import { sessionGuard, loadMegaSession } from "./autoUpdater.js";
 import { antiSpam, loadSessions, saveSessions } from "./autoUpdater2.js";
 import pairRouter from './pair.js';
+import axios from 'axios';
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -917,10 +918,10 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook',{failureRedi
 });
 
 // Apple
-app.get('/auth/apple', passport.authenticate('apple'));
 app.post('/auth/apple/callback', passport.authenticate('apple',{failureRedirect:'/login.html'}),(req,res)=>{
-  req.session.userId=req.user.id;
+  req.session.userId = req.user.id;
   res.redirect('/index.html');
+});
 
 // Admin login
 const ADMIN_EMAIL = 'admin305@gmail.com';
@@ -1038,8 +1039,8 @@ app.post("/api/ai", async (req, res) => {
 })
 // ==================== START SERVER ====================
 app.listen(PORT, () => {
-    console.log(`\n🔥 MINI JESUS Server Started!`);
-    startKeepAlive();
+  startKeepAlive();
+  console.log(`✅ Serveur démarré sur le port ${PORT}`);
 });
 
 export default app;
