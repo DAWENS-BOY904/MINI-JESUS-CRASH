@@ -114,7 +114,8 @@
     "uuid": "^9.0.0",
     "node-fetch": "^3.3.2",
     "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "cookie-session": "^2.0.0"
  },
   "devDependencies": {
     "nodemon": "^2.0.22"
