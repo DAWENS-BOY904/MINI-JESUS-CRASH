@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App - Dawens School</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(160deg, #00111a, #000);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .weather-box {
+      background: rgba(255,255,255,0.05);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0,255,255,0.3);
+      text-align: center;
+      width: 320px;
+    }
+
+    input {
+      width: 80%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(45deg, #00eaff, #0078ff);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .result {
+      margin-top: 20px;
+      line-height: 1.6em;
+    }
+
+    .temp {
+      font-size: 2em;
+      color: #00eaff;
+      text-shadow: 0 0 20px #00ffff;
+    }
+  </style>
+</head>
+<body>
+  <div class="weather-box">
+    <h1>🌤 Weather App</h1>
+    <input type="text" id="cityInput" placeholder="Enter city name">
+    <button onclick="getWeather()">Search</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    async function getWeather() {
+      const city = document.getElementById('cityInput').value.trim();
+      if (!city) return alert('Enter a city name!');
+      const result = document.getElementById('result');
+      result.innerHTML = 'Loading...';
+
+      try {
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=48.85&longitude=2.35&current_weather=true`);
+        const data = await res.json();
+        result.innerHTML = `
+          <div class="temp">${data.current_weather.temperature}°C</div>
+          <p>Condition: ${data.current_weather.weathercode}</p>
+          <p>Wind Speed: ${data.current_weather.windspeed} km/h</p>
+        `;
+      } catch (e) {
+        result.innerHTML = '<p style="color:#ff5555;">City not found or API error.</p>';
+      }
+    }
+  </script>
+</body>
+</html>
