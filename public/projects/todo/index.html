@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToDo App - Dawens School</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #001a2b, #000);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 400px;
+      background: rgba(255,255,255,0.05);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(0,255,255,0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #00eaff;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(45deg, #00eaff, #0078ff);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(45deg, #0078ff, #00eaff);
+      transform: scale(1.05);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      background: rgba(255,255,255,0.1);
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.3s;
+    }
+
+    li.completed {
+      text-decoration: line-through;
+      color: #888;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .delete {
+      background: none;
+      color: #ff5555;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📝 ToDo App</h1>
+    <div class="input-group">
+      <input type="text" id="taskInput" placeholder="Add new task...">
+      <button onclick="addTask()">Add</button>
+    </div>
+    <ul id="taskList"></ul>
+  </div>
+
+  <script>
+    const input = document.getElementById('taskInput');
+    const list = document.getElementById('taskList');
+
+    function addTask() {
+      const task = input.value.trim();
+      if (!task) return alert('Enter a task!');
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span>${task}</span>
+        <button class="delete" onclick="removeTask(this)">✖</button>
+      `;
+      li.onclick = () => li.classList.toggle('completed');
+      list.appendChild(li);
+      input.value = '';
+      saveTasks();
+    }
+
+    function removeTask(button) {
+      button.parentElement.remove();
+      saveTasks();
+    }
+
+    function saveTasks() {
+      const tasks = [];
+      list.querySelectorAll('li').forEach(li => {
+        tasks.push({ text: li.textContent.replace('✖', '').trim(), done: li.classList.contains('completed') });
+      });
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function loadTasks() {
+      const saved = JSON.parse(localStorage.getItem('tasks')) || [];
+      saved.forEach(t => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <span>${t.text}</span>
+          <button class="delete" onclick="removeTask(this)">✖</button>
+        `;
+        if (t.done) li.classList.add('completed');
+        li.onclick = () => li.classList.toggle('completed');
+        list.appendChild(li);
+      });
+    }
+
+    loadTasks();
+  </script>
+</body>
+</html>
