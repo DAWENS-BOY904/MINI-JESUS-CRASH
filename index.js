@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 
 // Import Handler and smsg
-import { antiSpam, loadSessions, saveSessions } from "./autoUpdater.js";
+import { antiSpam, loadSessions, saveSessions } from "./autoUpdater2.js";
 import handler from "./handler.js";
 import { smsg } from './system/func.js';
 import { contextInfo } from './system/contextInfo.js';
