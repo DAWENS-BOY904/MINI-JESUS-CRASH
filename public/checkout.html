@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Da-ChatGPT Plus</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg: #0e1117;
+  --panel: rgba(30,32,40,0.8);
+  --text: #f1f1f1;
+  --accent: #0078ff;
+  --accent2: #00E5FF;
+  --green: #25D366;
+  --yellow: #FFD700;
+  --red: #FF3D00;
+  --shadow: rgba(0,0,0,0.5);
+  --radius: 14px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:"Inter",sans-serif;
+  background:#0e1117;
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:30px 20px;
+}
+
+header{
+  width:100%;
+  max-width:1000px;
+  margin-bottom:40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header h1{
+  color: var(--accent);
+}
+.theme-switch{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+}
+.theme-switch input{
+  width:45px;height:22px;appearance:none;background:#ccc;border-radius:30px;position:relative;transition:.3s;
+}
+.theme-switch input:checked{background:var(--accent);}
+.theme-switch input::after{
+  content:"";width:18px;height:18px;background:#fff;border-radius:50%;position:absolute;top:2px;left:3px;transition:.3s;
+}
+.theme-switch input:checked::after{left:24px;}
+
+.checkout-container{
+  display:grid;
+  grid-template-columns:1fr;
+  max-width:800px;
+  gap:30px;
+  width:100%;
+}
+
+.payment-method{
+  background:var(--panel);
+  border-radius:var(--radius);
+  padding:25px;
+  box-shadow:0 8px 25px var(--shadow);
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+
+.payment-method:hover{
+  transform:translateY(-5px);
+  box-shadow:0 12px 35px var(--shadow);
+}
+
+.payment-method h2{
+  margin-bottom:18px;
+  color:var(--accent);
+}
+
+.payment-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px;
+}
+
+.payment-buttons button{
+  flex:1 1 200px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:14px 20px;
+  border:none;
+  border-radius:var(--radius);
+  font-weight:600;
+  cursor:pointer;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color:#fff;
+  box-shadow:0 0 20px rgba(0,120,255,0.4);
+  transition: all .3s ease;
+  position:relative;
+  overflow:hidden;
+}
+.payment-buttons button i{
+  font-size:20px;
+}
+.payment-buttons button:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 35px rgba(0,229,255,0.55);
+}
+
+.payment-buttons button.card{background: linear-gradient(135deg, #FF6F61, #FFB347);}
+.payment-buttons button.cash{background: linear-gradient(135deg, #25D366, #00C851);}
+.payment-buttons button.paypal{background: linear-gradient(135deg, #003087, #009CDE);}
+
+.messages{
+  background:var(--panel);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:0 8px 25px var(--shadow);
+}
+
+.messages h3{
+  color:var(--accent);
+  margin-bottom:15px;
+}
+
+.msg{
+  background:rgba(255,255,255,0.05);
+  padding:12px 14px;
+  border-radius:12px;
+  margin-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:0.95rem;
+  transition: all .3s ease;
+}
+.msg:hover{
+  box-shadow:0 0 20px rgba(0,229,255,0.3);
+  transform:translateY(-2px);
+}
+.msg .from{font-weight:700;color:#fff;}
+.msg .time{font-size:0.8rem;color:rgba(255,255,255,0.5);}
+
+footer{
+  margin-top:40px;
+  font-size:0.9rem;
+  opacity:0.7;
+  text-align:center;
+}
+
+@media(max-width:768px){
+  .payment-buttons{flex-direction:column;}
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Da-ChatGPT Plus Checkout</h1>
+  <div class="theme-switch">
+    <label for="modeSwitch">🌞 / 🌚</label>
+    <input type="checkbox" id="modeSwitch" onchange="toggleTheme()">
+  </div>
+</header>
+
+<section class="checkout-container">
+  <div class="payment-method">
+    <h2>Select Payment Method</h2>
+    <div class="payment-buttons">
+      <button class="card" onclick="pay('Card')"><i class="fas fa-credit-card"></i> Credit / Debit Card</button>
+      <button class="cash" onclick="pay('Cash App')"><i class="fas fa-dollar-sign"></i> Cash App</button>
+      <button class="paypal" onclick="pay('PayPal')"><i class="fab fa-paypal"></i> PayPal</button>
+    </div>
+  </div>
+
+  <div class="messages">
+    <h3>Recent Messages</h3>
+    <div class="msg"><span class="from">Samuel</span><span class="time">09:12</span><div>Great, checkout works!</div></div>
+    <div class="msg"><span class="from">Zo</span><span class="time">08:45</span><div>Is PayPal instant?</div></div>
+    <div class="msg"><span class="from">Owner</span><span class="time">07:50</span><div>Yes, payments are secure.</div></div>
+  </div>
+</section>
+
+<footer>© 2025 Da-ChatGPT. All rights reserved.</footer>
+
+<script>
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+}
+
+// Li plan nan query string
+const params = new URLSearchParams(window.location.search);
+const plan = params.get('plan') || "Pro Plan"; // Default si pa gen plan
+
+function pay(method){
+  alert("✅ You selected " + method + "! Redirecting to payment gateway...");
+  
+  setTimeout(()=>{
+    // Voye plan ansanm ak method nan payment.html
+    window.location.href = `payment.html?plan=${encodeURIComponent(plan)}&method=${encodeURIComponent(method)}`;
+  }, 500);
+}
+</script>
+
+</body>
+</html>

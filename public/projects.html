@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dawens Projects — Capstone Templates</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0f1724;
+      --card-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      --muted: #9aa6b2;
+      --glass: rgba(255,255,255,0.03);
+      --accent1: #00eaff;
+      --accent2: #00ffa8;
+      --accent3: #7a00ff;
+      --success: #22c55e;
+      --danger: #ff6b6b;
+      --radius: 14px;
+      --max: 1200px;
+      --shadow: 0 12px 40px rgba(2,8,23,0.6);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      background: radial-gradient(1200px 400px at 10% 10%, rgba(0,255,179,0.03), transparent), var(--bg);
+      color: #e6f0f3;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* top header */
+    header{
+      padding:18px 12px;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      display:flex;
+      justify-content:center;
+    }
+    .container{
+      width:100%; max-width:var(--max); margin:0 auto; padding:0 14px;
+    }
+    .top{
+      display:flex; align-items:center; gap:14px; justify-content:space-between;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .logo{
+      width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+      background: linear-gradient(135deg,var(--accent1),var(--accent2));
+      font-weight:800;color:#001018;
+      box-shadow:0 10px 30px rgba(0,233,192,0.06);
+    }
+    .title{
+      font-weight:700; color:var(--accent1); font-size:18px;
+    }
+    .subtitle{ color:var(--muted); font-size:13px }
+
+    .actions{ display:flex; gap:10px; align-items:center; }
+
+    .search{
+      background:rgba(255,255,255,0.02);
+      border-radius:999px; padding:8px 12px; display:flex; gap:8px; align-items:center;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .search input{
+      background:transparent; border:0; outline:none; color:inherit; font-size:14px; width:260px;
+    }
+    .btn{
+      background: linear-gradient(90deg,var(--accent1),var(--accent2));
+      border:none;color:#001018;padding:10px 12px;border-radius:10px;font-weight:700;cursor:pointer;
+      box-shadow:0 12px 30px rgba(0,212,255,0.06);
+    }
+    .btn.ghost{
+      background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);
+    }
+
+    main{
+      padding:26px 12px 80px;
+      width:100%;
+      max-width:var(--max);
+      margin:0 auto;
+    }
+
+    .hero{
+      display:flex; gap:20px; align-items:center; margin-bottom:18px;
+    }
+    .hero-left{
+      flex:1;
+    }
+    .hero h1{
+      margin:0; font-size:28px; color:var(--accent1);
+      text-shadow:0 0 20px rgba(0,233,192,0.04);
+    }
+    .hero p{ margin:8px 0 0; color:var(--muted); max-width:900px }
+
+    /* filters */
+    .filters{
+      margin-top:18px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    }
+    .filters .chip{
+      padding:8px 10px; border-radius:999px; background:rgba(255,255,255,0.02);
+      color:var(--muted); cursor:pointer; border:1px solid rgba(255,255,255,0.02);
+    }
+    .filters .chip.active{ background: linear-gradient(90deg,var(--accent1),var(--accent3)); color:#001018; font-weight:700; box-shadow:0 10px 30px rgba(124,0,255,0.06) }
+
+    /* grid */
+    .grid{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:18px;
+      align-items:start;
+    }
+
+    .card{
+      background:var(--card-bg);
+      border-radius:14px;
+      padding:18px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,0.03);
+      display:flex; flex-direction:column; gap:12px;
+      min-height:220px;
+      position:relative;
+      transition: transform .16s ease, box-shadow .16s ease;
+    }
+    .card:hover{ transform:translateY(-8px); box-shadow:0 20px 50px rgba(0,0,0,0.7) }
+
+    .card .top{
+      display:flex; align-items:center; gap:12px; justify-content:space-between;
+    }
+    .card .name{ font-weight:700; color:var(--accent1); font-size:16px }
+    .tags{ display:flex; gap:8px; flex-wrap:wrap; }
+    .tag{ font-size:12px; padding:6px 8px; border-radius:999px; background:rgba(255,255,255,0.02); color:var(--muted); }
+
+    .desc{ color:var(--muted); font-size:14px; line-height:1.4 }
+
+    .meta{ display:flex; gap:10px; align-items:center; color:var(--muted); font-size:13px }
+
+    .card .actions{ display:flex; gap:8px; margin-top:auto; align-items:center }
+
+    .small{ font-size:13px; color:var(--muted) }
+
+    .badge{
+      padding:6px 8px; border-radius:8px; font-weight:700; font-size:12px;
+      background:linear-gradient(90deg,var(--accent2),var(--accent1)); color:#001018;
+    }
+
+    /* modal preview */
+    .modal-backdrop{
+      position:fixed; inset:0; background:rgba(2,6,23,0.6); display:none; align-items:center; justify-content:center;
+      z-index:9999; padding:24px;
+    }
+    .modal{
+      width:100%; max-width:980px; background:linear-gradient(180deg,#041322,#071924);
+      border-radius:12px; padding:18px; color:#e6f0f3; box-shadow:0 30px 80px rgba(0,0,0,0.8);
+      border:1px solid rgba(255,255,255,0.03); overflow:auto; max-height:90vh;
+    }
+    .modal .m-head{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .modal pre{ background: #03121a; padding:12px; border-radius:8px; overflow:auto; color:#d7f9f0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace; font-size:13px; margin:12px 0; border:1px solid rgba(255,255,255,0.03) }
+
+    /* search result highlight */
+    mark{ background: linear-gradient(90deg, rgba(255,230,0,0.15), rgba(255,200,0,0.06)); color: #fff; padding:0 4px; border-radius:3px }
+
+    /* pagination area */
+    .pager{ display:flex; gap:8px; justify-content:center; margin-top:20px; align-items:center }
+    .page-btn{ padding:8px 12px; border-radius:8px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.02); cursor:pointer; color:var(--muted) }
+    .page-btn.active{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:#001018; font-weight:700 }
+
+    /* mobile responsiveness */
+    @media (max-width:1100px){
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width:700px){
+      .grid{ grid-template-columns: 1fr; }
+      .hero{ flex-direction:column; align-items:flex-start; gap:8px; }
+      .search input{ width:140px; }
+    }
+
+    /* decorative background blobs */
+    .bg-blob{
+      position:fixed; right:-120px; top:-80px; width:420px; height:420px; filter: blur(70px);
+      background: radial-gradient(circle at 20% 20%, rgba(0,255,179,0.09), transparent 20%), linear-gradient(135deg,var(--accent1),var(--accent3));
+      opacity:0.08; z-index:0;
+    }
+
+    /* long description area */
+    .full-desc{ color:var(--muted); font-size:14px; line-height:1.6; margin-top:10px }
+
+  </style>
+</head>
+<body>
+  <div class="bg-blob" aria-hidden="true"></div>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+
+  <header>
+    <div class="container top">
+      <div class="brand">
+        <div class="logo">DS</div>
+        <div>
+          <div class="title">Dawens Projects</div>
+          <div class="subtitle">Capstone templates • Ready-to-code • Designed for portfolio</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <div class="search" role="search" aria-label="Search projects">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="opacity:.9"><path d="M21 21l-4.35-4.35" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <input id="searchInput" placeholder="Search projects, tags, skills..." />
+          <button id="clearSearch" class="btn ghost" style="padding:8px 10px">Clear</button>
+        </div>
+        <button id="newProjectBtn" class="btn">Create Project</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <h1>Project Templates & Capstones</h1>
+        <p>Over 25 curated projects you can build with step-by-step guides, starter code, deployment tips, and grading rubrics. Filter by skill — Java, Python, JavaScript, C++, CSS, DevOps, Databases, Machine Learning, and more.</p>
+
+        <div class="filters" role="toolbar" aria-label="Project filters">
+          <div class="chip active" data-filter="all">All</div>
+          <div class="chip" data-filter="web">Web</div>
+          <div class="chip" data-filter="mobile">Mobile</div>
+          <div class="chip" data-filter="backend">Backend</div>
+          <div class="chip" data-filter="ml">Machine Learning</div>
+          <div class="chip" data-filter="data">Data</div>
+          <div class="chip" data-filter="devops">DevOps</div>
+          <div class="chip" data-filter="security">Security</div>
+        </div>
+      </div>
+
+      <div style="width:360px">
+        <div style="background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:12px; padding:14px; box-shadow:var(--shadow); border:1px solid rgba(255,255,255,0.03)">
+          <div style="display:flex; align-items:center; gap:12px">
+            <div style="width:64px;height:64px;border-radius:12px; background:linear-gradient(135deg,var(--accent1),var(--accent2)); display:flex; align-items:center; justify-content:center; font-weight:800; color:#001018">PR</div>
+            <div>
+              <div style="font-weight:800; color:var(--accent1)">Project Roadmap</div>
+              <div class="small" style="margin-top:6px">Choose a project → clone starter → implement features → request mentor review.</div>
+            </div>
+          </div>
+
+          <div class="full-desc">
+            <strong>Tips:</strong>
+            Start with a web project if you want quick visual results. Use Python for data/ML projects. Add CI/CD for devops experience. Each template includes expected learning outcomes.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID OF PROJECTS -->
+    <section class="grid" id="projectsGrid" aria-live="polite">
+      <!-- We'll inject project cards with JS; but provide a few static ones as examples -->
+      <!-- Example Project Card 1 -->
+      <article class="card" data-tags="web,javascript,node,express,api" data-filter="web">
+        <div class="top">
+          <div>
+            <div class="name">Fullstack Todo App</div>
+            <div class="tags">
+              <span class="tag">JavaScript</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">React</span>
+            </div>
+          </div>
+          <div class="badge">Beginner → Intermediate</div>
+        </div>
+
+        <div class="desc">Build a fullstack todo application with a REST API, React frontend, JWT auth, and persistent storage. Deploy on Vercel + Heroku/Render.</div>
+
+        <div class="meta">
+          <div>Est. 1-2 weeks • Frontend + Backend</div>
+          <div style="margin-left:auto" class="small">Points: 80</div>
+        </div>
+
+        <div class="actions">
+          <a href="#" class="btn" data-action="preview" data-id="proj-1">Preview</a>
+          <a href="#" class="btn ghost" data-action="download" data-id="proj-1">Download</a>
+          <button class="btn ghost" data-action="copy" data-code="proj1">Copy Code</button>
+        </div>
+      </article>
+
+      <!-- Example Project Card 2 -->
+      <article class="card" data-tags="python,ml,data" data-filter="ml">
+        <div class="top">
+          <div>
+            <div class="name">ML: Sentiment Analyzer</div>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">scikit-learn</span>
+              <span class="tag">NLP</span>
+            </div>
+          </div>
+          <div class="badge">Intermediate</div>
+        </div>
+
+        <div class="desc">Train a sentiment classifier using real-world tweets, preprocess text, vectorize, and evaluate performance with ROC/AUC. Optionally serve model via FastAPI.</div>
+
+        <div class="meta">
+          <div>Est. 2-3 weeks • Data & ML</div>
+          <div style="margin-left:auto" class="small">Points: 120</div>
+        </div>
+
+        <div class="actions">
+          <a href="#" class="btn" data-action="preview" data-id="proj-2">Preview</a>
+          <a href="#" class="btn ghost" data-action="download" data-id="proj-2">Download</a>
+          <button class="btn ghost" data-action="copy" data-code="proj2">Copy Code</button>
+        </div>
+      </article>
+
+      <!-- Example Project Card 3 -->
+      <article class="card" data-tags="cpp,systems,performance" data-filter="backend">
+        <div class="top">
+          <div>
+            <div class="name">C++: High-Perf Web Server</div>
+            <div class="tags">
+              <span class="tag">C++</span>
+              <span class="tag">Networking</span>
+              <span class="tag">Linux</span>
+            </div>
+          </div>
+          <div class="badge">Advanced</div>
+        </div>
+
+        <div class="desc">Implement a multithreaded HTTP server in C++ using epoll, proper memory management, and benchmarks vs. nginx for small payloads.</div>
+
+        <div class="meta">
+          <div>Est. 4+ weeks • Systems</div>
+          <div style="margin-left:auto" class="small">Points: 220</div>
+        </div>
+
+        <div class="actions">
+          <a href="#" class="btn" data-action="preview" data-id="proj-3">Preview</a>
+          <a href="#" class="btn ghost" data-action="download" data-id="proj-3">Download</a>
+          <button class="btn ghost" data-action="copy" data-code="proj3">Copy Code</button>
+        </div>
+      </article>
+
+      <!-- Example Project Card 4 -->
+      <article class="card" data-tags="web,css,design,frontend" data-filter="web">
+        <div class="top">
+          <div>
+            <div class="name">Portfolio Website (Design)</div>
+            <div class="tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">Accessibility</span>
+            </div>
+          </div>
+          <div class="badge">Beginner</div>
+        </div>
+
+        <div class="desc">Design and build a responsive portfolio with animation, accessibility, and SEO basics. Use CSS Grid and Flexbox.</div>
+
+        <div class="meta">
+          <div>Est. 1 week • Frontend</div>
+          <div style="margin-left:auto" class="small">Points: 40</div>
+        </div>
+
+        <div class="actions">
+          <a href="#" class="btn" data-action="preview" data-id="proj-4">Preview</a>
+          <a href="#" class="btn ghost" data-action="download" data-id="proj-4">Download</a>
+          <button class="btn ghost" data-action="copy" data-code="proj4">Copy Code</button>
+        </div>
+      </article>
+
+      <!-- Add many more templates programmatically via JS later for brevity -->
+    </section>
+
+    <div class="pager" id="pager">
+      <button class="page-btn active" data-page="1">1</button>
+      <button class="page-btn" data-page="2">2</button>
+      <button class="page-btn" data-page="3">3</button>
+      <div class="small" style="margin-left:12px">Showing <span id="shownCount">4</span> projects</div>
+    </div>
+
+  </main>
+
+  <!-- modal -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document" aria-labelledby="modalTitle">
+      <div class="m-head">
+        <div>
+          <h3 id="modalTitle">Project Preview</h3>
+          <div class="small" id="modalSubtitle">Subtitle</div>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center">
+          <button id="copyCodeBtn" class="btn ghost">Copy Code</button>
+          <a id="downloadLink" class="btn" href="#" download>Download Starter</a>
+          <button id="closeModal" class="btn ghost">Close</button>
+        </div>
+      </div>
+
+      <div id="modalBody">
+        <p class="full-desc" id="modalDesc">Project description goes here...</p>
+
+        <h4 style="margin-top:12px; color:var(--accent1)">Starter Code</h4>
+        <pre id="modalCode">// example snippet will appear here</pre>
+
+        <h4 style="margin-top:12px; color:var(--accent1)">Deployment Tips</h4>
+        <div class="small" id="modalTips">
+          - Host backend on Render/Heroku.<br>
+          - Use Vercel/Netlify for frontend.<br>
+          - Configure environment variables for secrets.
+        </div>
+
+        <h4 style="margin-top:12px; color:var(--accent1)">Rubric & Goals</h4>
+        <ul class="small">
+          <li>Functionality (40%) — features implemented</li>
+          <li>Code quality (20%) — structure & clarity</li>
+          <li>Testing & CI (15%) — unit tests or workflow</li>
+          <li>Documentation (15%) — README & deploy guide</li>
+          <li>Polish & UX (10%) — responsive design & accessibility</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Projects data (expandable)
+    const PROJECTS = [
+      {
+        id: 'proj-1',
+        title: 'Fullstack Todo App',
+        tags: ['web','javascript','node','react','express'],
+        difficulty: 'Beginner → Intermediate',
+        points: 80,
+        est: '1-2 weeks',
+        desc: 'Build a fullstack todo app with React frontend, Node/Express backend, JWT auth, and persistent storage (Postgres). Deploy frontend to Vercel and backend to Render.',
+        code: `// server.js (Express) - minimal
+import express from 'express';
+const app = express();
+app.use(express.json());
+app.get('/api/todos',(req,res)=>res.json([{id:1,title:'Sample',done:false}]));
+app.listen(process.env.PORT||3000);`,
+        download: '#'
+      },
+      {
+        id: 'proj-2',
+        title: 'ML: Sentiment Analyzer',
+        tags: ['ml','python','data','nlp'],
+        difficulty: 'Intermediate',
+        points: 120,
+        est: '2-3 weeks',
+        desc: 'Train a sentiment classifier on tweets using sklearn. Preprocess text, vectorize with TF-IDF, and expose model via FastAPI.',
+        code: `# train.py (sketch)
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+# load data...
+`,
+        download: '#'
+      },
+      {
+        id: 'proj-3',
+        title: 'C++: High-Perf Web Server',
+        tags: ['cpp','systems','performance'],
+        difficulty: 'Advanced',
+        points: 220,
+        est: '4+ weeks',
+        desc: 'Implement a multithreaded HTTP server in C++ using epoll, focus on low latency and profiling.',
+        code: `// main.cpp (skeleton)
+#include <iostream>
+int main(){ std::cout << "Hello Dawens C++ Server\\n"; return 0; }`,
+        download: '#'
+      },
+      {
+        id: 'proj-4',
+        title: 'Portfolio Website (Design)',
+        tags: ['web','css','frontend','design'],
+        difficulty: 'Beginner',
+        points: 40,
+        est: '1 week',
+        desc: 'Design a portfolio with responsive layout, animations, and accessible components using semantic HTML+CSS.',
+        code: `<!-- index.html snippet -->
+<header><h1>My Portfolio</h1></header>`,
+        download: '#'
+      },
+      // add many more to get a rich list
+      {
+        id: 'proj-5',
+        title: 'Realtime Chat with WebSockets',
+        tags: ['web','node','socket','realtime'],
+        difficulty: 'Intermediate',
+        points: 100,
+        est: '1-2 weeks',
+        desc: 'Build a realtime chat app using Socket.IO, with rooms and typing indicators. Add simple persistence.',
+        code: `// socket server snippet
+const io = require('socket.io')(3000);
+io.on('connection', socket => { socket.on('message', msg=> io.emit('message', msg)); });`,
+        download: '#'
+      },
+      {
+        id: 'proj-6',
+        title: 'E-commerce Microservice (Payments)',
+        tags: ['backend','payments','node','stripe'],
+        difficulty: 'Advanced',
+        points: 200,
+        est: '3-4 weeks',
+        desc: 'Design microservices for cart, orders, and payments using Stripe. Focus on idempotency and webhooks.',
+        code: `// webhook handler (express)
+app.post('/webhook', (req,res)=>{ /* verify signature */ res.sendStatus(200); });`,
+        download: '#'
+      },
+      {
+        id: 'proj-7',
+        title: 'Mobile: React Native ToDo',
+        tags: ['mobile','react-native','javascript'],
+        difficulty: 'Beginner → Intermediate',
+        points: 70,
+        est: '1-2 weeks',
+        desc: 'Mobile todo app in React Native with offline sync and push notifications.',
+        code: `// App.js (expo)
+import React from 'react'; export default function App(){ return null; }`,
+        download: '#'
+      },
+      {
+        id: 'proj-8',
+        title: 'Data Pipeline: ETL + Dashboard',
+        tags: ['data','etl','python','sql'],
+        difficulty: 'Intermediate',
+        points: 140,
+        est: '2-3 weeks',
+        desc: 'Ingest data from APIs, transform with Airflow tasks, load into Postgres and build dashboards with Metabase.',
+        code: `# etl.py skeleton
+def extract(): pass
+def transform(): pass
+def load(): pass`,
+        download: '#'
+      },
+      {
+        id: 'proj-9',
+        title: 'DevOps: CI/CD Pipeline',
+        tags: ['devops','ci','docker','github-actions'],
+        difficulty: 'Intermediate',
+        points: 90,
+        est: '1-2 weeks',
+        desc: 'Create CI/CD using GitHub Actions, build Docker images, run tests, and deploy to staging/production.',
+        code: `# .github/workflows/ci.yml
+name: CI
+on: [push]
+jobs:
+  build: { runs-on: ubuntu-latest }`,
+        download: '#'
+      },
+      {
+        id: 'proj-10',
+        title: 'Security: Auth Hardened App',
+        tags: ['security','auth','backend'],
+        difficulty: 'Advanced',
+        points: 180,
+        est: '3-4 weeks',
+        desc: 'Implement secure auth: password hashing, 2FA, rate limiting, and secure session management.',
+        code: `// sample: bcrypt usage
+const bcrypt = require('bcrypt'); const hash = await bcrypt.hash('pass', 10);`,
+        download: '#'
+      },
+      {
+        id: 'proj-11',
+        title: 'GraphQL API with Apollo',
+        tags: ['graphql','node','api'],
+        difficulty: 'Intermediate',
+        points: 110,
+        est: '1-2 weeks',
+        desc: 'Design a GraphQL API with Apollo Server, schema-first approach, and efficient resolvers.',
+        code: `// typeDefs sample
+type Query { users: [User] }`,
+        download: '#'
+      },
+      {
+        id: 'proj-12',
+        title: 'Real-time Collab Editor',
+        tags: ['realtime','web','webrtc','javascript'],
+        difficulty: 'Advanced',
+        points: 210,
+        est: '4+ weeks',
+        desc: 'Implement collaborative text editing with Operational Transforms / CRDTs and WebRTC peers.',
+        code: `// CRDT placeholder
+function applyOp(doc, op){ /* ... */ }`,
+        download: '#'
+      },
+      {
+        id: 'proj-13',
+        title: 'IoT: Sensor Dashboard',
+        tags: ['iot','python','mqtt'],
+        difficulty: 'Intermediate',
+        points: 130,
+        est: '2-3 weeks',
+        desc: 'Collect readings via MQTT, store time-series data, visualize with Grafana.',
+        code: `# mqtt sample
+import paho.mqtt.client as mqtt`,
+        download: '#'
+      },
+      {
+        id: 'proj-14',
+        title: 'Blockchain: Simple DApp',
+        tags: ['blockchain','solidity','web3'],
+        difficulty: 'Advanced',
+        points: 200,
+        est: '3-4 weeks',
+        desc: 'Smart contract with Solidity, deploy to testnet, and build a frontend with web3.js.',
+        code: `// solidity contract skeleton
+pragma solidity ^0.8.0; contract MyToken { }`,
+        download: '#'
+      },
+      {
+        id: 'proj-15',
+        title: 'Chatbot Integration (WhatsApp)',
+        tags: ['bot','whatsapp','node'],
+        difficulty: 'Intermediate',
+        points: 100,
+        est: '1-2 weeks',
+        desc: 'Integrate a WhatsApp bot with templated responses, media, and webhook events.',
+        code: `// webhook sample
+app.post('/webhook', (req,res)=>res.sendStatus(200));`,
+        download: '#'
+      },
+      {
+        id: 'proj-16',
+        title: 'Image Classifier (Transfer Learning)',
+        tags: ['ml','python','tensorflow'],
+        difficulty: 'Intermediate',
+        points: 150,
+        est: '2-3 weeks',
+        desc: 'Use transfer learning (e.g., MobileNet) to classify images; include deployment as REST API.',
+        code: `# TensorFlow sketch
+import tensorflow as tf`,
+        download: '#'
+      },
+      {
+        id: 'proj-17',
+        title: 'Search Engine (Elasticsearch)',
+        tags: ['search','elasticsearch','backend'],
+        difficulty: 'Intermediate',
+        points: 130,
+        est: '2-3 weeks',
+        desc: 'Index content and implement relevance tuning, faceting, and performance testing.',
+        code: `# indexing example (python)
+from elasticsearch import Elasticsearch`,
+        download: '#'
+      },
+      {
+        id: 'proj-18',
+        title: 'Recommendation System',
+        tags: ['ml','data','python'],
+        difficulty: 'Advanced',
+        points: 180,
+        est: '3-4 weeks',
+        desc: 'Build collaborative filtering recommender. Evaluate using precision@k and recall.',
+        code: `# ALS sample (implicit)
+from implicit.als import AlternatingLeastSquares`,
+        download: '#'
+      },
+      {
+        id: 'proj-19',
+        title: 'Serverless API with AWS Lambda',
+        tags: ['serverless','aws','devops'],
+        difficulty: 'Intermediate',
+        points: 120,
+        est: '1-2 weeks',
+        desc: 'Deploy serverless functions, configure API Gateway, and handle environment configs securely.',
+        code: `# handler.py
+def handler(event, context): return {'statusCode':200,'body':'ok'}`,
+        download: '#'
+      },
+      {
+        id: 'proj-20',
+        title: 'Progressive Web App (PWA)',
+        tags: ['web','pwa','frontend'],
+        difficulty: 'Beginner → Intermediate',
+        points: 80,
+        est: '1-2 weeks',
+        desc: 'Make a web app installable, offline-capable, and performant using service workers and manifests.',
+        code: `// service worker sample
+self.addEventListener('fetch', e=>{/*...*/});`,
+        download: '#'
+      }
+    ];
+
+    // utility functions
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+    // render projects into grid
+    function renderProjects(list){
+      const grid = $('#projectsGrid');
+      grid.innerHTML = '';
+      list.forEach(p => {
+        const article = document.createElement('article');
+        article.className = 'card';
+        article.dataset.tags = p.tags.join(',');
+        article.dataset.filter = p.tags[0] || 'misc';
+        article.innerHTML = `
+          <div class="top">
+            <div>
+              <div class="name">${escapeHtml(p.title)}</div>
+              <div class="tags">${p.tags.map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+            </div>
+            <div class="badge">${escapeHtml(p.difficulty)}</div>
+          </div>
+          <div class="desc">${escapeHtml(p.desc)}</div>
+          <div class="meta"><div>${escapeHtml(p.est)} • ${escapeHtml(p.tags.join(', '))}</div><div style="margin-left:auto" class="small">Points: ${p.points}</div></div>
+          <div class="actions">
+            <a href="#" class="btn" data-action="preview" data-id="${p.id}">Preview</a>
+            <a href="${p.download}" class="btn ghost" data-action="download" data-id="${p.id}" download>Download</a>
+            <button class="btn ghost" data-action="copy" data-code="${p.id}">Copy Code</button>
+          </div>
+        `;
+        grid.appendChild(article);
+      });
+      $('#shownCount').textContent = list.length;
+    }
+
+    // escape html
+    function escapeHtml(s){
+      if(!s) return '';
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    // search + filter logic
+    const searchInput = $('#searchInput');
+    const clearSearchBtn = $('#clearSearch');
+    const chips = $$('.filters .chip');
+
+    let activeFilter = 'all';
+
+    function applyFilters(){
+      const q = (searchInput.value || '').trim().toLowerCase();
+      let filtered = PROJECTS.filter(p => {
+        if(activeFilter !== 'all' && !p.tags.includes(activeFilter)) return false;
+        if(!q) return true;
+        const hay = (p.title + ' ' + p.desc + ' ' + p.tags.join(' ')).toLowerCase();
+        return hay.includes(q);
+      });
+      renderProjects(filtered);
+    }
+
+    chips.forEach(ch => {
+      ch.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        ch.classList.add('active');
+        activeFilter = ch.dataset.filter;
+        applyFilters();
+      });
+    });
+
+    searchInput.addEventListener('input', () => applyFilters());
+    clearSearchBtn.addEventListener('click', () => { searchInput.value=''; applyFilters(); });
+
+    // pagination (simple demo toggles)
+    $$('#pager .page-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        $$('#pager .page-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        // demo: page controls not implemented; we keep all items
+      });
+    });
+
+    // modal & preview handlers
+    const modalBackdrop = $('#modalBackdrop');
+    const modalTitle = $('#modalTitle');
+    const modalSubtitle = $('#modalSubtitle');
+    const modalDesc = $('#modalDesc');
+    const modalCode = $('#modalCode');
+    const downloadLink = $('#downloadLink');
+    const copyCodeBtn = $('#copyCodeBtn');
+    const closeModalBtn = $('#closeModal');
+
+    function openModalForProject(id){
+      const p = PROJECTS.find(x=>x.id===id);
+      if(!p) return;
+      modalTitle.textContent = p.title;
+      modalSubtitle.textContent = `${p.est} • Points: ${p.points} • ${p.tags.join(', ')}`;
+      modalDesc.textContent = p.desc;
+      modalCode.textContent = p.code;
+      downloadLink.href = p.download || '#';
+      modalBackdrop.style.display = 'flex';
+      modalBackdrop.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeModal(){
+      modalBackdrop.style.display = 'none';
+      modalBackdrop.setAttribute('aria-hidden', 'true');
+    }
+    closeModalBtn.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', (e)=>{ if(e.target===modalBackdrop) closeModal(); });
+
+    // copy code button
+    copyCodeBtn.addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(modalCode.textContent);
+        alert('Code copied to clipboard');
+      }catch(e){ alert('Copy failed: ' + e.message); }
+    });
+
+    // delegating click events on project grid
+    document.getElementById('projectsGrid').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-action]');
+      if(!btn) return;
+      const action = btn.dataset.action;
+      const id = btn.dataset.id || btn.dataset.code;
+      if(action === 'preview'){
+        openModalForProject(id);
+      } else if(action === 'download'){
+        // allow default anchor download behavior
+        // but log analytics (placeholder)
+        console.log('Download requested for', id);
+      } else if(action === 'copy'){
+        const project = PROJECTS.find(x=>x.id===id);
+        if(project){
+          // copy starter code if available
+          navigator.clipboard.writeText(project.code).then(()=>alert('Starter code copied')).catch(()=>alert('Copy failed'));
+        }
+      }
+    });
+
+    // create project (simple prompt)
+    $('#newProjectBtn').addEventListener('click', () => {
+      const title = prompt('Project title (example: "My New Project")');
+      if(!title) return;
+      const tags = prompt('Comma-separated tags (e.g., web,react,api)').split(',').map(s=>s.trim()).filter(Boolean);
+      const newP = {
+        id: 'proj-'+Math.random().toString(36).slice(2,9),
+        title,
+        tags,
+        difficulty: 'Beginner',
+        points: 50,
+        est: '1 week',
+        desc: 'Custom project created by user.',
+        code: `// starter code for ${title}\nconsole.log('Hello Dawens');`,
+        download: '#'
+      };
+      PROJECTS.unshift(newP);
+      applyFilters();
+      alert('Project created (local only). To persist, add to backend or update code folder.');
+    });
+
+    // import/export convs placeholders for compatibility with other pages
+    $('#exportAll').addEventListener('click', () => {
+      const data = JSON.stringify(PROJECTS, null, 2);
+      const blob = new Blob([data], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'dawens_projects.json'; a.click();
+      URL.revokeObjectURL(url);
+    });
+    $('#importBtn').addEventListener('click', () => {
+      const inp = document.createElement('input'); inp.type='file'; inp.accept='.json';
+      inp.onchange = e => {
+        const f = e.target.files[0];
+        if(!f) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          try{
+            const arr = JSON.parse(ev.target.result);
+            if(Array.isArray(arr)){
+              // naive merge
+              arr.forEach(it => PROJECTS.unshift(it));
+              applyFilters();
+              alert('Imported projects (local only).');
+            } else alert('Invalid format: expected array of projects.');
+          }catch(err){ alert('Import failed: ' + err.message); }
+        };
+        reader.readAsText(f);
+      };
+      inp.click();
+    });
+    $('#clearAll').addEventListener('click', () => {
+      if(!confirm('Clear all sample projects from this page? (This only modifies the client-side view)')) return;
+      // reset to base sample subset
+      while(PROJECTS.length > 0) PROJECTS.pop();
+      applyFilters();
+    });
+
+    // initial load
+    renderProjects(PROJECTS);
+    applyFilters();
+
+    // keyboard accessibility (enter on focused chip)
+    document.querySelectorAll('.filters .chip').forEach(ch => {
+      ch.tabIndex = 0;
+      ch.addEventListener('keydown', e => { if(e.key === 'Enter') ch.click(); });
+    });
+
+  </script>
+</body>
+</html>

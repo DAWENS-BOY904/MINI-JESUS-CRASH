@@ -1,0 +1,658 @@
+<!-- AI Page HTML (ai.html) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Da-ChatGPT</title>
+<link rel="stylesheet" href="ai-style.css" />
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<style>
+/* =============================== */
+/* 🌟 DA-CHATGPT — PRO UI STYLE 🌟 */
+/* Author: Dawens Boy Tech */
+/* =============================== */
+
+:root {
+  --bg: #0b0c10;
+  --card: rgba(255, 255, 255, 0.05);
+  --accent: #6c63ff;
+  --accent-light: #7f7aff;
+  --text: #f1f1f1;
+  --subtext: #bbb;
+  --border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  --radius: 16px;
+  --transition: all 0.25s ease;
+}
+
+/* ==== GLOBAL ==== */
+body {
+  margin: 0;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+button,
+textarea,
+input {
+  font-family: inherit;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ==== HEADER ==== */
+header {
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  box-shadow: var(--shadow);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+header .logo img {
+  width: 36px;
+  height: 36px;
+  filter: drop-shadow(0 0 5px var(--accent));
+}
+
+header .logo span {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--accent-light);
+}
+
+header .icons img {
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+header .icons img:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 6px var(--accent-light));
+}
+
+/* ==== CHAT BOX ==== */
+.chat-box {
+  flex: 1;
+  padding: 20px;              /* plis espas bò kote */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;                   /* ti kras pi gwo gap pou distenksyon */
+  scroll-behavior: smooth;
+  background: var(--bg);
+}
+
+/* ==== MESSAGES ==== */
+.message {
+  padding: 22px 18px;         /* plis padding pou mesaj pi gwo */
+  border-radius: 16px;        /* plis radius pou style modèn */
+  max-width: 70%;             /* pi laj mesaj yo */
+  min-height: 50px;           /* minimòm wotè */
+  line-height: 1.8;           /* plis espas ant liy */
+  word-wrap: break-word;
+  white-space: pre-wrap;      /* kenbe saut de ligne */
+  font-size: 16px;            /* font pi vizib */
+  animation: fadeIn 0.3s ease forwards; /* animasyon lè mesaj parèt */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* ombre dou pou style modèn */
+  opacity: 0;                  /* start transparent pou animasyon */
+}
+
+/* ==== USER MESSAGE ==== */
+.message.user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: #fff;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 4px 12px rgba(108, 99, 255, 0.4);
+}
+
+/* ==== AI MESSAGE ==== */
+.message.ai {
+  align-self: flex-start;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* ==== ANIMASYON ==== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#assistant {
+  width: 300px;
+  background: #1e1e1e;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  margin: 50px auto;
+  transition: transform 0.3s ease;
+}
+
+#assistant:hover {
+  transform: scale(1.05);
+}
+
+#assistant img#robot {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 15px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+#assistant h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #39ff14; /* neon green */
+}
+
+#assistant button {
+  background: #39ff14;
+  color: #1e1e1e;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#assistant button:hover {
+  background: #32cc11;
+  transform: scale(1.05);
+}
+
+#visualizer {
+  width: 100%;
+  height: 10px;
+  background: #333;
+  border-radius: 5px;
+  margin-top: 15px;
+  overflow: hidden;
+  position: relative;
+}
+
+#visualizer #bar {
+  width: 10%;
+  height: 100%;
+  background: linear-gradient(90deg, #39ff14, #00ffea);
+  animation: pulse 1s infinite;
+  border-radius: 5px;
+}
+
+@keyframes pulse {
+  0% { width: 10%; }
+  50% { width: 90%; }
+  100% { width: 10%; }
+}
+/* ==== INPUT AREA ==== */
+.controls {
+  padding: 12px;
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Textarea */
+.controls textarea {
+  width: 100%;
+  min-height: 50px; /* mwens wo pou fè li pi pwòp */
+  padding: 8px 10px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+/* Buttons container */
+.btns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap; /* pou bouton yo nan menm liy */
+  justify-content: flex-end; /* mete yo sou bò dwat */
+}
+
+/* Bouton send / upload / speak */
+.btns button,
+.upload-btn {
+  flex: 0 0 auto;
+  width: 36px; /* pi piti bouton */
+  height: 36px;
+  padding: 0;
+  font-size: 14px;
+  border-radius: 50%; /* fè yo won */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btns button:hover,
+.upload-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Upload input */
+.upload-btn input {
+  display: none;
+}
+
+/* ==== LOADING ==== */
+.loading {
+  text-align: center;
+  color: var(--accent-light);
+  padding: 8px;
+  font-style: italic;
+  font-size: 0.95rem;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0.5; }
+}
+
+/* === SETTINGS PANEL (TOP POSITION) === */
+#settings-panel {
+  position: fixed;
+  top: -100vh; /* kache totalman anlè */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 480px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: rgba(20, 20, 30, 0.8);
+  backdrop-filter: blur(15px);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 40px rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  transition: top 0.4s ease, opacity 0.3s ease;
+  opacity: 0;
+  z-index: 200;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Lè l aktif, li desann dousman anlè chat la */
+#settings-panel.active {
+  top: 80px; /* egzak anba header lan */
+  opacity: 1;
+}
+
+/* Titre prensipal */
+#settings-panel h3 {
+  color: var(--accent-light);
+  font-size: 20px;
+  margin-bottom: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Chak seksyon */
+.settings-section {
+  margin-bottom: 18px;
+  animation: fadeIn 0.4s ease;
+}
+
+.settings-section h4 {
+  font-size: 14px;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Bouton */
+#settings-panel button {
+  width: 100%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  color: #fff;
+  border: none;
+  margin-bottom: 8px;
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+#settings-panel button:hover {
+  background: linear-gradient(135deg, #5a54ff, #8c83ff);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 12px rgba(108, 99, 255, 0.4);
+}
+
+/* Animasyon */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="gotoChat()">
+    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" alt="chat" />
+    <span>Da-ChatGPT</span>
+  </div>
+  <div class="icons">
+    <img src="https://cdn-icons-png.flaticon.com/512/848/848043.png" onclick="gotoChat()" />
+<img src="https://cdn-icons-png.flaticon.com/512/2099/2099058.png" onclick="toggleSettings()" title="Settings" />
+  </div>
+</header>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+<main>
+  <div class="chat-box" id="chat-box">
+    <div class="message ai">👋 Hi! I'm Da-ChatGPT. How can I help you today?</div>
+  </div>
+
+  <div id="loading" class="loading hidden">⏳ Processing...</div>
+
+  <div class="controls">
+    <textarea id="user-input" placeholder="Type your message..."></textarea>
+    <div class="btns">
+      <button onclick="sendMessage()">Send</button>
+      <div id="assistant">
+  <img id="robot" src="https://files.catbox.moe/x16nfd.png" alt="Robot AI">
+  <h3>Hi! I am your AI assistant 🤖</h3>
+  <button onclick="startListening()">🎙️ Speak</button>
+  <div id="visualizer"><div id="bar"></div></div>
+</div>
+      <label class="upload-btn">
+        📷 Upload Image
+        <input type="file" accept="image/*" onchange="sendImage(event)" />
+      </label>
+    </div>
+</main>
+
+<!-- Advanced Settings Panel -->
+<div id="settings-panel">
+  <h3>Settings</h3>
+
+  <!-- === ACCOUNT === -->
+  <div class="settings-section">
+    <h4>Account</h4>
+    <button onclick="showSubscription()">Subscription</button>
+    <button onclick="openUpgrade()">Upgrade to Da-ChatGPT Plus</button>
+    <button onclick="openNotifications()">Notifications</button>
+    <button onclick="openSecurity()">Security</button>
+  </div>
+
+  <!-- === APP === -->
+  <div class="settings-section">
+    <h4>App</h4>
+    <button onclick="openAppLanguage()">App Language</button>
+    <button onclick="openAccentColor()">Accent Color</button>
+    <button onclick="clearChatHistory()">Data Control</button>
+  </div>
+
+  <!-- === ABOUT === -->
+  <div class="settings-section">
+    <h4>About</h4>
+    <button onclick="reportBug()">Report Bug</button>
+    <button onclick="openHelpCenter()">Help Center</button>
+    <button onclick="openTerms()">Terms of Use</button>
+    <button onclick="openPrivacy()">Privacy Policy</button>
+  </div>
+
+  <button onclick="closeSettings()" style="margin-top:10px;">Close</button>
+</div>
+
+<script>
+async function sendMessage() {
+  const userInput = document.getElementById("user-input");
+  const message = userInput.value.trim();
+  if (!message) return;
+
+  addMessage("user", message);
+  userInput.value = "";
+  toggleLoading(true);
+
+  try {
+    const res = await axios.post("http://localhost:3000/api/chat", {
+      message
+    });
+    addMessage("ai", res.data.reply);
+  } catch (err) {
+    addMessage("ai", "⚠️ Sorry, there was an error. Please try again by dawens.");
+  }
+
+  toggleLoading(false);
+}
+
+function addMessage(sender, content, isImage = false) {
+  const chatBox = document.getElementById("chat-box");
+  const msg = document.createElement("div");
+  msg.className = "message " + sender;
+
+  if (isImage) {
+    const img = document.createElement("img");
+    img.src = content;
+    img.style.cursor = "pointer";
+    img.style.maxWidth = "250px";
+    img.style.borderRadius = "12px";
+    img.onclick = () => window.open(content, "_blank");
+    msg.appendChild(img);
+  } else {
+    msg.textContent = content;
+  }
+
+  chatBox.appendChild(msg);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function toggleLoading(show) {
+  document.getElementById("loading").classList.toggle("hidden", !show);
+}
+
+async function sendImage(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = async function(event) {
+    const imageData = event.target.result;
+    addMessage("user", imageData, true);
+    toggleLoading(true);
+
+    try {
+      const res = await axios.post("/api/chat", {
+        image: imageData,
+        apiKey: GEMINI_KEY
+      });
+      addMessage("ai", AI_PREFIX + res.data.reply);
+      playSoundIfEnabled();
+    } catch (err) {
+      addMessage("ai", "⚠️ Error processing the image.");
+    }
+
+    toggleLoading(false);
+  };
+  reader.readAsDataURL(file);
+}
+
+// Navigation
+function gotoChat() {
+  window.location.href = "ChatMessage.html";
+}
+
+// More/Pro features
+function openProFeature(id) {
+  alert("Feature " + id + " coming soon!");
+}
+
+// Text-to-Speech
+function speak(text) {
+  const synth = window.speechSynthesis;
+  const utter = new SpeechSynthesisUtterance(text);
+  synth.speak(utter);
+}
+
+// Speech-to-Text with volume visualizer
+let audioContext, analyser, microphone, dataArray, animationId;
+
+function startListening() {
+  if (!navigator.mediaDevices) { alert("Microphone not supported"); return; }
+
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    microphone = audioContext.createMediaStreamSource(stream);
+    microphone.connect(analyser);
+    analyser.fftSize = 256;
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+    animateVisualizer();
+    listenSpeech();
+  }).catch(err => { console.error(err); alert("Microphone access denied"); });
+}
+
+function animateVisualizer() {
+  analyser.getByteFrequencyData(dataArray);
+  let sum = dataArray.reduce((a,b) => a+b, 0);
+  let avg = sum / dataArray.length;
+  document.getElementById('bar').style.width = Math.min(avg * 2, 100) + "%";
+  animationId = requestAnimationFrame(animateVisualizer);
+}
+
+// Basic speech recognition
+function listenSpeech() {
+  if (!('webkitSpeechRecognition' in window)) {
+    alert("Speech recognition not supported in this browser!");
+    return;
+  }
+
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  recognition.onresult = event => {
+    const transcript = event.results[0][0].transcript;
+    console.log("You said:", transcript);
+    speak("You said: " + transcript);
+    cancelAnimationFrame(animationId);
+    document.getElementById('bar').style.width = "0%";
+  };
+
+  recognition.onerror = event => { console.error(event); alert("Error recognizing speech"); }
+  recognition.start();
+}
+
+// Settings panel
+function toggleSettings() {
+  document.getElementById("settings-panel").classList.toggle("active");
+}
+function closeSettings() {
+  document.getElementById("settings-panel").classList.remove("active");
+}
+
+/* === ACCOUNT FUNCTIONS === */
+function showSubscription() {
+  // Ou ka ranplase sa ak kondisyon user premium / free
+  const isPremium = false; // Egzanp
+  alert(isPremium ? "Subscription: Premium ✅" : "Subscription: Free ❌");
+}
+
+function openUpgrade() {
+  window.open("upgrade.html", "_blank"); // Paj plan Da-ChatGPT Plus
+}
+
+function openNotifications() {
+  window.open("notifications.html", "_blank"); // Paj notifications
+}
+
+function openPrivacy() {
+  location.href = "Security.html";
+}
+
+/* === APP FUNCTIONS === */
+function openAppLanguage() {
+  location.href = "language.html";
+}
+
+function openAccentColor() {
+  location.href = "accent-color.html";
+}
+
+function clearChatHistory() {
+  const chatBox = document.getElementById("chat-box");
+  if (confirm("Are you sure you want to clear all chat history?")) {
+    chatBox.innerHTML = "";
+    alert("Chat history cleared!");
+  }
+}
+
+/* === ABOUT FUNCTIONS === */
+function reportBug() {
+  window.location.href = "mailto:berryxoe@gmail.com?subject=Da-ChatGPT Bug Report";
+}
+
+function openHelpCenter() {
+  window.location.href = "about.html";
+}
+
+function openTerms() {
+  location.href = "terms.html";
+}
+
+function openPrivacy() {
+  location.href = "privacy.html";
+}
+
+let soundEnabled = true;
+document.getElementById("sound-toggle").addEventListener("change", (e) => {
+  soundEnabled = e.target.checked;
+});
+
+function playSoundIfEnabled() {
+  if (!soundEnabled) return;
+  const audio = new Audio("https://files.catbox.moe/634q9l.mp4");
+  audio.play();
+}
+</script>
+</body>
+</html>

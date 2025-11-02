@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dawens School - Learn C++ Fast</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: #050505;
+      color: #e0e0e0;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(90deg, #00ff9d, #009dff);
+      color: black;
+      text-align: center;
+      padding: 20px 0;
+      box-shadow: 0 0 20px #00ff9d88;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+      letter-spacing: 2px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background: #0a0a0a;
+      padding: 15px;
+      border-bottom: 2px solid #00ff9d33;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #00ffc8;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: white;
+      text-shadow: 0 0 10px #00ff9d;
+    }
+
+    section {
+      max-width: 1000px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    h2 {
+      color: #00ff9d;
+      border-left: 5px solid #00ff9d;
+      padding-left: 10px;
+    }
+
+    .code-box {
+      background: #111;
+      border-left: 4px solid #00ffc8;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 10px;
+      font-family: 'Courier New', monospace;
+      color: #00ffc8;
+      overflow-x: auto;
+    }
+
+    .lesson {
+      background: #0d0d0d;
+      border: 1px solid #00ffc833;
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 40px;
+      box-shadow: 0 0 15px #00ff9d22;
+    }
+
+    .quiz {
+      background: #141414;
+      border: 1px solid #00ffcc55;
+      padding: 25px;
+      border-radius: 15px;
+    }
+
+    button {
+      background: linear-gradient(90deg, #00ff9d, #009dff);
+      border: none;
+      color: black;
+      font-weight: bold;
+      padding: 12px 25px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #00cc7a, #0078ff);
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      border-top: 2px solid #00ffc844;
+      margin-top: 50px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>DAWENS C++ SCHOOL</h1>
+  <p>Master 60% of C++ in 2 Days 🚀</p>
+</header>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="dawens.html">School</a>
+  <a href="java.html">Java</a>
+  <a href="python.html">Python</a>
+  <a href="c++.html">C++</a>
+  <a href="quiz.html">Quiz</a>
+</nav>
+
+<section>
+  <div class="lesson">
+    <h2>Lesson 1: Introduction to C++</h2>
+    <p>C++ is a powerful general-purpose programming language created by Bjarne Stroustrup. It is used to develop software like games, operating systems, browsers, and more.</p>
+    <div class="code-box">
+      #include &lt;iostream&gt;<br>
+      using namespace std;<br><br>
+      int main() {<br>
+      &nbsp;&nbsp;cout &lt;&lt; "Hello, Dawens!" &lt;&lt; endl;<br>
+      &nbsp;&nbsp;return 0;<br>
+      }
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>Lesson 2: Variables & Data Types</h2>
+    <p>Variables are containers for storing data values. C++ supports several data types like <b>int</b>, <b>float</b>, <b>char</b>, <b>string</b>, and <b>bool</b>.</p>
+    <div class="code-box">
+      int age = 21;<br>
+      float price = 10.99;<br>
+      char grade = 'A';<br>
+      string name = "Dawens";<br>
+      bool isCoding = true;
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>Lesson 3: Conditions</h2>
+    <p>C++ uses <b>if</b>, <b>else if</b>, and <b>else</b> statements for decisions.</p>
+    <div class="code-box">
+      int age = 18;<br>
+      if(age &gt;= 18) {<br>
+      &nbsp;&nbsp;cout &lt;&lt; "You are an adult.";<br>
+      } else {<br>
+      &nbsp;&nbsp;cout &lt;&lt; "You are a minor.";<br>
+      }
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>Lesson 4: Loops</h2>
+    <p>Loops let you repeat code. The most common are <b>for</b>, <b>while</b>, and <b>do-while</b>.</p>
+    <div class="code-box">
+      for(int i = 1; i &lt;= 5; i++) {<br>
+      &nbsp;&nbsp;cout &lt;&lt; "Hello Dawens " &lt;&lt; i &lt;&lt; endl;<br>
+      }
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>Lesson 5: Functions</h2>
+    <p>Functions help you organize and reuse code.</p>
+    <div class="code-box">
+      int add(int a, int b) {<br>
+      &nbsp;&nbsp;return a + b;<br>
+      }<br><br>
+      int main() {<br>
+      &nbsp;&nbsp;cout &lt;&lt; add(5, 7);<br>
+      }
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>Lesson 6: Arrays</h2>
+    <div class="code-box">
+      int nums[5] = {10, 20, 30, 40, 50};<br>
+      for(int i=0; i&lt;5; i++) {<br>
+      &nbsp;&nbsp;cout &lt;&lt; nums[i] &lt;&lt; endl;<br>
+      }
+    </div>
+  </div>
+
+  <div class="lesson">
+    <h2>Lesson 7: Classes & Objects</h2>
+    <div class="code-box">
+      class Car {<br>
+      public:<br>
+      &nbsp;&nbsp;string brand;<br>
+      &nbsp;&nbsp;int year;<br>
+      &nbsp;&nbsp;void honk() { cout &lt;&lt; "Beep!"; }<br>
+      };<br><br>
+      int main() {<br>
+      &nbsp;&nbsp;Car myCar;<br>
+      &nbsp;&nbsp;myCar.brand = "BMW";<br>
+      &nbsp;&nbsp;myCar.year = 2025;<br>
+      &nbsp;&nbsp;myCar.honk();<br>
+      }
+    </div>
+  </div>
+
+  <div class="lesson quiz">
+    <h2>🎯 Quiz 1</h2>
+    <p>1️⃣ What does <b>#include &lt;iostream&gt;</b> do?</p>
+    <p>2️⃣ Write a C++ program that prints "Coding is fun!"</p>
+    <p>3️⃣ Create a function that multiplies two numbers.</p>
+    <p>4️⃣ What is a class in C++?</p>
+    <p>5️⃣ What is the difference between <b>for</b> and <b>while</b> loop?</p>
+    <button onclick="alert('Great! Keep Practicing 🚀')">Submit Answers</button>
+  </div>
+</section>
+
+<footer>
+  Made with ❤️ by DAWENS — The Sensei of Code © 2025
+</footer>
+
+</body>
+</html>

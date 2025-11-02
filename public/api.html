@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free API - MINI JESUS BOT</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+    body {
+      background: radial-gradient(circle at top, #020617, #000);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      animation: bgShift 20s infinite linear;
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.6);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 10;
+      padding: 15px 0;
+      box-shadow: 0 0 15px rgba(0,255,255,0.3);
+      backdrop-filter: blur(5px);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5em;
+      color: #00eaff;
+      text-shadow: 0 0 10px #00eaff;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #00bfff;
+      text-shadow: 0 0 10px #00bfff;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      margin-top: 130px;
+      padding: 20px;
+    }
+
+    .hero h1 {
+      font-size: 2.5em;
+      color: #00fff7;
+      text-shadow: 0 0 20px #00eaff;
+      margin-bottom: 20px;
+      animation: glow 3s infinite ease-in-out;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      width: 85%;
+      max-width: 500px;
+      box-shadow: 0 0 25px rgba(0,255,255,0.15);
+      border: 1px solid rgba(0,255,255,0.2);
+      backdrop-filter: blur(8px);
+      transition: all 0.4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 35px rgba(0,255,255,0.4);
+    }
+
+    .card img {
+      width: 60px;
+      margin-bottom: 15px;
+      animation: rocketFloat 3s infinite ease-in-out;
+    }
+
+    .card h2 {
+      font-size: 2em;
+      color: #00ffcc;
+      text-shadow: 0 0 15px #00ffcc;
+      margin: 0;
+    }
+
+    .card p {
+      color: #ccc;
+      margin-top: 15px;
+      line-height: 1.6em;
+      font-size: 0.95em;
+    }
+
+    /* ===== DETAILS SECTION ===== */
+    .details {
+      margin-top: 60px;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.04);
+      border-top: 1px solid rgba(0,255,255,0.2);
+    }
+
+    .details h3 {
+      color: #00eaff;
+      font-size: 1.3em;
+      text-shadow: 0 0 12px #00ffff;
+      margin-bottom: 15px;
+    }
+
+    .details p {
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7em;
+      color: #bbb;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes rocketFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes glow {
+      0%, 100% { text-shadow: 0 0 10px #00eaff, 0 0 30px #0078ff; }
+      50% { text-shadow: 0 0 25px #00ffff, 0 0 50px #00bfff; }
+    }
+
+    @keyframes bgShift {
+      0% { background: radial-gradient(circle at top, #010a13, #000); }
+      50% { background: radial-gradient(circle at top, #001020, #000); }
+      100% { background: radial-gradient(circle at top, #010a13, #000); }
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 20px;
+      font-size: 0.85em;
+      color: #666;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+
+  <!-- HEADER -->
+  <header>
+    <nav>
+      <div class="logo">MINI JESUS</div>
+      <ul class="nav-links">
+        <li><a href="public/index.html">Accueil</a></li>
+        <li><a href="deploye.html">Mini Bot</a></li>
+        <li><a href="api.html" style="color:#00eaff;">API</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>Free API</h1>
+
+    <div class="card">
+      <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="rocket">
+      <h2>🚀 Coming Soon</h2>
+      <p>
+        Our free API services are currently under development.<br>
+        Stay tuned for updates on available endpoints and documentation.
+      </p>
+    </div>
+
+    <div class="details">
+      <h3>What to Expect</h3>
+      <p>
+        ⚙️ Easy-to-use endpoints to automate WhatsApp bot actions.<br>
+        🔐 Secure key-based authentication.<br>
+        📡 JSON responses for fast integration.<br>
+        📘 Full documentation with live examples.<br><br>
+        <strong>Launch planned soon!</strong> — Subscribe on our support channel for updates.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 MINI JESUS BOT — All Rights Reserved
+  </footer>
+
+</body>
+</html>

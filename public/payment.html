@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Da-ChatGPT Plus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f7ff;
+      --text: #1a1a1a;
+      --panel: rgba(255, 255, 255, 0.85);
+      --border: rgba(0,0,0,0.1);
+      --accent: #0078ff;
+      --shadow: rgba(0,0,0,0.08);
+    }
+    body.dark {
+      --bg: #0e1117;
+      --text: #f1f1f1;
+      --panel: rgba(30,32,40,0.8);
+      --border: rgba(255,255,255,0.1);
+      --accent: #3399ff;
+      --shadow: rgba(0,0,0,0.3);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family:"Inter",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:40px 20px;
+      min-height:100vh;
+      transition:0.4s;
+    }
+    header { width:100%; max-width:600px; margin-bottom:30px; display:flex; justify-content:space-between; align-items:center; }
+    header h1 { color:var(--accent); font-size:1.6rem; }
+    form {
+      background:var(--panel);
+      padding:30px;
+      border-radius:18px;
+      box-shadow:0 6px 20px var(--shadow);
+      width:100%;
+      max-width:500px;
+    }
+    form h2 { margin-bottom:20px; color:var(--accent); }
+    label { display:block; margin-top:15px; font-weight:600; margin-bottom:5px; }
+    input {
+      width:100%;
+      padding:12px 15px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      font-size:1rem;
+    }
+    .flex-row { display:flex; gap:10px; }
+    .flex-row input { flex:1; }
+    button {
+      margin-top:25px;
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),#00aaff);
+      color:#fff;
+      font-size:1rem;
+      font-weight:600;
+      cursor:pointer;
+      transition:0.3s;
+    }
+    button:hover { transform:translateY(-2px); box-shadow:0 4px 15px rgba(0,120,255,0.4); }
+    .order-id { margin-top:10px; font-size:0.9rem; opacity:0.7; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Da-ChatGPT Plus Checkout</h1>
+</header>
+
+<form id="paymentForm">
+  <h2>Payment Details</h2>
+
+  <label for="fullname">Full Name</label>
+  <input type="text" id="fullname" name="fullname" placeholder="John Doe" required>
+
+  <label for="cardname">Card Name</label>
+  <input type="text" id="cardname" name="cardname" placeholder="Visa / Mastercard" required>
+
+  <label for="cardnumber">Card Number</label>
+  <input type="text" id="cardnumber" name="cardnumber" placeholder="1234 5678 9012 3456" required maxlength="19">
+
+  <div class="flex-row">
+    <div>
+      <label for="cvv">CVV</label>
+      <input type="text" id="cvv" name="cvv" placeholder="123" required maxlength="4">
+    </div>
+    <div>
+      <label for="expiry">Expiry Date</label>
+      <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required maxlength="5">
+    </div>
+  </div>
+
+  <div class="order-id" id="orderId">Order ID: <span id="orderNumber"></span></div>
+
+  <button type="submit">Checkout</button>
+</form>
+
+<script>
+// Li plan ak method nan query string
+const params = new URLSearchParams(window.location.search);
+const plan = params.get('plan') || "Pro Plan";
+const method = params.get('method') || "Credit Card";
+
+// Li Order ID jan ou te genyen deja
+function generateOrderID() {
+  return "ORD-" + Math.floor(100000 + Math.random() * 900000);
+}
+
+const orderId = generateOrderID();
+document.getElementById("orderNumber").textContent = orderId;
+
+// Fòm payment
+document.getElementById("paymentForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  
+  const data = {
+    fullname: document.getElementById("fullname").value,
+    cardnumber: document.getElementById("cardnumber").value.replace(/\s+/g, ''),
+    expiry: document.getElementById("expiry").value,
+    cvv: document.getElementById("cvv").value,
+    orderId,
+    plan,
+    method
+  };
+
+  // Verify sou server
+  const res = await fetch('/checkout', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(data)
+  });
+  const result = await res.json();
+
+  if(result.success){
+    alert("✅ Payment authorized. Press 'Finalize Payment' to complete!");
+    const btn = document.createElement('button');
+    btn.textContent = "Finalize Payment";
+    btn.style.marginTop = "20px";
+    btn.onclick = () => {
+      // Redirije nan payment-success.html ansanm ak plan ak Order ID
+      window.location.href = `payment-success.html?orderId=${encodeURIComponent(orderId)}&fullname=${encodeURIComponent(data.fullname)}&plan=${encodeURIComponent(plan)}&method=${encodeURIComponent(method)}`;
+    };
+    document.body.appendChild(btn);
+  } else {
+    alert("❌ Payment failed: " + result.message);
+  }
+});
+</script>
+
+</body>
+</html>

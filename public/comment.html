@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Send Message</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top left, #1e1e2f, #09090f);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff;
+    }
+    form {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 25px;
+      border-radius: 15px;
+      width: 320px;
+      box-shadow: 0 0 20px rgba(0, 247, 255, 0.4);
+      backdrop-filter: blur(8px);
+    }
+    input, textarea, button {
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 1em;
+    }
+    input, textarea {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+    button {
+      background: linear-gradient(90deg, #00f7ff, #0066ff);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #00f7ff;
+    }
+    .link {
+      margin-top: 10px;
+      color: #00f7ff;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <h1>💬 Send Your Message</h1>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+  <form id="commentForm">
+    <input type="text" id="name" placeholder="Your name" required />
+    <input type="text" id="number" placeholder="Your number" required />
+    <input type="text" id="code" placeholder="6-digit code" maxlength="6" required />
+    <textarea id="message" placeholder="Write your message..." required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+  <a class="link" href="reply.html">🔍 Check Admin Reply</a>
+
+  <script>
+    document.getElementById('commentForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const name = nameInput.value.trim();
+      const number = numberInput.value.trim();
+      const code = codeInput.value.trim();
+      const message = messageInput.value.trim();
+      const res = await fetch('/api/message', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({name,number,code,message})
+      });
+      const data = await res.json();
+      alert(data.success ? 'Message sent successfully!' : 'Error sending message.');
+      e.target.reset();
+    });
+    const nameInput=document.getElementById('name');
+    const numberInput=document.getElementById('number');
+    const codeInput=document.getElementById('code');
+    const messageInput=document.getElementById('message');
+  </script>
+</body>
+</html>

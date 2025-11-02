@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Use – Da-ChatGPT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#f4f7ff;
+      --text:#1a1a1a;
+      --panel: rgba(255,255,255,0.75);
+      --border: rgba(0,0,0,0.05);
+      --accent:#0078ff;
+      --shadow: rgba(0,0,0,0.08);
+    }
+    body.dark {
+      --bg:#0e1117;
+      --text:#f1f1f1;
+      --panel: rgba(28,30,37,0.75);
+      --border: rgba(255,255,255,0.1);
+      --accent:#3399ff;
+      --shadow: rgba(0,0,0,0.3);
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      font-family:"Inter",sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:40px 20px;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    header{
+      width:100%;
+      max-width:900px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:30px;
+    }
+
+    header h1{
+      font-size:1.6rem;
+      font-weight:700;
+      color: var(--accent);
+    }
+
+    .theme-switch{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      cursor:pointer;
+    }
+    .theme-switch input{
+      width:45px; height:22px; appearance:none;
+      background:#ccc; border-radius:30px; position:relative; transition:0.3s;
+    }
+    .theme-switch input:checked{ background: var(--accent);}
+    .theme-switch input::after{
+      content:""; width:18px; height:18px; background:#fff;
+      border-radius:50%; position:absolute; top:2px; left:3px; transition:0.3s;
+    }
+    .theme-switch input:checked::after{ left:24px;}
+
+    .back-btn{
+      background: var(--panel);
+      border:1px solid var(--border);
+      color: var(--accent);
+      padding:8px 18px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:600;
+      transition: all 0.3s;
+      margin-right:15px;
+    }
+    .back-btn:hover{
+      background: var(--accent);
+      color:#fff;
+      box-shadow: 0 6px 20px var(--shadow);
+    }
+
+    main{
+      width:100%; max-width:900px;
+      background: var(--panel);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:30px;
+      box-shadow:0 6px 20px var(--shadow);
+      backdrop-filter: blur(12px);
+      overflow-y:auto;
+      max-height: calc(100vh - 120px);
+      transition: background 0.4s, box-shadow 0.3s;
+    }
+
+    h2{ font-size:1.2rem; color: var(--accent); margin-top:20px;}
+    p{ margin-bottom:15px; line-height:1.6; font-size:0.95rem; opacity:0.9;}
+
+    footer{
+      margin-top:20px; font-size:0.9rem; opacity:0.7; text-align:center;
+    }
+
+    .header-left{display:flex; align-items:center;}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <button class="back-btn" onclick="goBack()">← Back</button>
+      <h1>Terms of Use</h1>
+    </div>
+    <div class="theme-switch">
+      <label for="themeSwitch">🌞 / 🌚</label>
+      <input type="checkbox" id="themeSwitch" onchange="toggleTheme()" />
+    </div>
+  </header>
+
+  <main>
+    <h2>1. Acceptance of Terms</h2>
+    <p>By using Da-ChatGPT, you agree to comply with these Terms of Use, which govern your access and use of the platform. You acknowledge that the service is provided “as-is” and that any reliance on the content, suggestions, or interactions from Da-ChatGPT is at your own discretion. You are responsible for reviewing these Terms regularly, and continued use of the service constitutes your acknowledgment and acceptance of any updates or changes....</p>
+
+    <h2>2. Account Usage</h2>
+    <p>Users must provide accurate, complete, and up-to-date information when creating an account. Maintaining the confidentiality of your account credentials is your responsibility. You are fully responsible for all activities that occur under your account, whether or not authorized by you. You agree to immediately notify Da-ChatGPT of any unauthorized use or security breaches related to your account. Account suspension or termination may occur if misuse, fraudulent activity, or violation of these Terms is detected.</p>
+
+    <h2>3. Service Access</h2>
+    <p>Da-ChatGPT provides AI chat services designed to assist, inform, and entertain users. Some features may require subscription or payment. Access may be limited, modified, or suspended without prior notice. We do not guarantee uninterrupted or error-free access to the service. Technical difficulties, maintenance periods, or internet connectivity issues may impact availability. Users are responsible for ensuring their devices and internet connections are compatible with the service.</p>
+
+    <h2>4. User Conduct</h2>
+    <p>You agree not to misuse the service, including but not limited to: attempting to reverse-engineer or disrupt the platform, harassing other users, posting harmful, illegal, or inappropriate content, or engaging in fraudulent activities. You shall comply with all applicable local, state, national, and international laws while using the service. Any violation may result in warnings, account suspension, or permanent termination, at Da-ChatGPT’s sole discretion...</p>
+
+    <h2>5. Privacy</h2>
+    <p>Your data will be handled according to our Privacy Policy. Personal information collected may include account details, usage patterns, and interactions with the AI. This information is used to improve the service, provide support, and comply with legal obligations. You consent to the collection, processing, and storage of your data as described in the Privacy Policy. While we implement reasonable measures to protect your data, no system is entirely secure, and Da-ChatGPT cannot guarantee absolute security...</p>
+
+    <h2>6. Limitation of Liability</h2>
+    <p>Da-ChatGPT is not responsible for indirect, incidental, consequential, or punitive damages arising from your use of the service. The platform does not guarantee the accuracy, reliability, or completeness of responses provided by the AI. You acknowledge and accept that use of the service is at your own risk. Da-ChatGPT disclaims liability for any loss, injury, or damage resulting from your reliance on the platform or third-party content accessed via the service...</p>
+
+    <h2>7. Changes to Terms</h2>
+    <p>We may update these Terms periodically to reflect changes in service, legal requirements, or operational practices. Users will be notified of major changes, but it is your responsibility to review the Terms regularly. Continued use of the platform after updates constitutes your acceptance of the revised Terms. If you do not agree to the updated Terms, you must discontinue use of the service immediately...</p>
+
+    <h2>8. Contact</h2>
+    <p>For questions, contact support at support@da-chatgpt.com</p>
+  </main>
+
+  <footer>© 2025 Da-ChatGPT | Terms of Use</footer>
+
+  <script>
+    function toggleTheme(){ document.body.classList.toggle("dark"); }
+
+    function goBack(){ window.location.href = "ai.html"; }
+  </script>
+</body>
+</html>

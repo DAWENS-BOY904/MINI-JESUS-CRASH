@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upgrade to Da-ChatGPT Plus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+  --bg:#0e1117; --panel:#171a29; --accent:#6c63ff; --accent2:#00e5ff; --text:#fff; --shadow:rgba(0,0,0,0.5);
+}
+body{margin:0;padding:20px;font-family:Inter,sans-serif;background:var(--bg);color:var(--text);}
+h1{text-align:center;color:var(--accent);margin-bottom:30px;}
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1000px;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .theme-switch {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .theme-switch input {
+      width: 45px;
+      height: 22px;
+      appearance: none;
+      background: #ccc;
+      border-radius: 30px;
+      position: relative;
+      transition: 0.3s;
+    }
+
+    .theme-switch input:checked {
+      background: var(--accent);
+    }
+
+    .theme-switch input::after {
+      content: "";
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      left: 3px;
+      transition: 0.3s;
+    }
+
+    .theme-switch input:checked::after {
+      left: 24px;
+    }
+
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .plan {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: 0 6px 20px var(--shadow);
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .plan:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 25px rgba(0, 120, 255, 0.2);
+    }
+
+    .plan h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--accent), #00aaff);
+      color: #022;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      width: 100%;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0, 120, 255, 0.4);
+    }
+
+    footer {
+      margin-top: 40px;
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+  <header>
+    <h1>Upgrade to Da-ChatGPT Plus</h1>
+    <div class="theme-switch">
+      <label for="modeSwitch">🌞 / 🌚</label>
+      <input type="checkbox" id="modeSwitch" onchange="toggleTheme()" />
+    </div>
+  </header>
+
+  <section class="plans">
+    <div class="plan">
+      <h2>Free Plan</h2>
+      <div class="price">$0 / mo</div>
+      <ul>
+        <li>💬 Basic AI chat access</li>
+        <li>⚡ Limited responses per day</li>
+        <li>📷 Image input: Disabled</li>
+      </ul>
+      <button disabled>Current Plan</button>
+    </div>
+
+    <div class="plan">
+      <h2>Pro Plan</h2>
+      <div class="price">$9.99 / mo</div>
+      <ul>
+        <li>✅ Unlimited chat responses</li>
+        <li>🖼️ Image understanding</li>
+        <li>🌐 Access to Da-Gemini Model</li>
+      </ul>
+      <button onclick="selectPlan('Pro')">Upgrade to Pro</button>
+    </div>
+
+    <div class="plan">
+      <h2>Ultimate Plan</h2>
+      <div class="price">$19.99 / mo</div>
+      <ul>
+        <li>🚀 Priority processing</li>
+        <li>📱 Multi-device sync</li>
+        <li>🔒 Early access features</li>
+      </ul>
+      <button onclick="selectPlan('Ultimate')">Upgrade to Ultimate</button>
+    </div>
+  </section>
+
+  <footer>© 2025 Da-ChatGPT. All rights reserved.</footer>
+
+  <script>
+    function selectPlan(plan) {
+  alert("✅ You selected the " + plan + " plan! Redirecting to checkout...");
+
+  setTimeout(() => {
+    // Pase plan nan query string
+    const checkoutUrl = `checkout.html?plan=${encodeURIComponent(plan)}`;
+    window.location.href = checkoutUrl;
+  }, 500);
+}
+  </script>
+</body>
+</html>

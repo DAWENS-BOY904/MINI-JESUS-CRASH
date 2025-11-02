@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications – Da-ChatGPT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f7ff;
+      --text: #1a1a1a;
+      --panel: rgba(255, 255, 255, 0.7);
+      --border: rgba(0, 0, 0, 0.05);
+      --accent: #0078ff;
+      --shadow: rgba(0, 0, 0, 0.08);
+    }
+    body.dark {
+      --bg: #0e1117;
+      --text: #f1f1f1;
+      --panel: rgba(28, 30, 37, 0.75);
+      --border: rgba(255, 255, 255, 0.1);
+      --accent: #3399ff;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    * {margin: 0; padding: 0; box-sizing: border-box;}
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .theme-switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .theme-switch input {
+      width: 45px;
+      height: 22px;
+      appearance: none;
+      background: #ccc;
+      border-radius: 30px;
+      position: relative;
+      transition: 0.3s;
+    }
+    .theme-switch input:checked { background: var(--accent); }
+    .theme-switch input::after {
+      content: "";
+      width: 18px; height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute; top: 2px; left: 3px;
+      transition: 0.3s;
+    }
+    .theme-switch input:checked::after { left: 24px; }
+
+.back-btn{
+      background: var(--panel);
+      border:1px solid var(--border);
+      color: var(--accent);
+      padding:8px 18px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:600;
+      transition: all 0.3s;
+      margin-right:15px;
+    }
+    .back-btn:hover{
+      background: var(--accent);
+      color:#fff;
+      box-shadow: 0 6px 20px var(--shadow);
+    }
+
+    main {
+      width: 100%;
+      max-width: 900px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 6px 20px var(--shadow);
+      backdrop-filter: blur(12px);
+      transition: background 0.4s, box-shadow 0.3s;
+    }
+
+    section { margin-bottom: 25px; }
+    section h2 {
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-bottom: 15px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 5px;
+    }
+
+    .setting {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .setting:last-child { border: none; }
+
+    .setting label {
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .toggle {
+      position: relative;
+      width: 45px;
+      height: 22px;
+      appearance: none;
+      background: #ccc;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .toggle:checked { background: var(--accent); }
+
+    .toggle::after {
+      content: "";
+      width: 18px; height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px; left: 3px;
+      transition: 0.3s;
+    }
+
+    .toggle:checked::after { left: 24px; }
+
+    .save-btn {
+      margin-top: 30px;
+      background: linear-gradient(135deg, var(--accent), #00aaff);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 100%;
+    }
+
+    .save-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0,120,255,0.3);
+    }
+
+    footer {
+      margin-top: 25px;
+      opacity: 0.7;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <button class="back-btn" onclick="goBack()">← Back</button>
+      <h1>Privacy Policy</h1>
+    </div>
+    <h1>Notifications Settings</h1>
+    <div class="theme-switch">
+      <label for="themeSwitch">🌞 / 🌚</label>
+      <input type="checkbox" id="themeSwitch" onchange="toggleTheme()" />
+    </div>
+  </header>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+  <main>
+    <section>
+      <h2>General</h2>
+      <div class="setting">
+        <label>Enable All Notifications</label>
+        <input type="checkbox" class="toggle" id="allNotifs" checked />
+      </div>
+      <div class="setting">
+        <label>Show Message Previews</label>
+        <input type="checkbox" class="toggle" id="msgPreview" checked />
+      </div>
+      <div class="setting">
+        <label>Vibration Alerts</label>
+        <input type="checkbox" class="toggle" id="vibration" />
+      </div>
+      <div class="setting">
+        <label>Sound Alerts</label>
+        <input type="checkbox" class="toggle" id="sound" checked />
+      </div>
+    </section>
+
+    <section>
+      <h2>Smart AI Tips</h2>
+      <div class="setting">
+        <label>Enable AI Smart Suggestions</label>
+        <input type="checkbox" class="toggle" id="aiTips" checked />
+      </div>
+      <div class="setting">
+        <label>Show Daily Productivity Tips</label>
+        <input type="checkbox" class="toggle" id="dailyTips" />
+      </div>
+      <div class="setting">
+        <label>System Updates & New Features</label>
+        <input type="checkbox" class="toggle" id="sysUpdates" checked />
+      </div>
+    </section>
+
+    <section>
+      <h2>Communication</h2>
+      <div class="setting">
+        <label>Email Alerts</label>
+        <input type="checkbox" class="toggle" id="emailAlerts" checked />
+      </div>
+      <div class="setting">
+        <label>Marketing / Promo Updates</label>
+        <input type="checkbox" class="toggle" id="promo" />
+      </div>
+      <div class="setting">
+        <label>New Message Sound Effect</label>
+        <input type="checkbox" class="toggle" id="typingSound" checked />
+      </div>
+    </section>
+
+    <button class="save-btn" onclick="saveSettings()">💾 Save Settings</button>
+  </main>
+
+  <footer>© 2025 Da-ChatGPT | Notifications Preferences</footer>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+    }
+
+    function saveSettings() {
+      const settings = {
+        allNotifs: document.getElementById("allNotifs").checked,
+        msgPreview: document.getElementById("msgPreview").checked,
+        vibration: document.getElementById("vibration").checked,
+        sound: document.getElementById("sound").checked,
+        aiTips: document.getElementById("aiTips").checked,
+        dailyTips: document.getElementById("dailyTips").checked,
+        sysUpdates: document.getElementById("sysUpdates").checked,
+        emailAlerts: document.getElementById("emailAlerts").checked,
+        promo: document.getElementById("promo").checked,
+        typingSound: document.getElementById("typingSound").checked,
+      };
+
+      localStorage.setItem("notificationSettings", JSON.stringify(settings));
+      alert("✅ Notification settings saved successfully!");
+    }
+
+    window.onload = function () {
+      const saved = JSON.parse(localStorage.getItem("notificationSettings"));
+      if (saved) {
+        for (const key in saved) {
+          if (document.getElementById(key)) {
+            document.getElementById(key).checked = saved[key];
+          }
+        }
+      }
+    };
+function goBack(){ window.location.href = "ai.html"; }
+  </script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Contact — INCONNU BOY TECH</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #070814;
+    --panel: rgba(255,255,255,0.03);
+    --card: rgba(255,255,255,0.04);
+    --accent1: #00eaff;
+    --accent2: #00ff9f;
+    --muted: #aeb9c6;
+    --glass-radius: 16px;
+    --max: 1100px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:'Poppins',system-ui,Arial;
+    background: radial-gradient(circle at 10% 10%, #0a1220 0%, #02040a 50%, #000 100%);
+    color:#eef3f7;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+
+  header{
+    padding:22px 16px;
+    border-bottom:1px solid rgba(255,255,255,0.02);
+    display:flex;
+    justify-content:center;
+  }
+  .top{
+    width:100%;
+    max-width:var(--max);
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .brand{
+    display:flex;
+    gap:12px;
+    align-items:center;
+  }
+  .brand .logo{
+    width:56px;height:56px;border-radius:12px;
+    background:linear-gradient(135deg,var(--accent1),var(--accent2));
+    display:flex;align-items:center;justify-content:center;color:#001018;font-weight:800;
+    box-shadow:0 10px 30px rgba(0,210,255,0.06);
+    font-size:18px;
+  }
+  .brand .title{ font-weight:700; color:var(--accent1); font-size:18px; }
+  .brand .sub{ color:var(--muted); font-size:13px; margin-top:-4px }
+
+  main{
+    max-width:var(--max);
+    margin:28px auto;
+    padding:0 16px 60px;
+  }
+
+  .hero{
+    text-align:center;
+    margin-bottom:18px;
+  }
+  .hero h1{ margin:0; color:var(--accent2); font-size:2.4rem; text-shadow:0 0 18px rgba(0,255,159,0.08) }
+  .hero p{ margin:8px 0 0; color:var(--muted) }
+
+  .grid {
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:18px;
+    margin-top:22px;
+  }
+
+  .contact-card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01));
+    border-radius:14px;
+    padding:18px;
+    border:1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    align-items:center;
+    text-align:center;
+    min-height:140px;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .contact-card:hover{
+    transform:translateY(-8px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.7), 0 10px 30px rgba(0,210,255,0.04);
+  }
+
+  .icon {
+    width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(90deg,var(--accent1),var(--accent2));
+    color:#001018;font-weight:800;font-size:22px;
+    box-shadow: 0 10px 30px rgba(0,210,255,0.06);
+  }
+
+  .contact-card h3{ margin:0; color:var(--accent1); font-size:1.05rem }
+  .contact-card p{ margin:0; color:var(--muted); font-size:0.95rem }
+
+  .contact-actions{
+    display:flex;
+    gap:8px;
+    margin-top:6px;
+  }
+  .btn{
+    padding:8px 12px;
+    border-radius:10px;
+    border:none;
+    font-weight:700;
+    cursor:pointer;
+    text-decoration:none;
+    color:#001018;
+    background: linear-gradient(90deg,var(--accent1),var(--accent2));
+    box-shadow: 0 10px 30px rgba(0,210,255,0.08);
+    transition: transform .12s;
+    font-size:0.9rem;
+  }
+  .btn.ghost{
+    background:transparent;
+    color:var(--muted);
+    border:1px solid rgba(255,255,255,0.03);
+    box-shadow:none;
+  }
+  .btn.copy {
+    background: linear-gradient(90deg,#fff7,#fff7);
+    color:#001018;
+  }
+
+  /* developer box full width */
+  .dev-box{
+    grid-column: 1 / -1;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:14px; padding:18px; border:1px solid rgba(255,255,255,0.03);
+    display:flex; align-items:center; gap:18px; justify-content:space-between;
+  }
+  .dev-info{ display:flex; gap:14px; align-items:center }
+  .dev-info .mini{ width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2)); display:flex;align-items:center;justify-content:center;font-weight:800;color:#001018; font-size:20px }
+  .dev-info .meta{ color:var(--muted) }
+  .dev-actions{ display:flex; gap:12px; align-items:center }
+
+  /* small responsive */
+  @media (max-width:980px){
+    .grid{ grid-template-columns: repeat(2, 1fr) }
+  }
+  @media (max-width:640px){
+    .grid{ grid-template-columns: 1fr }
+    .dev-box{ flex-direction:column; align-items:flex-start }
+  }
+
+  footer{
+    max-width:var(--max);
+    margin:20px auto 80px;
+    padding:0 16px;
+    color:var(--muted);
+    font-size:14px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+<header>
+  <div class="top">
+    <div class="brand">
+      <div class="logo">DB</div>
+      <div>
+        <div class="title">DAWENS BOY TECH</div>
+        <div class="sub">Contact & Support</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Contact DAWENS BOY TECH</h1>
+    <p>If you need help, ask via one of the contact channels below — available 24/7 for urgent channels.</p>
+  </section>
+
+  <section class="grid" role="list" aria-label="Contact options">
+
+    <!-- WhatsApp -->
+    <div class="contact-card" role="article">
+      <div class="icon">WA</div>
+      <h3>WhatsApp</h3>
+      <p>Quick support & direct messages.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://wa.me/50942241547" target="_blank" rel="noopener">Open WhatsApp</a>
+        <button class="btn ghost" onclick="copyText('+50942241547')">Copy number</button>
+      </div>
+    </div>
+
+    <!-- Telegram -->
+    <div class="contact-card">
+      <div class="icon">TG</div>
+      <h3>Telegram</h3>
+      <p>Official channel & chat.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://t.me/just_me_inconnu" target="_blank" rel="noopener">Open Telegram</a>
+        <button class="btn ghost" onclick="copyText('@just_me_inconnu')">Copy username</button>
+      </div>
+    </div>
+
+    <!-- TikTok -->
+    <div class="contact-card">
+      <div class="icon">TT</div>
+      <h3>TikTok</h3>
+      <p>Follow for quick tips & clips.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://www.tiktok.com/@mrley135?_t=ZS-90qJGJv3Y3k&_r=1" target="_blank" rel="noopener">Visit TikTok</a>
+      </div>
+    </div>
+
+    <!-- YouTube -->
+    <div class="contact-card">
+      <div class="icon">YT</div>
+      <h3>YouTube</h3>
+      <p>Tutorials & long-form lessons.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://www.youtube.com/@inconnuboy-b5h" target="_blank" rel="noopener">Open Channel</a>
+      </div>
+    </div>
+
+    <!-- Instagram -->
+    <div class="contact-card">
+      <div class="icon">IG</div>
+      <h3>Instagram</h3>
+      <p>Designs & updates.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://www.instagram.com/kendersly786?igsh=MXdjeXN5M2l5ajMxcQ%3D%3D&utm_source=qr" target="_blank" rel="noopener">Visit IG</a>
+      </div>
+    </div>
+
+    <!-- Facebook -->
+    <div class="contact-card">
+      <div class="icon">FB</div>
+      <h3>Facebook</h3>
+      <p>Community & posts.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://facebook.com/Carlos Berry" target="_blank" rel="noopener">Open Facebook</a>
+      </div>
+    </div>
+
+    <!-- X / Twitter -->
+    <div class="contact-card">
+      <div class="icon">X</div>
+      <h3>X (Twitter)</h3>
+      <p>Quick announcements.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://x.com/" target="_blank" rel="noopener">Open X</a>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="contact-card">
+      <div class="icon">@</div>
+      <h3>Email</h3>
+      <p>For formal inquiries & partnerships.</p>
+      <div class="contact-actions">
+        <a class="btn" href="mailto:berryxoe@gmail.com">Send Email</a>
+        <button class="btn ghost" onclick="copyText('berryxoe@gmail.com')">Copy email</button>
+      </div>
+    </div>
+
+    <!-- Discord -->
+    <div class="contact-card">
+      <div class="icon">DC</div>
+      <h3>Discord</h3>
+      <p>Community chat & live help.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://discord.gg/dawens_34" target="_blank" rel="noopener">Join Discord</a>
+      </div>
+    </div>
+
+    <!-- GitHub -->
+    <div class="contact-card">
+      <div class="icon">GH</div>
+      <h3>GitHub</h3>
+      <p>Source code & repos.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://github.com/DAWENS-BOY904" target="_blank" rel="noopener">Open GitHub</a>
+      </div>
+    </div>
+
+    <!-- LinkedIn -->
+    <div class="contact-card">
+      <div class="icon">IN</div>
+      <h3>LinkedIn</h3>
+      <p>Business & recruitment.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener">Open LinkedIn</a>
+      </div>
+    </div>
+
+    <!-- Patreon -->
+    <div class="contact-card">
+      <div class="icon">PT</div>
+      <h3>Patreon</h3>
+      <p>Support the project & get perks.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://patreon.com/yourpage" target="_blank" rel="noopener">Support</a>
+      </div>
+    </div>
+
+    <!-- Medium / Blog -->
+    <div class="contact-card">
+      <div class="icon">✍️</div>
+      <h3>Blog / Medium</h3>
+      <p>Guides, tutorials & deep dives.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://medium.com/@yourprofile" target="_blank" rel="noopener">Read Blog</a>
+      </div>
+    </div>
+
+    <!-- Website -->
+    <div class="contact-card">
+      <div class="icon">🌐</div>
+      <h3>Official Website</h3>
+      <p>All resources & downloads.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://inconnu-boy-sensei.example" target="_blank" rel="noopener">Open Site</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Developer box -->
+  <section style="margin-top:20px" class="grid">
+    <div class="dev-box">
+      <div class="dev-info">
+        <div class="mini">IB</div>
+        <div>
+          <div style="font-weight:700;color:var(--accent1)">DAWENS BOY TECH</div>
+          <div class="meta">Name: DAWENS BOY TECH • Email: berryxoe@gmail.com • Telegram: @Mr_Da5</div>
+        </div>
+      </div>
+      <div class="dev-actions">
+        <a class="btn" href="mailto:berryxoe@gmail.com">Email</a>
+        <a class="btn ghost" href="contact.html">More info</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div style="max-width:var(--max);margin:0 auto;padding:0 16px;text-align:center;color:var(--muted);">
+    Response Time: We typically respond within 24 hours. For urgent matters use WhatsApp or Telegram.
+  </div>
+</footer>
+
+<script>
+  // copy helper
+  function copyText(text){
+    if(!navigator.clipboard) {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); alert('Copied: ' + text); }
+      catch(e){ alert('Copy failed, please copy manually: ' + text); }
+      ta.remove();
+      return;
+    }
+    navigator.clipboard.writeText(text).then(()=>{
+      alert('Copied: ' + text);
+    }).catch(err=>{
+      alert('Copy failed: ' + err);
+    });
+  }
+</script>
+
+</body>
+</html>

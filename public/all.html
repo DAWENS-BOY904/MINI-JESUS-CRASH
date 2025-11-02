@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiniDex — Dawens Hacker</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+  
+/* Variables modern */
+:root {
+  --bg-dark: #050b1b;
+  --text-light: #ffffff;
+  --muted: #b8c2d8;
+  --accent1: #6C63FF;
+  --accent2: #00E5FF;
+  --accent3: #25D366; /* WhatsApp green */
+  --accent4: #1DA1F2; /* Telegram blue */
+  --accent5: #171515; /* GitHub dark */
+  --gradient: linear-gradient(90deg, var(--accent1), var(--accent2));
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #6C63FF, #00E5FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+
+  .hero-buttons a {
+    background: #6C63FF;
+    color: white;
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px #6C63FF80;
+    border: 2px solid transparent;
+  }
+
+  .hero-buttons a:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px #6C63FFB0;
+  }
+
+/* ==================== */
+/*  CTA + FOOTER STYLE  */
+/* ==================== */
+
+/* CTA Section */
+.cta-section {
+  background: radial-gradient(circle at top left, rgba(108,99,255,0.2), rgba(0,229,255,0.05) 60%), var(--bg-dark);
+  padding: 100px 0;
+  color: var(--text-light);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(108,99,255,0.3), transparent, rgba(0,229,255,0.2));
+  animation: rotateGlow 12s linear infinite;
+  z-index: 0;
+}
+
+@keyframes rotateGlow {
+  to { transform: rotate(360deg); }
+}
+
+.cta-box {
+  position: relative;
+  z-index: 2;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 40px 30px;
+  border-radius: 16px;
+  max-width: 700px;
+  margin: 0 auto;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 25px rgba(108,99,255,0.15);
+}
+
+.cta-box h2 {
+  font-size: 2em;
+  margin-bottom: 14px;
+  font-weight: 700;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cta-box p {
+  color: var(--muted);
+  font-size: 1rem;
+  margin-bottom: 28px;
+}
+
+/* CTA Button */
+.btn {
+  display: inline-block;
+  padding: 14px 30px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  background: var(--gradient);
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(108,99,255,0.4);
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: var(--gradient);
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 35px rgba(0,229,255,0.55);
+}
+
+.btn:hover::after {
+  opacity: 1;
+}
+
+/* ==================== */
+/* FOOTER SECTION STYLE */
+/* ==================== */
+
+.footer {
+  background: #070d1d;
+  color: var(--text-light);
+  padding: 60px 20px;
+  text-align: center;
+  position: relative;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background: var(--gradient);
+  box-shadow: 0 0 20px rgba(108,99,255,0.5);
+}
+
+.footer-logo {
+  font-size: 1.8em;
+  font-weight: 800;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 14px;
+}
+
+.footer-links {
+  margin: 20px 0;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: var(--accent2);
+}
+
+.footer-icons {
+  margin: 25px 0;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.footer-icons a {
+  display: inline-flex;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-light);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease-in-out;
+}
+
+.footer-icons a::after {
+  content: "";
+  position: absolute;
+  width: 180%;
+  height: 180%;
+  top: -40%;
+  left: -40%;
+  background: conic-gradient(from 0deg, var(--accent1), var(--accent2), var(--accent3), var(--accent4), var(--accent1));
+  opacity: 0;
+  filter: blur(12px);
+  transition: opacity 0.5s ease;
+  z-index: 0;
+}
+
+.footer-icons a i {
+  position: relative;
+  z-index: 1;
+}
+
+.footer-icons a:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 25px rgba(108,99,255,0.45);
+}
+
+.footer-icons a:hover::after {
+  opacity: 1;
+  animation: glowRotate 2.5s linear infinite;
+}
+
+@keyframes glowRotate {
+  to { transform: rotate(360deg); }
+}
+
+/* Spécificité par icône */
+.footer-icons a[href*="whatsapp"] {
+  background: rgba(37,211,102,0.15);
+  color: #25D366;
+}
+
+.footer-icons a[href*="github"] {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+.footer-icons a[href*="mailto"] {
+  background: rgba(255,255,255,0.1);
+  color: #00E5FF;
+}
+
+/* Message Glow */
+.footer p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 18px;
+}
+
+.footer p span {
+  color: var(--accent2);
+  font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-icons a {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  .cta-box h2 {font-size: 1.6em;}
+}
+</style>
+</head>
+<body>
+  <h1>⚡ MiniDex Portal ⚡</h1>
+
+  <div class="hero-buttons">
+    <a href="comment.html">Comment</a>
+    <a href="Ai.html">Da-ChatGPT</a>
+    <a href="admin.html">Admin Dashboar</a>
+    <a href="ai.html">Ai assistant</a>
+  </div>
+
+  <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box">
+                <h2>Prêt à révolutionner votre expérience WhatsApp ?</h2>
+                <p>Rejoignez des milliers d'utilisateurs satisfaits et découvrez la puissance d'MINI JESUS CRASH</p>
+                <a href="/ley.html" class="btn btn-primary" style="background: var(--gradient); color: white;">Commencer Maintenant</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">MINI JESUS</div>
+            <div class="footer-links">
+                
+                <a href="/deploye.html">Déploiement</a>
+                <a href="#features">Documentation</a>
+                <a href="#developers">Support</a>
+            </div>
+            <div class="footer-icons">
+                <a href="https://whatsapp.com/channel/0029Vb6tScFDzgTAcKNphY2i" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="mailto:berryxoe@support.com"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/DAWENS-BOY904"><i class="fab fa-github"></i></a>
+            </div>
+            <p>&copy; 2024 MINI JESUS. Développé avec ❤️ par Dev DAWENS & INCONNU BOY</p>
+        </div>
+    </footer>
+
+  <script>
+  const colors = [
+    "#6C63FF","#FF6F61","#00BCD4","#4CAF50","#FF9800",
+    "#E91E63","#9C27B0","#3F51B5","#2196F3","#009688",
+    "#8BC34A","#CDDC39","#FFEB3B","#FFC107","#FF5722",
+    "#795548","#607D8B","#673AB7","#F44336","#00BFA5",
+    "#FF4081","#18FFFF","#76FF03","#FFD600","#FF3D00",
+    "#AA00FF","#304FFE","#00E5FF","#64DD17","#FFAB00"
+  ];
+
+  const buttons = document.querySelectorAll('.hero-buttons a');
+  let colorIndex = 0;
+
+  setInterval(() => {
+    buttons.forEach(btn => {
+      const color = colors[colorIndex % colors.length];
+      btn.style.background = color;
+      btn.style.boxShadow = `0 0 20px ${color}70`;
+      btn.style.borderColor = color;
+    });
+    colorIndex++;
+  }, 600);
+  </script>
+</body>
+</html>

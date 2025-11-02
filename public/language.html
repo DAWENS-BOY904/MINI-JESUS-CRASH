@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Language – Da-ChatGPT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f7ff;
+      --text: #1a1a1a;
+      --panel: rgba(255,255,255,0.7);
+      --border: rgba(0,0,0,0.05);
+      --accent: #0078ff;
+      --shadow: rgba(0,0,0,0.08);
+    }
+    body.dark {
+      --bg: #0e1117;
+      --text: #f1f1f1;
+      --panel: rgba(28,30,37,0.75);
+      --border: rgba(255,255,255,0.1);
+      --accent: #3399ff;
+      --shadow: rgba(0,0,0,0.3);
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      font-family:"Inter",sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height:100vh;
+      padding:40px 20px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    header{
+      width:100%;
+      max-width:900px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:30px;
+    }
+
+    header h1{
+      font-size:1.6rem;
+      font-weight:700;
+      color: var(--accent);
+    }
+
+    .theme-switch{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      cursor:pointer;
+    }
+
+    .theme-switch input{
+      width:45px; height:22px; appearance:none;
+      background:#ccc; border-radius:30px; position:relative; transition:0.3s;
+    }
+
+    .theme-switch input:checked{ background: var(--accent);}
+    .theme-switch input::after{
+      content:""; width:18px; height:18px; background:#fff;
+      border-radius:50%; position:absolute; top:2px; left:3px; transition:0.3s;
+    }
+    .theme-switch input:checked::after{ left:24px;}
+
+    main{
+      width:100%; max-width:900px;
+      background: var(--panel);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:30px;
+      box-shadow:0 6px 20px var(--shadow);
+      backdrop-filter: blur(12px);
+      display:grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
+      gap:20px;
+      transition: background 0.4s, box-shadow 0.3s;
+    }
+
+    .lang-btn{
+      padding:15px;
+      border-radius:15px;
+      background:rgba(255,255,255,0.5);
+      border:1px solid var(--border);
+      text-align:center;
+      font-weight:600;
+      cursor:pointer;
+      transition: all 0.3s;
+      user-select:none;
+    }
+
+    .lang-btn:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0,120,255,0.2);
+    }
+
+    .lang-btn.active{
+      background: var(--accent);
+      color:#fff;
+      box-shadow:0 6px 20px rgba(0,120,255,0.4);
+    }
+
+    footer{
+      margin-top:25px; font-size:0.9rem; opacity:0.7; text-align:center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>App Language</h1>
+    <div class="theme-switch">
+      <label for="themeSwitch">🌞 / 🌚</label>
+      <input type="checkbox" id="themeSwitch" onchange="toggleTheme()" />
+    </div>
+  </header>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+
+  <main id="langContainer">
+    <div class="lang-btn" data-lang="en">English</div>
+    <div class="lang-btn" data-lang="fr">Français</div>
+    <div class="lang-btn" data-lang="ht">Kreyòl</div>
+    <div class="lang-btn" data-lang="es">Español</div>
+    <div class="lang-btn" data-lang="pt">Português</div>
+    <div class="lang-btn" data-lang="de">Deutsch</div>
+    <div class="lang-btn" data-lang="it">Italiano</div>
+    <div class="lang-btn" data-lang="zh">中文</div>
+    <div class="lang-btn" data-lang="ja">日本語</div>
+  </main>
+
+  <footer>© 2025 Da-ChatGPT | Language Preferences</footer>
+
+  <script>
+    function toggleTheme(){
+      document.body.classList.toggle("dark");
+    }
+
+    const langButtons = document.querySelectorAll(".lang-btn");
+    langButtons.forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        langButtons.forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
+        localStorage.setItem("appLanguage", btn.dataset.lang);
+        alert("🌐 Language set to "+btn.textContent);
+      });
+    });
+
+    // Load saved language
+    window.onload = function(){
+      const savedLang = localStorage.getItem("appLanguage");
+      if(savedLang){
+        const activeBtn = document.querySelector(`.lang-btn[data-lang='${savedLang}']`);
+        if(activeBtn) activeBtn.classList.add("active");
+      }
+    }
+  </script>
+</body>
+</html>

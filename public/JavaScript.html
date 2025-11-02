@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dawens School — JavaScript Complete Course</title>
+  <meta name="description" content="Dawens School: Intensive JavaScript course. From basics to async, classes, DOM, projects and quizzes.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ===== CLEAN WHITE THEME + NEON ACCENTS (blue/green) ===== */
+    :root{
+      --bg: #ffffff;
+      --surface: #fbfdff;
+      --muted: #6b7280;
+      --text: #0b1220;
+      --accent-a: #00bfff; /* neon blue */
+      --accent-b: #00ffb3; /* neon green */
+      --glass: rgba(11,18,32,0.04);
+      --card-border: rgba(6,95,124,0.06);
+      --shadow: 0 8px 30px rgba(11,18,32,0.06);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+      --max: 1180px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:linear-gradient(180deg,var(--bg),#f6fbff);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    /* ---------- LAYOUT ---------- */
+    .wrap{max-width:var(--max);margin:0 auto;padding:28px;}
+    header{
+      display:flex;align-items:center;gap:18px;padding:18px 0;
+      border-bottom:1px solid var(--card-border);
+    }
+    .brand{
+      display:flex;flex-direction:column;
+    }
+    .brand .title{font-weight:800;color:var(--text);font-size:1.05rem;letter-spacing:0.6px;}
+    .brand .sub{font-size:12px;color:var(--muted);}
+
+    nav.top{
+      margin-left:auto;display:flex;gap:10px;align-items:center;
+    }
+    nav.top a{
+      text-decoration:none;color:var(--muted);padding:8px 12px;border-radius:10px;font-weight:600;
+      transition:all .14s ease;border:1px solid transparent;
+    }
+    nav.top a.active{color:var(--bg);background:linear-gradient(90deg,var(--accent-b),var(--accent-a));box-shadow:0 8px 30px rgba(0,191,255,0.08)}
+    nav.top a:hover{transform:translateY(-3px);color:var(--text)}
+
+    /* ---------- HERO ---------- */
+    .hero{display:flex;gap:18px;align-items:center;padding:28px 0 10px}
+    .hero .left{flex:1}
+    .hero h1{margin:0;font-size:2rem;color:var(--text);letter-spacing:-0.5px}
+    .hero p{margin:8px 0 0;color:var(--muted);max-width:780px}
+
+    .badge{
+      display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--accent-b),var(--accent-a));color:#002022;font-weight:700;font-size:12px;
+      box-shadow:0 6px 20px rgba(0,191,255,0.06)
+    }
+
+    /* ---------- GRID ---------- */
+    .layout{
+      display:grid;grid-template-columns:260px 1fr 320px;gap:20px;margin-top:18px;
+    }
+
+    /* ---------- SIDEBAR ---------- */
+    aside.sidebar{
+      background:var(--surface);border-radius:12px;padding:14px;border:1px solid var(--card-border);box-shadow:var(--shadow);height:calc(100vh - 160px);position:sticky;top:72px;overflow:auto;
+    }
+    .toc h4{margin:0 0 10px 0;color:var(--text);font-weight:700}
+    .toc a{display:block;padding:8px;border-radius:8px;text-decoration:none;color:var(--muted);font-weight:600;margin-bottom:6px}
+    .toc a:hover{background:linear-gradient(90deg, rgba(0,191,255,0.06), rgba(0,255,179,0.03));color:var(--text)}
+
+    .progress{
+      margin-top:14px;background:linear-gradient(180deg,#fff,#fbfeff);padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.03);
+    }
+    .progress small{color:var(--muted)}
+    .bar{height:10px;background:rgba(0,0,0,0.04);border-radius:999px;margin-top:8px;overflow:hidden}
+    .bar > i{display:block;height:100%;width:36%;background:linear-gradient(90deg,var(--accent-b),var(--accent-a))}
+
+    /* ---------- MAIN CONTENT ---------- */
+    main.content{
+      background:transparent;padding:6px 0;
+    }
+    section.card{
+      background:var(--surface);border-radius:12px;padding:18px;border:1px solid var(--card-border);box-shadow:var(--shadow);margin-bottom:16px;
+    }
+    section.card h2{margin:0 0 8px 0;color:var(--text);font-size:1.15rem}
+    section.card p{margin:0;color:var(--muted)}
+    .lead{font-size:0.96rem;color:var(--muted);margin-top:8px}
+
+    /* code styling */
+    pre.code{
+      background:#0f1724;color:#e6f7ff;padding:14px;border-radius:8px;overflow:auto;border:1px solid rgba(0,191,255,0.12);font-family:var(--mono);font-size:13px;
+    }
+    code.inline{background:#f1fbff;color:#004b5a;padding:2px 6px;border-radius:4px;font-family:var(--mono);font-size:0.9rem}
+
+    .flex-row{display:flex;gap:12px;align-items:center}
+    .kbd{padding:6px 8px;border-radius:6px;background:#f6fbff;border:1px solid rgba(11,18,32,0.06);font-weight:700;color:var(--text);font-size:13px}
+
+    /* ---------- TWO-COLUMN EXAMPLES ---------- */
+    .example-row{display:grid;grid-template-columns:1fr 360px;gap:12px;align-items:start;margin-top:12px}
+    .panel{background:#fff;border-radius:10px;padding:12px;border:1px solid rgba(0,0,0,0.04)}
+
+    /* ---------- RIGHT RESOURCES ---------- */
+    aside.resources{
+      background:var(--surface);border-radius:12px;padding:14px;border:1px solid var(--card-border);box-shadow:var(--shadow);height:calc(100vh - 160px);position:sticky;top:72px;overflow:auto;
+    }
+    .resources h4{margin:0 0 8px 0;color:var(--text)}
+    .resource{display:flex;gap:10px;align-items:center;padding:10px;border-radius:8px;margin-bottom:8px;background:linear-gradient(180deg,#fff,#f8feff);border:1px solid rgba(0,0,0,0.03)}
+    .resource strong{color:var(--text)}
+
+    /* ---------- QUIZ ---------- */
+    .quiz{background:#fff;border-radius:10px;padding:14px;border:1px solid rgba(0,0,0,0.04)}
+    .quiz h3{margin:0;color:var(--text)}
+    .option{display:block;background:linear-gradient(180deg,#f6fbff,#eefcff);border-radius:8px;padding:10px;margin-top:8px;border:1px solid rgba(0,191,255,0.06);cursor:pointer}
+    .option.correct{border-color:rgba(0,255,179,0.3);box-shadow:0 8px 20px rgba(0,255,179,0.06)}
+    .option.wrong{border-color:rgba(255,90,90,0.2);opacity:0.85}
+
+    /* ---------- BUTTONS ---------- */
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;background:linear-gradient(90deg,var(--accent-b),var(--accent-a));color:#001017;font-weight:700;text-decoration:none;border:none;cursor:pointer;
+      box-shadow:0 10px 30px rgba(0,191,255,0.06)
+    }
+    .btn.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);color:var(--text);font-weight:600}
+
+    /* ---------- FOOTER ---------- */
+    footer{padding:36px 0;text-align:center;color:var(--muted);font-size:14px}
+
+    /* responsive */
+    @media (max-width:1100px){
+      .layout{grid-template-columns:1fr;gap:14px;padding-bottom:40px}
+      aside.sidebar, aside.resources{height:auto;position:relative;top:auto}
+      .example-row{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- HEADER -->
+    <header>
+      <div class="brand">
+        <div class="title">Dawens School — JavaScript</div>
+        <div class="sub">From zero to productive coder — focused, practical, fast.</div>
+      </div>
+
+      <nav class="top" aria-label="Main navigation">
+        <a href="../dawens.html">School</a>
+        <a href="JavaScript.html" class="active">JavaScript</a>
+        <a href="../script.html">Tools</a>
+        <a href="../api.html">API</a>
+      </nav>
+    </header>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="left">
+        <div class="badge">Intensive • Practical • Project-based</div>
+        <h1>JavaScript — Complete course (Beginner → Advanced)</h1>
+        <p class="lead">This module contains lessons, code samples, project templates, interactive exercises, quizzes and progress tracking. Designed to get learners 60% productive in 2 days with focused practice.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;justify-content:center;">
+        <div class="kbd">Estimated time: 2 days intensive</div>
+        <div style="height:8px"></div>
+        <div class="kbd">Output: mini projects + GitHub ready code</div>
+      </div>
+    </div>
+
+    <!-- LAYOUT -->
+    <div class="layout">
+
+      <!-- LEFT SIDEBAR: Table of contents -->
+      <aside class="sidebar" aria-label="Course navigation">
+        <div class="toc">
+          <h4>Contents</h4>
+          <a href="#intro">Introduction & Setup</a>
+          <a href="#basics">Basics (vars, types)</a>
+          <a href="#control">Control Flow</a>
+          <a href="#functions">Functions & Scope</a>
+          <a href="#objects">Objects & Arrays</a>
+          <a href="#dom">DOM & Events</a>
+          <a href="#async">Async / Promises / Fetch</a>
+          <a href="#es6">ES6+ Features</a>
+          <a href="#classes">Classes & Modules</a>
+          <a href="#projects">Mini Projects</a>
+          <a href="#advanced">Advanced Patterns</a>
+          <a href="#quiz">Quizzes</a>
+          <a href="#resources">Resources & Next Steps</a>
+        </div>
+
+        <div class="progress" aria-hidden="false">
+          <small>Progress</small>
+          <div class="bar"><i id="prog-fill" style="width:36%"></i></div>
+          <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:13px;color:var(--muted)"><span>Beginner → Productive</span><span id="prog-percent">36%</span></div>
+        </div>
+
+        <div style="margin-top:12px">
+          <small style="color:var(--muted)">Quick links</small>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+            <a class="btn" href="#projects">Open Projects</a>
+            <a class="btn ghost" href="#quiz">Take Quiz</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="content" role="main">
+
+        <!-- INTRO -->
+        <section id="intro" class="card">
+          <h2>Introduction & Setup</h2>
+          <p class="lead">What you'll need: a code editor (VSCode recommended), Node.js (optional for projects), and basic terminal usage. We'll go from fundamentals to building a small set of projects you can publish to GitHub.</p>
+
+          <div class="example-row" style="margin-top:12px">
+            <div class="panel">
+              <h3>Local Setup</h3>
+              <ol>
+                <li>Install VSCode: <code class="inline">https://code.visualstudio.com</code></li>
+                <li>Install Node.js LTS: <code class="inline">https://nodejs.org</code></li>
+                <li>Create a folder: <code class="inline">mkdir dawens-js && cd dawens-js</code></li>
+                <li>Start a simple server (optional): <code class="inline">npx http-server .</code></li>
+              </ol>
+            </div>
+
+            <div class="panel">
+              <h3>Course Strategy</h3>
+              <p class="muted">Focus on building small features fast: input handling, manipulating DOM, fetch data, and stitch components together. Each lesson has a short exercise — do them out loud.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- BASICS -->
+        <section id="basics" class="card">
+          <h2>Basics: Variables, Types & Operators</h2>
+          <p>Clear, concise examples + tricks to avoid common pitfalls.</p>
+
+          <h3>Variables</h3>
+          <pre class="code">// use const by default, let when mutable
+const PI = 3.14159;
+let counter = 0;
+
+// avoid var: function-scoped, can lead to bugs
+var legacy = "avoid-me";</pre>
+
+          <h3>Types & typeof</h3>
+          <pre class="code">console.log(typeof "hello"); // string
+console.log(typeof 42); // number
+console.log(typeof true); // boolean
+console.log(typeof {}); // object
+console.log(typeof undefined); // undefined
+console.log(typeof null); // object (historical oddity)</pre>
+
+          <h3>Operators</h3>
+          <pre class="code">let a = 10, b = 3;
+console.log(a + b, a - b, a * b, a / b, a % b);
+console.log(a ** 2); // exponent</pre>
+
+          <h3>Quick exercise</h3>
+          <p class="muted">Create a small script that converts Celsius → Fahrenheit. Save it as <code class="inline">convert.js</code>.</p>
+        </section>
+
+        <!-- CONTROL FLOW -->
+        <section id="control" class="card">
+          <h2>Control Flow: Conditionals & Loops</h2>
+
+          <h3>Conditionals</h3>
+          <pre class="code">const x = 15;
+if (x % 2 === 0) {
+  console.log("even");
+} else {
+  console.log("odd");
+}
+// ternary
+const parity = (x % 2 === 0) ? "even" : "odd";
+</pre>
+
+          <h3>Switch</h3>
+          <pre class="code">const grade = 'B';
+switch (grade) {
+  case 'A': console.log("Excellent"); break;
+  case 'B': console.log("Good"); break;
+  default: console.log("Keep learning");
+}</pre>
+
+          <h3>Loops</h3>
+          <pre class="code">for (let i = 0; i < 5; i++) {
+  console.log(i);
+}
+
+let j = 0;
+while (j < 5) { console.log(j); j++; }
+
+// arrays
+const arr = [1,2,3,4];
+for (const val of arr) console.log(val);
+</pre>
+
+          <h3>Exercise</h3>
+          <p class="muted">Write a function that returns the nth Fibonacci number (iterative).</p>
+        </section>
+
+        <!-- FUNCTIONS -->
+        <section id="functions" class="card">
+          <h2>Functions, Scope & Closures</h2>
+
+          <h3>Classic function</h3>
+          <pre class="code">function add(a, b) { return a + b; }</pre>
+
+          <h3>Arrow functions</h3>
+          <pre class="code">const mul = (a, b) => a * b;</pre>
+
+          <h3>Default params & rest</h3>
+          <pre class="code">const greet = (name = "Student") => `Hello, ${name}`;
+const sumAll = (...nums) => nums.reduce((s, n) => s + n, 0);
+</pre>
+
+          <h3>Closures</h3>
+          <pre class="code">function makeCounter() {
+  let count = 0;
+  return function() {
+    count++;
+    return count;
+  };
+}
+const c = makeCounter();
+console.log(c(), c()); // 1,2</pre>
+
+          <h3>Exercise</h3>
+          <p class="muted">Implement <code>once(fn)</code> that returns a function executing <code>fn</code> only once.</p>
+        </section>
+
+        <!-- OBJECTS & ARRAYS -->
+        <section id="objects" class="card">
+          <h2>Objects, Arrays & Useful Methods</h2>
+
+          <h3>Objects</h3>
+          <pre class="code">const user = { name: "Dawens", age: 24, skills: ["JS","CSS"] };
+const { name, age } = user;
+const copy = { ...user, role: "student" };</pre>
+
+          <h3>Arrays helper methods</h3>
+          <pre class="code">const nums = [1,2,3,4,5];
+const evens = nums.filter(n => n % 2 === 0);
+const squares = nums.map(n => n * n);
+const sum = nums.reduce((acc, n) => acc + n, 0);
+</pre>
+
+          <h3>Deep copy note</h3>
+          <pre class="code">const shallow = Object.assign({}, user);
+const deep = JSON.parse(JSON.stringify(user)); // simple deep clone (beware functions)</pre>
+
+          <h3>Exercise</h3>
+          <p class="muted">Write a function that groups an array of objects by a key (e.g., group by 'type').</p>
+        </section>
+
+        <!-- DOM & EVENTS -->
+        <section id="dom" class="card">
+          <h2>DOM Manipulation & Events</h2>
+          <p class="muted">Small, focused examples to master real-world tasks.</p>
+
+          <div class="example-row" style="margin-top:8px">
+            <div class="panel">
+              <h3>Basic DOM</h3>
+              <pre class="code">// select and change
+const title = document.querySelector('#demo-title');
+title.textContent = "Changed by JavaScript";
+
+// create new element
+const p = document.createElement('p');
+p.textContent = "Dynamically added paragraph";
+document.body.appendChild(p);
+</pre>
+            </div>
+            <div class="panel">
+              <h3>Event handling</h3>
+              <pre class="code">const btn = document.getElementById('demo-btn');
+btn.addEventListener('click', (e) => {
+  alert('Button clicked');
+});
+</pre>
+            </div>
+          </div>
+
+          <h3>Delegation & performance</h3>
+          <pre class="code">// event delegation for lists
+document.getElementById('list').addEventListener('click', (e) => {
+  const li = e.target.closest('li');
+  if (!li) return;
+  console.log('clicked', li.dataset.id);
+});
+</pre>
+
+          <h3>Exercise</h3>
+          <p class="muted">Build a small todo list: add, remove, mark done. Persist data in localStorage.</p>
+        </section>
+
+        <!-- ASYNC / PROMISES -->
+        <section id="async" class="card">
+          <h2>Async JavaScript — Callbacks, Promises & async/await</h2>
+
+          <h3>Callback vs Promise</h3>
+          <pre class="code">// Callback
+setTimeout(() => console.log("later"), 1000);
+
+// Promise
+const p = new Promise((resolve) => setTimeout(() => resolve(42), 500));
+p.then(v => console.log(v));
+
+// async/await
+async function getData() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+  const json = await res.json();
+  console.log(json);
+}
+</pre>
+
+          <h3>Error handling</h3>
+          <pre class="code">async function safeFetch(url) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Network error');
+    return await res.json();
+  } catch (err) {
+    console.error('Fetch failed', err);
+    return null;
+  }
+}</pre>
+
+          <h3>Exercise</h3>
+          <p class="muted">Write an <code>async</code> function that fetches multiple endpoints in parallel and returns combined results.</p>
+        </section>
+
+        <!-- ES6+ -->
+        <section id="es6" class="card">
+          <h2>ES6+ Features & Useful Patterns</h2>
+          <pre class="code">// destructuring
+const [a, b] = [1, 2];
+const {name, age} = {name:'A', age:20};
+
+// template literals
+const text = `User: ${name} - ${age}`;
+
+// optional chaining & nullish coalescing
+const nickname = user?.nickname ?? 'no-nick';
+</pre>
+
+          <h3>Module import/export (ES modules)</h3>
+          <pre class="code">// file: math.js
+export function add(a,b){ return a+b; }
+
+// file: main.js
+import { add } from './math.js';
+</pre>
+
+          <h3>Exercise</h3>
+          <p class="muted">Refactor small scripts into modules and import them into an index file.</p>
+        </section>
+
+        <!-- CLASSES & MODULES -->
+        <section id="classes" class="card">
+          <h2>Classes, Prototypes & Module Patterns</h2>
+          <pre class="code">class Person {
+  constructor(name) { this.name = name; }
+  greet() { return `Hello ${this.name}`; }
+}
+const p = new Person('Dawens');
+console.log(p.greet());
+</pre>
+
+          <h3>Prototype basics</h3>
+          <pre class="code">function Animal(name){ this.name = name; }
+Animal.prototype.speak = function(){ console.log(this.name + ' speaks'); }
+const a = new Animal('Rex'); a.speak();</pre>
+
+          <h3>Exercise</h3>
+          <p class="muted">Create a small class hierarchy (Vehicle → Car → ElectricCar) demonstrating inheritance & method overrides.</p>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="projects" class="card">
+          <h2>Mini Projects (build fast, publish to GitHub)</h2>
+          <p class="muted">Each project includes a starter template (folder in <code>code/</code>), checklist, and tests.</p>
+
+          <h3>Project 1 — ToDo App (Client-side)</h3>
+          <p class="muted">Features: add/edit/delete tasks, mark done, filter, persist with localStorage.</p>
+          <pre class="code">// Simplified example: add task
+function addTask(text){
+  const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+  tasks.push({id: Date.now(), text, done:false});
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}</pre>
+
+          <h3>Project 2 — Weather widget (API)</h3>
+          <p class="muted">Use fetch to retrieve weather data and show UI cards. Add loading & error states.</p>
+
+          <h3>Project 3 — Mini Game (Quiz)</h3>
+          <p class="muted">Create a timed quiz with scoring, local high-score storage, and shareable link.</p>
+
+          <h3>Project 4 — Simple Chat UI (frontend only)</h3>
+          <p class="muted">Build a chat UI with message history and simulated bot replies.</p>
+
+          <div style="display:flex;gap:10px;margin-top:10px">
+            <a class="btn" href="code/projects/todo">Open ToDo Template</a>
+            <a class="btn ghost" href="code/projects/weather">Open Weather Template</a>
+          </div>
+        </section>
+
+        <!-- ADVANCED PATTERNS -->
+        <section id="advanced" class="card">
+          <h2>Advanced Patterns & Performance</h2>
+          <p class="muted">Debounce, throttle, memoize, virtual DOM overview, render performance tips.</p>
+
+          <h3>Debounce & Throttle</h3>
+          <pre class="code">function debounce(fn, wait){
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(()=> fn(...args), wait);
+  };
+}
+
+function throttle(fn, limit){
+  let inThrottle;
+  return function(...args){
+    if(!inThrottle){
+      fn(...args);
+      inThrottle = true;
+      setTimeout(()=> inThrottle = false, limit);
+    }
+  };
+}</pre>
+
+          <h3>Memoize</h3>
+          <pre class="code">function memoize(fn){
+  const cache = new Map();
+  return (...args) => {
+    const key = JSON.stringify(args);
+    if(cache.has(key)) return cache.get(key);
+    const val = fn(...args);
+    cache.set(key, val);
+    return val;
+  }
+}</pre>
+        </section>
+
+        <!-- QUIZZES (multiple levels) -->
+        <section id="quiz" class="card">
+          <h2>Quizzes</h2>
+          <p class="muted">Practice by answering quick questions. There are 5 quizzes (Basic → Advanced). Your results are saved to localStorage.</p>
+
+          <!-- Quiz selector -->
+          <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+            <button class="btn" onclick="startQuiz('basic')">Basic Quiz</button>
+            <button class="btn" onclick="startQuiz('intermediate')">Intermediate Quiz</button>
+            <button class="btn" onclick="startQuiz('advanced')">Advanced Quiz</button>
+            <button class="btn ghost" onclick="showScores()">Show My Scores</button>
+          </div>
+
+          <div id="quiz-area" style="margin-top:12px"></div>
+
+          <div id="quiz-result-area" style="margin-top:12px"></div>
+        </section>
+
+        <!-- RESOURCES -->
+        <section id="resources" class="card">
+          <h2>Resources & Next Steps</h2>
+          <ul style="color:var(--muted)">
+            <li>Practice daily: 2 hrs focused coding for 2 days → big results</li>
+            <li>Host projects on GitHub; enable GitHub Pages for frontend demos</li>
+            <li>Read docs: MDN Web Docs — JavaScript</li>
+            <li>Advanced: study frameworks (React/Vue/Svelte) after mastering JS fundamentals</li>
+          </ul>
+
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <a class="btn" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">MDN JavaScript</a>
+            <a class="btn ghost" href="https://github.com/DAWENS-BOY904" target="_blank">Push to GitHub</a>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- RIGHT: RESOURCES PANEL -->
+      <aside class="resources" aria-label="Resources">
+        <h4>Course resources</h4>
+
+        <div class="resource">
+          <div style="font-size:20px">📁</div>
+          <div><strong>Starter Code</strong><div class="small" style="color:var(--muted)">Folder: <code>code/javascript/</code></div></div>
+        </div>
+
+        <div class="resource">
+          <div style="font-size:20px">🧾</div>
+          <div><strong>Cheatsheets</strong><div class="small" style="color:var(--muted)">Quick JS cheat notes</div></div>
+        </div>
+
+        <div class="resource">
+          <div style="font-size:20px">💬</div>
+          <div><strong>Support</strong><div class="small" style="color:var(--muted)">Telegram: @minijesus_support</div></div>
+        </div>
+
+        <div style="margin-top:12px">
+          <h4>Progress Tips</h4>
+          <ol style="color:var(--muted);padding-left:18px">
+            <li>Code every example yourself</li>
+            <li>Build mini-projects and publish</li>
+            <li>Teach what you learned — explains concepts better</li>
+          </ol>
+        </div>
+
+      </aside>
+
+    </div> <!-- end layout -->
+
+    <footer>
+      <div style="max-width:var(--max);margin:0 auto;padding:18px 0;color:var(--muted)">© 2025 Dawens School • Export this module to GitHub: create <code>code/javascript/</code> with templates and README.</div>
+    </footer>
+
+  </div> <!-- wrap -->
+
+  <!-- ================== SCRIPTS: interactive features, quizzes, localStorage progress ================== -->
+  <script>
+  /* Utility helpers */
+  function $(sel, ctx=document) { return ctx.querySelector(sel); }
+  function $all(sel, ctx=document) { return Array.from(ctx.querySelectorAll(sel)); }
+
+  // Progress (localStorage)
+  const PROG_KEY = 'dawens_js_progress_v1';
+  function saveProgress(percent){
+    localStorage.setItem(PROG_KEY, JSON.stringify({percent, updated: Date.now()}));
+    renderProgress();
+  }
+  function getProgress(){
+    try {
+      return JSON.parse(localStorage.getItem(PROG_KEY)) || {percent: 0};
+    } catch(e){ return {percent: 0}; }
+  }
+  function renderProgress(){
+    const data = getProgress();
+    const p = Math.max(0, Math.min(100, data.percent || 0));
+    const el = document.getElementById('prog-fill');
+    if(el) el.style.width = p + '%';
+    const txt = document.getElementById('prog-percent');
+    if(txt) txt.textContent = p + '%';
+  }
+  renderProgress();
+
+  /* -------------------- QUIZ DATA -------------------- */
+  const QUIZZES = {
+    basic: {
+      title: 'Basic JavaScript Quiz (5 questions)',
+      questions: [
+        {q: "Which keyword declares a constant?", opts: ["let", "const", "var"], a: 1},
+        {q: "How to log to the console?", opts: ["print()", "console.log()", "echo()"], a: 1},
+        {q: "What is typeof null?", opts: ["null", "object", "undefined"], a: 1}, // trick
+        {q: "Which symbol used for template literals?", opts: ["\"", "`", "'"], a: 1},
+        {q: "Which method adds an item to the end of an array?", opts: ["push()", "pop()", "shift()"], a: 0}
+      ]
+    },
+
+    intermediate: {
+      title: 'Intermediate Quiz (5 questions)',
+      questions: [
+        {q: "What does 'async' do before a function?", opts: ["makes it synchronous", "allows await inside", "changes return type to number"], a: 1},
+        {q: "Which method clones an array shallowly?", opts: ["JSON.parse", "slice()", "deepClone()"], a: 1},
+        {q: "How to catch an error in async/await?", opts: ["try/catch", "then/catch", "both"], a: 2},
+        {q: "Which operator checks both value and type?", opts: ["==", "===", "="], a: 1},
+        {q: "Which function removes duplicates from array (ES6)?", opts: ["Array.unique()", "new Set()", "filter()"], a: 1}
+      ]
+    },
+
+    advanced: {
+      title: 'Advanced Patterns Quiz (5 questions)',
+      questions: [
+        {q: "What's a closure?", opts: ["Function + outer scope", "A browser storage", "A CSS property"], a: 0},
+        {q: "What does debounce prevent?", opts: ["Multiple rapid calls", "Slow loading", "Memory leak"], a: 0},
+        {q: "What is memoization used for?", opts: ["Caching results", "Networking", "Styling"], a: 0},
+        {q: "Service Worker runs in:", opts: ["Main UI thread", "Worker thread", "Server"], a: 1},
+        {q: "Promise.all rejects when:", opts: ["All resolve", "Any rejects", "Timeout"], a: 1}
+      ]
+    }
+  };
+
+  /* -------------------- QUIZ RENDER / LOGIC -------------------- */
+  function startQuiz(level){
+    const data = QUIZZES[level];
+    if(!data) return;
+    const area = document.getElementById('quiz-area');
+    area.innerHTML = ''; // reset
+    const wrap = document.createElement('div');
+    wrap.className = 'quiz-panel';
+    const title = document.createElement('h3');
+    title.textContent = data.title;
+    wrap.appendChild(title);
+
+    // create question list
+    const form = document.createElement('div');
+    form.id = 'quiz-form';
+    data.questions.forEach((item, idx) => {
+      const qwrap = document.createElement('div');
+      qwrap.style.marginTop = '12px';
+      const qh = document.createElement('div');
+      qh.style.fontWeight = '700';
+      qh.textContent = (idx+1)+'. '+item.q;
+      qwrap.appendChild(qh);
+
+      item.opts.forEach((opt, oi) => {
+        const op = document.createElement('div');
+        op.className = 'option';
+        op.dataset.q = idx;
+        op.dataset.opt = oi;
+        op.textContent = opt;
+        op.onclick = () => {
+          // mark selection
+          const siblings = Array.from(qwrap.querySelectorAll('.option'));
+          siblings.forEach(s => s.style.background = 'linear-gradient(180deg,#f6fbff,#eefcff)');
+          op.style.background = 'linear-gradient(90deg,#e8fff6,#dff9ff)';
+          op.dataset.selected = '1';
+          // store choice
+          selections[idx] = oi;
+        };
+        qwrap.appendChild(op);
+      });
+
+      form.appendChild(qwrap);
+    });
+
+    // controls
+    const ctrl = document.createElement('div');
+    ctrl.style.marginTop = '14px';
+    const submit = document.createElement('button');
+    submit.className = 'btn';
+    submit.textContent = 'Submit Quiz';
+    submit.onclick = () => submitQuiz(level);
+    ctrl.appendChild(submit);
+
+    const reset = document.createElement('button');
+    reset.className = 'btn ghost';
+    reset.style.marginLeft = '8px';
+    reset.textContent = 'Reset';
+    reset.onclick = () => { startQuiz(level); }
+    ctrl.appendChild(reset);
+
+    wrap.appendChild(form);
+    wrap.appendChild(ctrl);
+    area.appendChild(wrap);
+
+    // selections
+    selections = [];
+  }
+
+  function submitQuiz(level){
+    const data = QUIZZES[level];
+    if(!data) return;
+    let correct = 0;
+    const qcount = data.questions.length;
+    for(let i=0;i<qcount;i++){
+      const chosen = selections[i];
+      const q = data.questions[i];
+      if(chosen == q.a) correct++;
+    }
+    const percent = Math.round((correct / qcount) * 100);
+    // display result
+    const rarea = document.getElementById('quiz-result-area');
+    rarea.innerHTML = '';
+    const box = document.createElement('div');
+    box.className = 'quiz';
+    box.style.marginTop = '8px';
+    box.innerHTML = `<h3>Result: ${correct}/${qcount} (${percent}%)</h3><p class="muted">You scored ${percent}%. Saved to your progress.</p>`;
+    const inc = Math.min(100, getProgress().percent + Math.round(percent/6));
+    saveProgress(inc);
+    rarea.appendChild(box);
+
+    // show detailed feedback below
+    const detail = document.createElement('div');
+    detail.style.marginTop = '10px';
+    data.questions.forEach((q, idx) => {
+      const item = document.createElement('div');
+      item.style.padding = '8px';
+      item.style.borderTop = '1px solid rgba(0,0,0,0.03)';
+      const chosen = selections[idx];
+      const ok = (chosen == q.a);
+      item.innerHTML = `<strong>Q${idx+1}:</strong> ${q.q} <br/><em>Correct:</em> ${q.opts[q.a]} <br/><em>Your:</em> ${chosen == undefined ? '<span style="color:var(--muted)">No answer</span>' : q.opts[chosen]} <br/>`;
+      if(ok) item.style.background = 'linear-gradient(90deg, rgba(0,255,179,0.04), rgba(0,191,255,0.02))';
+      else item.style.opacity = '0.9';
+      detail.appendChild(item);
+    });
+    rarea.appendChild(detail);
+
+    // save score history
+    saveScore(level, percent);
+  }
+
+  /* score history in localStorage */
+  const SCORE_KEY = 'dawens_js_scores_v1';
+  function saveScore(level, percent){
+    const arr = JSON.parse(localStorage.getItem(SCORE_KEY) || '[]');
+    arr.push({level, percent, ts: Date.now()});
+    if(arr.length > 50) arr.splice(0, arr.length - 50);
+    localStorage.setItem(SCORE_KEY, JSON.stringify(arr));
+  }
+  function showScores(){
+    const arr = JSON.parse(localStorage.getItem(SCORE_KEY) || '[]');
+    const area = document.getElementById('quiz-area');
+    area.innerHTML = '';
+    const box = document.createElement('div');
+    box.className = 'card';
+    box.innerHTML = `<h3>Your Scores</h3><div class="muted" style="margin-top:6px">Recent quiz attempts</div>`;
+    const list = document.createElement('div');
+    list.style.marginTop = '10px';
+    if(arr.length === 0){ list.textContent = 'No quiz attempts recorded yet.' }
+    else {
+      arr.slice().reverse().forEach(s => {
+        const el = document.createElement('div');
+        const d = new Date(s.ts);
+        el.style.padding = '8px'; el.style.borderTop = '1px solid rgba(0,0,0,0.03)';
+        el.innerHTML = `<strong>${s.level}</strong> — ${s.percent}% <span class="muted" style="float:right">${d.toLocaleString()}</span>`;
+        list.appendChild(el);
+      });
+    }
+    box.appendChild(list);
+    area.appendChild(box);
+  }
+
+  // initialize selections
+  let selections = [];
+
+  // start with basic quiz placeholder
+  // startQuiz('basic'); // commented to not auto-open
+
+  /* -------------------- Interactive Examples: Live Code Runner -------------------- */
+  // Small client-side runner to execute code safely in an iframe sandbox
+  function createRunner(){
+    const runnerHtml = `
+      <!doctype html><html><head><meta charset="utf-8"></head><body>
+      <div id="out"></div>
+      <script>
+        window.addEventListener('message', (e) => {
+          const code = e.data;
+          try {
+            const result = eval(code);
+            parent.postMessage({type:'result', result: String(result)}, '*');
+          } catch(err){
+            parent.postMessage({type:'error', error: String(err)}, '*');
+          }
+        }, false);
+      <\/script></body></html>`;
+    const blob = new Blob([runnerHtml], {type: 'text/html'});
+    return URL.createObjectURL(blob);
+  }
+
+  // Example: small code runner integration for code blocks
+  function attachRunners(){
+    const codeBlocks = document.querySelectorAll('pre.code');
+    codeBlocks.forEach((pre, idx) => {
+      // attach a small run button for JS blocks with 'console' statements
+      const text = pre.textContent;
+      if(text.includes('console.log') || text.includes('fetch(') || text.includes('document') || text.includes('localStorage')){
+        const wrapper = document.createElement('div');
+        wrapper.style.marginTop = '8px';
+        const runBtn = document.createElement('button');
+        runBtn.className = 'btn';
+        runBtn.textContent = 'Run example';
+        const output = document.createElement('pre');
+        output.className = 'code';
+        output.style.whiteSpace = 'pre-wrap';
+        output.style.marginTop = '8px';
+        runBtn.onclick = () => {
+          output.textContent = 'Running...';
+          // create iframe
+          const iframe = document.createElement('iframe');
+          iframe.style.display = 'none';
+          iframe.sandbox = 'allow-scripts';
+          iframe.src = createRunner();
+          document.body.appendChild(iframe);
+          const timeout = setTimeout(()=> {
+            output.textContent = 'Execution timed out.';
+            document.body.removeChild(iframe);
+          }, 3000);
+          window.addEventListener('message', function handler(ev){
+            if(ev.data && ev.data.type){
+              clearTimeout(timeout);
+              if(ev.data.type === 'result'){
+                output.textContent = 'Result: ' + ev.data.result;
+              } else if(ev.data.type === 'error'){
+                output.textContent = 'Error: ' + ev.data.error;
+              }
+              window.removeEventListener('message', handler);
+              // cleanup iframe
+              try { document.body.removeChild(iframe); } catch(e){}
+            }
+          });
+          // send code to iframe
+          iframe.onload = () => {
+            iframe.contentWindow.postMessage(text, '*');
+          };
+        };
+        wrapper.appendChild(runBtn);
+        wrapper.appendChild(output);
+        pre.parentNode.insertBefore(wrapper, pre.nextSibling);
+      }
+    });
+  }
+  // run attach after DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    attachRunners();
+  });
+
+  /* -------------------- Small UI helpers: toggles for exercise previews -------------------- */
+  function toggleSample(id){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+  }
+
+  /* NOTE: More interactive components and expansions can be added - projects scaffolds, test harnesses etc. */
+
+  /* -------------------- Preseed: helpful snippets (many examples) -------------------- */
+
+  /* Utility: sleep */
+  function sleep(ms){ return new Promise(res => setTimeout(res, ms)); }
+
+  /* Example: fetch wrapper with retry */
+  async function fetchWithRetry(url, options={}, retries=2, backoff=300){
+    for(let i=0;i<=retries;i++){
+      try {
+        const res = await fetch(url, options);
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        return await res.json();
+      } catch(err){
+        if(i === retries) throw err;
+        await sleep(backoff * (i+1));
+      }
+    }
+  }
+
+  /* Example: simple router (client-side) — hash based */
+  (function initRouter(){
+    function renderHash(){
+      const id = location.hash ? location.hash.slice(1) : 'intro';
+      const target = document.getElementById(id);
+      if(target){
+        target.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    }
+    window.addEventListener('hashchange', renderHash);
+    // initial
+    setTimeout(renderHash, 150);
+  })();
+
+  /* --------------- End of script --------------- */
+  </script>
+
+</body>
+</html>

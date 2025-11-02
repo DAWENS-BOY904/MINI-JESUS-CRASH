@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dawens School - C++ Quiz</title>
+  <style>
+    body {
+      background-color: #050505;
+      color: #e0e0e0;
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(90deg, #00ff9d, #009dff);
+      color: #000;
+      text-align: center;
+      padding: 20px 0;
+      box-shadow: 0 0 20px #00ff9d88;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+      letter-spacing: 2px;
+    }
+
+    section {
+      max-width: 900px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    .question {
+      background: #0d0d0d;
+      border: 1px solid #00ffc833;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 0 15px #00ff9d22;
+    }
+
+    .question h3 {
+      color: #00ff9d;
+    }
+
+    label {
+      display: block;
+      margin: 8px 0;
+      cursor: pointer;
+    }
+
+    input[type="radio"] {
+      margin-right: 10px;
+    }
+
+    button {
+      background: linear-gradient(90deg, #00ff9d, #009dff);
+      border: none;
+      color: black;
+      font-weight: bold;
+      padding: 15px 30px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+      display: block;
+      margin: 40px auto;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #00cc7a, #0078ff);
+      transform: scale(1.05);
+    }
+
+    #result {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #00ffb0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      border-top: 2px solid #00ffc844;
+      margin-top: 50px;
+      font-size: 0.9em;
+    }
+
+    .correct { color: #00ff9d; }
+    .wrong { color: #ff4040; }
+  </style>
+</head>
+<body>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+  <header>
+    <h1>DAWENS QUIZ — C++ Master Test</h1>
+    <p>Answer the 30 questions below and see your score 🚀</p>
+  </header>
+
+  <section id="quiz-container"></section>
+
+  <button onclick="checkAnswers()">Submit Quiz</button>
+
+  <div id="result"></div>
+
+  <footer>
+    Made with ❤️ by DAWENS — The Sensei of Code © 2025
+  </footer>
+
+  <script>
+    const quizData = [
+      { q: "1️⃣ What is the correct way to start a C++ program?", a: ["start()", "#include <iostream>", "begin()", "main()"], correct: 1 },
+      { q: "2️⃣ Who developed C++?", a: ["Bjarne Stroustrup", "Dennis Ritchie", "James Gosling", "Linus Torvalds"], correct: 0 },
+      { q: "3️⃣ Which header file is used for input/output?", a: ["<input>", "<iostream>", "<stdio>", "<output>"], correct: 1 },
+      { q: "4️⃣ What is the syntax for printing text?", a: ["print()", "echo()", "cout <<", "say()"], correct: 2 },
+      { q: "5️⃣ What symbol ends a statement in C++?", a: [".", ",", ";", ":"], correct: 2 },
+      { q: "6️⃣ Which keyword declares a variable?", a: ["define", "set", "var", "int"], correct: 3 },
+      { q: "7️⃣ Which of these is NOT a C++ data type?", a: ["int", "char", "real", "float"], correct: 2 },
+      { q: "8️⃣ How do you insert comments in C++?", a: ["// comment", "# comment", "<!-- comment -->", "/* comment */"], correct: 0 },
+      { q: "9️⃣ Which loop is guaranteed to run at least once?", a: ["for", "while", "do-while", "if"], correct: 2 },
+      { q: "10️⃣ What is a function?", a: ["An object", "A reusable block of code", "A variable", "A comment"], correct: 1 },
+      { q: "11️⃣ Which keyword creates a class?", a: ["define", "class", "object", "struct"], correct: 1 },
+      { q: "12️⃣ What does ‘public:’ mean in a class?", a: ["Accessible only in same file", "Private access", "Global access", "Accessible by anyone"], correct: 3 },
+      { q: "13️⃣ What is inheritance?", a: ["Copying code", "Deriving one class from another", "Deleting class", "Hiding class"], correct: 1 },
+      { q: "14️⃣ What is polymorphism?", a: ["One function, many forms", "One class", "Multiple loops", "Multiple files"], correct: 0 },
+      { q: "15️⃣ Which operator is used to access members?", a: [".", "->", ":", "::"], correct: 0 },
+      { q: "16️⃣ What is an array?", a: ["A pointer", "A set of values with same type", "A loop", "A string"], correct: 1 },
+      { q: "17️⃣ Which keyword allocates memory dynamically?", a: ["alloc", "malloc", "new", "var"], correct: 2 },
+      { q: "18️⃣ What keyword frees memory?", a: ["delete", "remove", "free", "clear"], correct: 0 },
+      { q: "19️⃣ What does the ‘this’ pointer do?", a: ["Refers to current object", "Refers to parent", "Refers to null", "Refers to static"], correct: 0 },
+      { q: "20️⃣ What is encapsulation?", a: ["Binding data and functions together", "Hiding class", "Overloading functions", "Dynamic memory"], correct: 0 },
+      { q: "21️⃣ Which statement ends the program?", a: ["stop;", "end;", "return 0;", "exit();"], correct: 2 },
+      { q: "22️⃣ Which file extension is used for C++?", a: [".cp", ".cplus", ".cpp", ".cxxp"], correct: 2 },
+      { q: "23️⃣ What is constructor?", a: ["A function that initializes objects", "A destructor", "A variable", "A macro"], correct: 0 },
+      { q: "24️⃣ How to get user input?", a: ["cin >>", "input()", "scan()", "enter()"], correct: 0 },
+      { q: "25️⃣ What is ‘namespace std’?", a: ["A library", "A class", "A keyword", "Standard namespace"], correct: 3 },
+      { q: "26️⃣ What is the purpose of return 0?", a: ["Stops the program", "Returns success", "Restart program", "Deletes main"], correct: 1 },
+      { q: "27️⃣ Which keyword is used to create constants?", a: ["final", "constant", "define", "const"], correct: 3 },
+      { q: "28️⃣ What is a pointer?", a: ["Variable that stores memory address", "Array", "Loop", "Comment"], correct: 0 },
+      { q: "29️⃣ How do you declare a pointer?", a: ["int* ptr;", "int ptr*;", "pointer int;", "int ptr();"], correct: 0 },
+      { q: "30️⃣ What symbol is used to access value from a pointer?", a: ["&", "*", "->", "%"], correct: 1 }
+    ];
+
+    const container = document.getElementById("quiz-container");
+
+    quizData.forEach((item, i) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      div.innerHTML = `
+        <h3>${item.q}</h3>
+        ${item.a
+          .map(
+            (opt, index) => `
+          <label><input type="radio" name="q${i}" value="${index}"> ${opt}</label>
+        `
+          )
+          .join("")}
+      `;
+      container.appendChild(div);
+    });
+
+    function checkAnswers() {
+      let score = 0;
+      quizData.forEach((item, i) => {
+        const answer = document.querySelector(`input[name="q${i}"]:checked`);
+        if (answer && parseInt(answer.value) === item.correct) {
+          score++;
+        }
+      });
+
+      const percent = Math.round((score / quizData.length) * 100);
+      const result = document.getElementById("result");
+
+      let message = "";
+      if (percent === 100) message = "🌟 Perfect! You're a true C++ Master!";
+      else if (percent >= 80) message = "🔥 Great job, Dawens Student!";
+      else if (percent >= 50) message = "⚡ Keep learning and practice!";
+      else message = "📚 Try again! You can improve.";
+
+      result.innerHTML = `Your Score: ${score}/${quizData.length} (${percent}%)<br><br>${message}`;
+    }
+  </script>
+</body>
+</html>

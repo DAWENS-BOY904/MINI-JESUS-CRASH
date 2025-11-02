@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dawens School — Learn to Code</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== ROOT / THEME ===== */
+    :root{
+      --bg-1: #030514;
+      --bg-2: #081026;
+      --panel: rgba(255,255,255,0.03);
+      --glass: rgba(255,255,255,0.04);
+      --neon-a: #00eaff;
+      --neon-b: #00ffa8;
+      --muted: #b9c3cf;
+      --accent: #00d1ff;
+      --success: #2dd4bf;
+      --danger: #ff6b6b;
+      --max-width: 1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background: linear-gradient(180deg,var(--bg-1),#000);
+      color:#eef2f7;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    /* ===== LAYOUT ===== */
+    .container{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:24px;
+    }
+
+    header.site-header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.35));
+      border-bottom:1px solid rgba(255,255,255,0.02);
+    }
+    .site-header .container{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      padding:16px 24px;
+    }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .brand .title{
+      font-weight:700;
+      font-size:20px;
+      color:var(--neon-b);
+      letter-spacing:0.6px;
+      text-shadow: 0 0 12px rgba(0,212,255,0.09);
+    }
+    .brand .sub{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    nav.top-nav{
+      margin-left:auto;
+      display:flex;
+      gap:12px;
+    }
+    nav.top-nav a{
+      color:var(--muted);
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:10px;
+      font-weight:600;
+      transition: all .15s ease;
+    }
+    nav.top-nav a.active{
+      background: linear-gradient(90deg,var(--neon-b),var(--neon-a));
+      color:#001018;
+      box-shadow: 0 10px 30px rgba(0,209,255,0.08);
+    }
+    nav.top-nav a:hover{ transform:translateY(-2px) }
+
+    main.layout{
+      display:grid;
+      grid-template-columns: 290px 1fr 360px;
+      gap:20px;
+      align-items:start;
+      padding:28px 24px;
+      max-width:var(--max-width);
+      margin: 0 auto;
+    }
+
+    /* ===== SIDEBAR ===== */
+    aside.sidebar{
+      position:sticky;
+      top:82px;
+      align-self:start;
+      height:calc(100vh - 120px);
+      overflow:auto;
+      padding:18px;
+      border-radius:14px;
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    }
+    .sidebar h4{
+      margin:0 0 12px 0;
+      color:var(--neon-a);
+      font-size:0.95rem;
+    }
+    .course-list{ display:flex; flex-direction:column; gap:6px }
+    .course-list a{
+      display:block;
+      color:var(--muted);
+      text-decoration:none;
+      padding:10px;
+      border-radius:9px;
+      transition:all .12s ease;
+      font-weight:600;
+    }
+    .course-list a:hover{ background: rgba(0,255,179,0.03); color:#fff }
+    .course-list a .tag{ font-size:12px; color:var(--neon-b); margin-left:8px }
+
+    /* progress box */
+    .progress-box{
+      margin-top:16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .progress-box small{ color:var(--muted) }
+    .progress-bar{
+      width:100%;
+      height:10px;
+      background:rgba(255,255,255,0.03);
+      border-radius:10px;
+      margin-top:8px;
+      overflow:hidden;
+    }
+    .progress-bar > i{
+      display:block;
+      height:100%;
+      width:32%;
+      background: linear-gradient(90deg,var(--neon-b),var(--neon-a));
+      border-radius:10px;
+    }
+
+    /* ===== CONTENT ===== */
+    section.content{
+      padding:18px;
+      border-radius:14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      min-height:60vh;
+    }
+
+    .hero-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .hero-title h1{
+      margin:0;
+      color:var(--neon-b);
+      font-size:1.8rem;
+    }
+    .hero-meta{ color:var(--muted); font-size:14px }
+
+    /* course cards list */
+    .courses-grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:12px;
+    }
+    .course-card{
+      background: rgba(255,255,255,0.03);
+      padding:14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.02);
+      transition:transform .14s ease, box-shadow .14s ease;
+    }
+    .course-card:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.6) }
+    .course-card h3{ margin:0; color:var(--neon-a); font-size:1.05rem }
+    .course-card p{ margin:8px 0 12px; color:var(--muted); font-size:0.95rem }
+    .course-meta{ display:flex; gap:10px; align-items:center; color:var(--muted); font-size:13px }
+
+    .course-actions{ margin-top:10px; display:flex; gap:8px; align-items:center }
+    .btn{
+      display:inline-block;
+      background: linear-gradient(90deg,var(--neon-b),var(--neon-a));
+      color:#001018;
+      padding:8px 12px;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:700;
+      box-shadow:0 8px 30px rgba(0,209,255,0.08);
+      transition:transform .12s ease;
+    }
+    .btn.ghost{
+      background:transparent;
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,0.03);
+      font-weight:600;
+    }
+    .btn:hover{ transform:translateY(-3px) }
+
+    /* code preview */
+    .code-block{
+      margin-top:16px;
+      background:#0b1220;
+      border-radius:10px;
+      padding:12px;
+      color:#cfeff3;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+      font-size:13px;
+      line-height:1.5;
+      border:1px solid rgba(255,255,255,0.03);
+      overflow:auto;
+      max-height:360px;
+    }
+
+    pre{ margin:0; white-space:pre; }
+
+    /* right column / resources */
+    aside.resources{
+      position:sticky;
+      top:82px;
+      padding:18px;
+      border-radius:14px;
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,0.03);
+      height:calc(100vh - 120px);
+      overflow:auto;
+    }
+    .resources h4{ margin:0 0 12px; color:var(--neon-a) }
+    .resource-list{ display:flex; flex-direction:column; gap:10px; margin-top:12px }
+    .resource{
+      background: rgba(0,0,0,0.25);
+      padding:10px;
+      border-radius:10px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .resource strong{ color:var(--neon-b) }
+    .small{ font-size:13px; color:var(--muted) }
+
+    /* footer area (inside content) */
+    .school-footer{
+      margin-top:24px;
+      border-top:1px dashed rgba(255,255,255,0.02);
+      padding-top:18px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      color:var(--muted);
+    }
+
+    /* FAQ/Accordion */
+    .accordion{ margin-top:18px }
+    .acc-item{ background: rgba(255,255,255,0.02); margin-bottom:8px; border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.02) }
+    .acc-head{ padding:12px; cursor:pointer; display:flex; justify-content:space-between; align-items:center }
+    .acc-body{ padding:12px; display:none; color:var(--muted); border-top:1px solid rgba(255,255,255,0.01) }
+
+    /* responsive */
+    @media (max-width:1100px){
+      main.layout{ grid-template-columns: 1fr; padding:20px; }
+      aside.sidebar, aside.resources{ position:relative; height:auto; top:auto; }
+      .courses-grid{ grid-template-columns: 1fr; }
+    }
+
+    /* small helpers */
+    .muted{ color:var(--muted) }
+    .pill{ padding:6px 8px; border-radius:999px; background:rgba(255,255,255,0.02); font-weight:700; font-size:12px; color:var(--neon-b) }
+
+  </style>
+</head>
+<body>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+
+  <!-- HEADER -->
+  <header class="site-header" role="banner">
+    <div class="container">
+      <div class="brand">
+        <div class="title">Dawens School</div>
+        <div class="sub">Learn to code — Java • Python • C++ • JavaScript • CSS</div>
+      </div>
+
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="dawens.html" class="active">School</a>
+        <a href="script.html">Tools</a>
+        <a href="api.html">API</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <main class="layout" role="main">
+
+    <!-- LEFT: SIDEBAR -->
+    <aside class="sidebar" aria-label="Courses sidebar">
+      <h4>Courses</h4>
+      <nav class="course-list" aria-label="Course list">
+        <a href="#java">Java <span class="tag">OOP, Android</span></a>
+        <a href="#python">Python <span class="tag">AI, Automation</span></a>
+        <a href="#javascript">JavaScript <span class="tag">Web, Node</span></a>
+        <a href="#css">CSS & Design <span class="tag">UI/UX</span></a>
+        <a href="#cpp">C++ <span class="tag">Systems</span></a>
+        <a href="#sql">SQL & Databases <span class="tag">Storage</span></a>
+        <a href="#devops">DevOps <span class="tag">CI/CD</span></a>
+        <a href="#security">Security <span class="tag">Best practices</span></a>
+        <a href="#projects">Capstone Projects <span class="tag">Portfolio</span></a>
+      </nav>
+
+      <div class="progress-box" aria-hidden="false">
+        <small>Your learning progress</small>
+        <div class="progress-bar"><i></i></div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:13px;color:var(--muted)">
+          <span>Beginner → Intermediate</span>
+          <span>32%</span>
+        </div>
+      </div>
+
+      <div style="margin-top:16px">
+        <small class="muted">Quick links</small>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+          <a class="pill" href="java.html">Open Java Module</a>
+          <a class="pill" href="python.html">Open Python Module</a>
+          <a class="pill" href="ai.html">Open Ai page</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER: CONTENT -->
+    <section class="content" aria-label="School content">
+      <div class="hero-title">
+        <div>
+          <h1>Dawens — Code School Index</h1>
+          <div class="hero-meta">This page is your hub. Click any course to open the course page (example: <code>code/java.html</code>).</div>
+        </div>
+        <div style="text-align:right">
+          <div class="small muted">Role: Instructor</div>
+          <div style="font-weight:700;color:var(--neon-b)">DAWENS — Head Instructor</div>
+        </div>
+      </div>
+
+      <!-- Overview -->
+      <div style="margin-top:18px;color:var(--muted)">
+        <strong>About the school:</strong>
+        Dawens School covers practical, production-ready coding patterns. Each course includes lessons, examples, exercises, a mini-project, and downloadable starter code in <code>code/</code> folder. The Dawens page acts as the central index (like index.js) that points to course modules.
+      </div>
+
+      <!-- Courses grid -->
+      <div class="courses-grid" role="list">
+
+        <!-- JAVA -->
+        <article id="java" class="course-card" role="article" aria-labelledby="java-title">
+          <h3 id="java-title">Java — Object Oriented & Backend</h3>
+          <p>From Java basics to advanced OOP, concurrency, and building backend services with Spring Boot. Includes android basics and common tools.</p>
+          <div class="course-meta">
+            <span class="small">Duration: 12 weeks</span>
+            <span class="small">Level: Beginner → Advanced</span>
+          </div>
+          <div class="course-actions">
+            <a class="btn" href="java.html">Open Java Module</a>
+            <a class="btn ghost" href="#" onclick="openSample('java')">Preview</a>
+          </div>
+
+          <div class="code-block" id="sample-java" style="display:none">
+<pre>
+// Java: HelloWorld example
+public class HelloWorld {
+  public static void main(String[] args) {
+    System.out.println("Hello, Dawens School!");
+  }
+}
+</pre>
+          </div>
+
+        </article>
+
+        <!-- PYTHON -->
+        <article id="python" class="course-card">
+          <h3>Python — Data, AI & Automation</h3>
+          <p>Learn Python for scripting, automation, web scraping, data analysis (pandas), and basic machine learning workflows.</p>
+          <div class="course-meta">
+            <span class="small">Duration: 10 weeks</span>
+            <span class="small">Level: Beginner → Intermediate</span>
+          </div>
+          <div class="course-actions">
+            <a class="btn" href="python.html">Open Python Module</a>
+            <a class="btn ghost" href="#" onclick="openSample('python')">Preview</a>
+          </div>
+
+          <div class="code-block" id="sample-python" style="display:none">
+<pre>
+# Python: Hello world
+def greet(name="Dawens"):
+    print(f"Hello, {name}!")
+
+if __name__ == "__main__":
+    greet()
+</pre>
+          </div>
+        </article>
+
+        <!-- JAVASCRIPT -->
+        <article id="javascript" class="course-card">
+          <h3>JavaScript — Frontend & Node.js</h3>
+          <p>Modern JavaScript, DOM, ES6+, frameworks, and Node.js backend patterns. Build interactive UIs and APIs.</p>
+          <div class="course-meta">
+            <span class="small">Duration: 8 weeks</span>
+            <span class="small">Level: Beginner → Intermediate</span>
+          </div>
+          <div class="course-actions">
+            <a class="btn" href="JavaScript.html">Open JS Module</a>
+            <a class="btn ghost" href="#" onclick="openSample('JavaScript')">Preview</a>
+          </div>
+
+          <div class="code-block" id="sample-JavaScript" style="display:none">
+<pre>
+// JavaScript: Hello
+console.log("Hello from Dawens School!");
+</pre>
+          </div>
+        </article>
+
+        <!-- CSS -->
+        <article id="css" class="course-card">
+          <h3>CSS & Design — Styling & UX</h3>
+          <p>Responsive layouts, modern CSS (grid, flex), animations, and design systems for beautiful UIs.</p>
+          <div class="course-meta">
+            <span class="small">Duration: 4 weeks</span>
+            <span class="small">Level: Beginner → Advanced</span>
+          </div>
+          <div class="course-actions">
+            <a class="btn" href="css.html">Open CSS Module</a>
+            <a class="btn ghost" href="#" onclick="openSample('css')">Preview</a>
+          </div>
+
+          <div class="code-block" id="sample-css" style="display:none">
+<pre>
+/* CSS example: centered button */
+.btn {
+  display:inline-block;
+  padding:8px 14px;
+  border-radius:8px;
+  background:linear-gradient(90deg,#00eaff,#00ffa8);
+  color:#001018;
+}
+</pre>
+          </div>
+        </article>
+
+        <!-- C++ -->
+        <article id="cpp" class="course-card">
+          <h3>C++ — Systems & Performance</h3>
+          <p>Memory management, STL, algorithms, and performance tuning. Great for systems programming and competitive tasks.</p>
+          <div class="course-meta">
+            <span class="small">Duration: 10 weeks</span>
+            <span class="small">Level: Intermediate → Advanced</span>
+          </div>
+          <div class="course-actions">
+            <a class="btn" href="cpp.html">Open C++ Module</a>
+            <a class="btn ghost" href="#" onclick="openSample('cpp')">Preview</a>
+          </div>
+
+          <div class="code-block" id="sample-cpp" style="display:none">
+<pre>
+#include <iostream>
+int main() {
+  std::cout << "Hello Dawens C++!" << std::endl;
+  return 0;
+}
+</pre>
+          </div>
+        </article>
+
+        <!-- SQL -->
+        <article id="sql" class="course-card">
+          <h3>SQL & Databases</h3>
+          <p>Learn relational databases, schema design, indexing, joins, and basic performance tuning.</p>
+          <div class="course-meta">
+            <span class="small">Duration: 3 weeks</span>
+            <span class="small">Level: Beginner → Intermediate</span>
+          </div>
+          <div class="course-actions">
+            <a class="btn" href="sql.html">Open SQL Module</a>
+            <a class="btn ghost" href="#" onclick="openSample('sql')">Preview</a>
+          </div>
+
+          <div class="code-block" id="sample-sql" style="display:none">
+<pre>
+-- SQL: basic select
+SELECT id, username, created_at
+FROM users
+WHERE active = 1
+ORDER BY created_at DESC;
+</pre>
+          </div>
+        </article>
+
+        <!-- DevOps -->
+        <article id="devops" class="course-card">
+          <h3>DevOps — CI/CD & Infra</h3>
+          <p>Learn Docker, GitHub Actions, deployment patterns, infra-as-code basics, and monitoring tips.</p>
+          <div class="course-meta">
+            <span class="small">Duration: 4 weeks</span>
+            <span class="small">Level: Intermediate</span>
+          </div>
+          <div class="course-actions">
+            <a class="btn" href="devops.html">Open DevOps Module</a>
+            <a class="btn ghost" href="#" onclick="openSample('devops')">Preview</a>
+          </div>
+
+          <div class="code-block" id="sample-devops" style="display:none">
+<pre>
+# Dockerfile: simple node app
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+COPY . .
+CMD ["node", "index.js"]
+</pre>
+          </div>
+        </article>
+
+        <!-- Security -->
+        <article id="security" class="course-card">
+          <h3>Security — Best Practices</h3>
+          <p>Secure coding patterns, input validation, auth flows, secrets management, and responsible disclosure.</p>
+          <div class="course-meta">
+            <span class="small">Duration: 3 weeks</span>
+            <span class="small">Level: All levels</span>
+          </div>
+          <div class="course-actions">
+            <a class="btn" href="security.html">Open Security Module</a>
+            <a class="btn ghost" href="#" onclick="openSample('security')">Preview</a>
+          </div>
+
+          <div class="code-block" id="sample-security" style="display:none">
+<pre>
+// Security note: never embed secrets in repo.
+// Use environment variables or a secrets manager.
+</pre>
+          </div>
+        </article>
+
+      </div> <!-- end courses-grid -->
+
+      <!-- Projects / Capstone -->
+      <div style="margin-top:18px">
+        <h3 style="color:var(--neon-a)">Capstone Projects</h3>
+        <p class="muted">Projects you can build to showcase your skills: Chatbot, To-do app with backend, RESTful API, Data pipeline, Deployment pipeline.</p>
+
+        <div class="course-actions" style="margin-top:12px">
+          <a class="btn" href="code/projects.html">View Project Templates</a>
+          <a class="btn ghost" href="#">Request Mentor Review</a>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="accordion" id="faq">
+        <h3 style="margin-top:18px;color:var(--neon-b)">FAQ</h3>
+
+        <div class="acc-item">
+          <div class="acc-head" onclick="toggleAcc(this)">
+            <div>How do I access the course files?</div>
+            <div class="muted">+</div>
+          </div>
+          <div class="acc-body">
+            Each course has a folder inside <code>/code/</code>. Example: <code>java.html</code>, <code>python.html</code>. Click "Open Module" to open the course page or download starter code from the module page.
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <div class="acc-head" onclick="toggleAcc(this)">
+            <div>Is there a certificate?</div>
+            <div class="muted">+</div>
+          </div>
+          <div class="acc-body">
+            Yes — upon completing the capstone project and final assessment, you receive a downloadable certificate (PDF) which you can add to your portfolio.
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <div class="acc-head" onclick="toggleAcc(this)">
+            <div>Can I get mentorship?</div>
+            <div class="muted">+</div>
+          </div>
+          <div class="acc-body">
+            Mentor reviews are available by request (paid feature). For quick help, use the Support Channel (Telegram/WhatsApp) listed in the contact page.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="school-footer">
+        <div>
+          <div style="font-weight:700">Ready to learn?</div>
+          <div class="muted">Start at any course and progress at your pace.</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <a class="btn" href="syllabus.pdf" download>Download Syllabus</a>
+         <a class="btn ghost" href="contact.html">Contact Support</a>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT: RESOURCES -->
+    <aside class="resources" aria-label="Resources & links">
+      <h4>Resources</h4>
+
+      <div class="resource-list">
+        <div class="resource">
+          <div style="font-size:20px">📁</div>
+          <div>
+            <div><strong>Starter Codes</strong></div>
+            <div class="small">All course starter code in <code>/code/</code></div>
+          </div>
+        </div>
+
+        <div class="resource">
+          <div style="font-size:20px">🧾</div>
+          <div>
+            <div><strong>Documentation</strong></div>
+            <div class="small">Guides, API docs and examples</div>
+          </div>
+        </div>
+
+        <div class="resource">
+          <div style="font-size:20px">🔗</div>
+          <div>
+            <div><strong>Support Channel</strong></div>
+            <div class="small">berryxoe@gmail.com</div>
+          </div>
+        </div>
+
+        <div class="resource">
+          <div style="font-size:20px">💾</div>
+          <div>
+            <div><strong>Git Repo</strong></div>
+            <div class="small">Host your course code on your repo & link here</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:18px">
+        <h4>Quick start</h4>
+        <ol style="color:var(--muted);font-size:14px;padding-left:18px">
+          <li>Open a Course (eg. Java)</li>
+          <li>Read the lessons & run sample code</li>
+          <li>Complete exercises & submit capstone</li>
+        </ol>
+      </div>
+
+      <div style="margin-top:18px">
+        <h4>Contact</h4>
+        <div class="small muted">For urgent help:</div>
+        <div style="margin-top:8px">
+          <a class="btn" href="https://t.me/Mr_Da5">Telegram</a>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Toggle sample previews
+    function openSample(id){
+      const mapping = {
+        java: 'sample-java',
+        python: 'sample-python',
+        JavaScript: 'sample-JavaScript',
+        css: 'sample-css',
+        cpp: 'sample-cpp',
+        sql: 'sample-sql',
+        devops: 'sample-devops',
+        security: 'sample-security'
+      };
+      const elId = mapping[id];
+      if(!elId) return;
+      const el = document.getElementById(elId);
+      if(!el) return;
+      el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+      // scroll into view smoothly
+      el.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+
+    // Accordion toggle
+    function toggleAcc(head){
+      const body = head.nextElementSibling;
+      if(!body) return;
+      const isOpen = body.style.display === 'block';
+      // close others
+      document.querySelectorAll('.acc-body').forEach(b => b.style.display = 'none');
+      if(!isOpen) body.style.display = 'block';
+      // update symbols
+      document.querySelectorAll('.acc-head').forEach(h => {
+        const symbol = h.querySelector('.muted') || h.lastElementChild;
+        if(h.nextElementSibling.style.display === 'block'){
+          (symbol).textContent = '−';
+        } else {
+          (symbol).textContent = '+';
+        }
+      });
+    }
+
+    // Small helper to attach click listeners for expanders on load
+    document.addEventListener('DOMContentLoaded', function(){
+      document.querySelectorAll('.acc-head').forEach(h => {
+        // ensure symbol present
+        if(!h.querySelector('.muted')){
+          const s = document.createElement('div');
+          s.className = 'muted';
+          s.textContent = '+';
+          h.appendChild(s);
+        }
+      });
+    });
+
+    // Optional: deep link handling for anchors (e.g. dawens.html#java)
+    (function checkHash(){
+      if(location.hash){
+        const id = location.hash.slice(1);
+        const target = document.getElementById(id);
+        if(target){
+          target.scrollIntoView({behavior:'smooth', block:'start'});
+          // open sample if exists
+          const map = ['java','python','JavaScript','css','cpp','sql','devops','security'];
+          if(map.includes(id)){
+            setTimeout(()=>openSample(id),400);
+          }
+        }
+      }
+    })();
+
+  </script>
+
+  <!-- FOOTER -->
+  <footer style="padding:26px 24px;background:transparent;border-top:1px solid rgba(255,255,255,0.02);color:var(--muted)">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div>© 2025 Dawens School — Built by DAWENS</div>
+      <div class="muted">Tip: create the <code>code/</code> folder and add <code>java.html</code>, <code>python.html</code>, etc. to link modules.</div>
+    </div>
+  </footer>
+
+</body>
+</html>

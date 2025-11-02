@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAWENS SCHOOL — Learn CSS Fast</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+  <style>
+    /* =============================
+       🌙 GLOBAL THEME SETTINGS
+    ============================== */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #000 0%, #0f2027 100%);
+      color: #e0f2f1;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+    header h1 {
+      font-size: 2.4rem;
+      letter-spacing: 2px;
+    }
+    header p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      background: #111;
+      padding: 1rem 0;
+    }
+    nav a {
+      color: #00e5ff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      color: #fff;
+      text-shadow: 0 0 8px #00e5ff;
+    }
+
+    /* =============================
+       🧠 LEARNING SECTIONS
+    ============================== */
+    section {
+      max-width: 950px;
+      margin: 3rem auto;
+      background: rgba(255,255,255,0.05);
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(0,255,255,0.15);
+    }
+    section h2 {
+      text-align: center;
+      color: #00e5ff;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 10px #00e5ff;
+    }
+    section pre {
+      background: rgba(0,0,0,0.4);
+      border-left: 4px solid #00e5ff;
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: 6px;
+    }
+    section code {
+      color: #b3e5fc;
+    }
+
+    /* =============================
+       🌈 QUIZ SECTION
+    ============================== */
+    .quiz {
+      background: rgba(255,255,255,0.08);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+    .quiz h3 {
+      color: #00e676;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .question {
+      margin-bottom: 2rem;
+    }
+    .question p {
+      font-weight: 600;
+    }
+    .answers label {
+      display: block;
+      background: rgba(255,255,255,0.05);
+      padding: 0.8rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin: 0.3rem 0;
+    }
+    .answers label:hover {
+      background: rgba(0,230,118,0.2);
+    }
+    button {
+      display: block;
+      margin: 1.5rem auto;
+      padding: 1rem 2rem;
+      background: linear-gradient(90deg, #00e676, #00bfa5);
+      border: none;
+      color: white;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #00e676;
+    }
+    #result {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      color: #fff;
+    }
+
+    /* =============================
+       📱 RESPONSIVE
+    ============================== */
+    @media (max-width: 768px) {
+      nav {
+        flex-wrap: wrap;
+      }
+      section {
+        margin: 1rem;
+        padding: 1rem;
+      }
+    }
+
+    /* ANIMATION */
+    @keyframes glow {
+      0% { box-shadow: 0 0 10px #00e5ff; }
+      50% { box-shadow: 0 0 20px #00e5ff; }
+      100% { box-shadow: 0 0 10px #00e5ff; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+
+  <header>
+    <h1>🎓 DAWENS CSS SCHOOL</h1>
+    <p>Aprann CSS pwofesyonèlman nan 2 jou — avèk pratik, quiz, ak modèl kòd!</p>
+  </header>
+
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="dawens.html">School</a>
+    <a href="css.html">CSS</a>
+    <a href="java.html">Java</a>
+    <a href="python.html">Python</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <!-- INTRO SECTION -->
+  <section>
+    <h2>1. Introduction to CSS</h2>
+    <p>CSS (Cascading Style Sheets) sèvi pou fè paj entènèt ou yo pi bèl ak pi pwòp. Li kontwole koulè, espas, pozisyon, ak animasyon eleman yo.</p>
+    <pre><code>body {
+  background-color: #000;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}</code></pre>
+  </section>
+
+  <!-- COLORS & TEXT -->
+  <section>
+    <h2>2. Colors & Text</h2>
+    <p>W ka itilize koulè an RGB, HEX, oswa non koulè. Egzanp:</p>
+    <pre><code>h1 {
+  color: #00e5ff;
+  text-align: center;
+}</code></pre>
+  </section>
+
+  <!-- BOX MODEL -->
+  <section>
+    <h2>3. Box Model</h2>
+    <p>Tout eleman HTML gen yon "box" (margin, border, padding, content).</p>
+    <pre><code>div {
+  margin: 10px;
+  padding: 15px;
+  border: 2px solid cyan;
+}</code></pre>
+  </section>
+
+  <!-- FLEXBOX -->
+  <section>
+    <h2>4. Flexbox Layout</h2>
+    <p>Flexbox pèmèt ou fasilman plase eleman yo sou liy oswa kolòn.</p>
+    <pre><code>.container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}</code></pre>
+  </section>
+
+  <!-- GRID -->
+  <section>
+    <h2>5. CSS Grid</h2>
+    <p>CSS Grid itilize ranje ak kolòn pou kreye layout pwofesyonèl.</p>
+    <pre><code>.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}</code></pre>
+  </section>
+
+  <!-- ANIMATION -->
+  <section>
+    <h2>6. Animations</h2>
+    <pre><code>@keyframes glow {
+  0% { color: cyan; }
+  50% { color: white; }
+  100% { color: cyan; }
+}</code></pre>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="quiz">
+    <h3>🧠 CSS QUIZ - Test Your Skills</h3>
+
+    <div class="question">
+      <p>1. Kisa CSS vle di?</p>
+      <div class="answers">
+        <label><input type="radio" name="q1" value="0"> Creative Style System</label>
+        <label><input type="radio" name="q1" value="1"> Cascading Style Sheets</label>
+        <label><input type="radio" name="q1" value="0"> Color Sheet Styles</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>2. Ki pwopriyete ki chanje koulè tèks?</p>
+      <div class="answers">
+        <label><input type="radio" name="q2" value="1"> color</label>
+        <label><input type="radio" name="q2" value="0"> font-style</label>
+        <label><input type="radio" name="q2" value="0"> background</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>3. Kijan pou ou fè tèks ou a an fonse?</p>
+      <div class="answers">
+        <label><input type="radio" name="q3" value="0"> font-italic</label>
+        <label><input type="radio" name="q3" value="1"> font-weight: bold;</label>
+        <label><input type="radio" name="q3" value="0"> text-bold</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>4. Ki pwopriyete ki sèvi pou mete espas anndan yon eleman?</p>
+      <div class="answers">
+        <label><input type="radio" name="q4" value="1"> padding</label>
+        <label><input type="radio" name="q4" value="0"> margin</label>
+        <label><input type="radio" name="q4" value="0"> border</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>5. Ki pwopriyete pou chanje koulè background lan?</p>
+      <div class="answers">
+        <label><input type="radio" name="q5" value="1"> background-color</label>
+        <label><input type="radio" name="q5" value="0"> color</label>
+        <label><input type="radio" name="q5" value="0"> bgcolor</label>
+      </div>
+    </div>
+
+    <button onclick="checkQuiz()">Soumèt Repons</button>
+    <div id="result"></div>
+  </section>
+
+  <footer style="text-align:center;padding:2rem;background:#000;color:#888;margin-top:3rem;">
+    <p>© 2025 Dawens Coding School. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    function checkQuiz() {
+      const total = 5;
+      let score = 0;
+      for (let i=1; i<=total; i++) {
+        const ans = document.querySelector('input[name="q'+i+'"]:checked');
+        if (ans && ans.value == "1") score++;
+      }
+      document.getElementById('result').innerHTML = 
+        "🎉 Ou jwenn <b>" + score + "/" + total + "</b> — " + 
+        (score >= 4 ? "Ekselan!" : "Kontinye pratike 👨‍💻");
+    }
+  </script>
+</body>
+</html>

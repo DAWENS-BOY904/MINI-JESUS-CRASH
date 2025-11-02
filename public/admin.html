@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Panel</title>
+<style>
+  body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #0a0a0f, #151530, #2a2a70);
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #login, #panel {
+    background: rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,255,255,0.4);
+    width: 400px;
+  }
+  input, button {
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+  }
+  input {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+  }
+  button {
+    background: linear-gradient(90deg, #00f7ff, #0066ff);
+    color: #fff;
+    cursor: pointer;
+  }
+  button:hover {
+    box-shadow: 0 0 15px #00f7ff;
+  }
+  #threads div {
+    background: rgba(255,255,255,0.15);
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  #messages {
+    margin-top: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .msg {
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 8px;
+  }
+  .user {background: rgba(0,255,255,0.2);}
+  .admin {background: rgba(255,0,255,0.2);}
+</style>
+</head>
+<body>
+  <div id="login">
+    <h2>Admin Login</h2>
+    <input id="email" placeholder="Email" type="email">
+    <input id="password" placeholder="Password" type="password">
+    <button id="loginBtn">Login</button>
+  </div>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/sk27we.mp4" autoplay loop></audio>
+
+
+  <div id="panel" style="display:none;">
+    <h2>Messages</h2>
+    <div id="threads"></div>
+    <div id="messages"></div>
+    <textarea id="replyBox" placeholder="Reply to user..."></textarea>
+    <button id="sendReply">Send Reply</button>
+  </div>
+
+  <script>
+    const loginBox=document.getElementById('login');
+    const panel=document.getElementById('panel');
+    const threadsDiv=document.getElementById('threads');
+    const messagesDiv=document.getElementById('messages');
+    let currentThread=null;
+    document.getElementById('loginBtn').onclick=async()=>{
+      const email=document.getElementById('email').value;
+      const password=document.getElementById('password').value;
+      const res=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+      const data=await res.json();
+      if(!data.success) return alert('Invalid credentials');
+      loginBox.style.display='none';
+      panel.style.display='block';
+      loadThreads();
+    };
+    async function loadThreads(){
+      const res=await fetch('/api/admin/threads');
+      const threads=await res.json();
+      threadsDiv.innerHTML='';
+      threads.forEach(t=>{
+        const div=document.createElement('div');
+        div.textContent=`${t.name} (${t.number}) [Code:${t.code}]`;
+        div.onclick=()=>loadMessages(t.id);
+        threadsDiv.appendChild(div);
+      });
+    }
+    async function loadMessages(id){
+      currentThread=id;
+      const res=await fetch(`/api/admin/thread/${id}`);
+      const msgs=await res.json();
+      messagesDiv.innerHTML='';
+      msgs.forEach(m=>{
+        const div=document.createElement('div');
+        div.className='msg '+m.sender;
+        div.textContent=`${m.sender.toUpperCase()}: ${m.text}`;
+        messagesDiv.appendChild(div);
+      });
+    }
+    document.getElementById('sendReply').onclick=async()=>{
+      if(!currentThread) return alert('Select a thread');
+      const text=document.getElementById('replyBox').value.trim();
+      if(!text) return;
+      await fetch(`/api/admin/thread/${currentThread}/reply`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text})});
+      document.getElementById('replyBox').value='';
+      loadMessages(currentThread);
+    };
+  </script>
+</body>
+</html>

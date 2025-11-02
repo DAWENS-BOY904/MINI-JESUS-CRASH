@@ -1,0 +1,1129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dawens DevOps School — DevOps Module</title>
+  <meta name="description" content="Dawens DevOps School - Complete DevOps learning module with labs, exercises, code snippets, CI/CD, Docker, Git, Cloud tips and quizzes." />
+  <style>
+    /* =========================
+       DAWENS DEVOPS SCHOOL CSS
+       Big, modern, neon-ish theme
+       ========================= */
+   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --bg:#05060a;
+  --panel: rgba(255,255,255,0.02);
+  --glass: rgba(255,255,255,0.03);
+  --muted:#9aa4b2;
+  --neon1: #00e6c3;
+  --neon2: #00bfff;
+  --accent: #7a5cff;
+  --card-radius: 16px;
+  --maxw: 1300px;
+  --mono: "JetBrains Mono", monospace;
+  --ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue";
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%; margin:0;}
+body{
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(0,31,52,0.25), transparent),
+              linear-gradient(180deg, #04050a 0%, #03040a 100%);
+  color:#e8eef6;
+  font-family:var(--ui);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding-bottom:80px;
+}
+
+/* Container */
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:28px; }
+
+/* ---------- Header ---------- */
+header.site{
+  position:sticky; top:0; z-index:100;
+  backdrop-filter: blur(12px);
+  background: linear-gradient(180deg, rgba(3,6,10,0.85), rgba(3,6,10,0.5));
+  border-bottom:1px solid rgba(255,255,255,0.02);
+}
+.site .wrap{ display:flex; align-items:center; justify-content:space-between; gap:20px; padding:16px 28px; }
+.brand{ display:flex; gap:8px; align-items:center; }
+.logo{
+  display:inline-grid; place-items:center;
+  width:52px; height:52px; border-radius:14px;
+  background: linear-gradient(135deg, rgba(0,230,195,0.12), rgba(0,191,255,0.08));
+  box-shadow:0 10px 35px rgba(0,230,195,0.06);
+  font-weight:800; color:var(--neon1); font-family:var(--mono);
+}
+.title{ font-weight:800; font-size:1.2rem; color:var(--neon2); letter-spacing:0.8px; }
+.subtitle{ font-size:13px; color:var(--muted); }
+nav.top{ display:flex; gap:14px; align-items:center; }
+nav.top a{
+  color:var(--muted); text-decoration:none; padding:9px 14px; border-radius:12px; font-weight:600;
+  transition:all .16s ease;
+}
+nav.top a.active{
+  background:linear-gradient(90deg,var(--neon1),var(--neon2));
+  color:#021018; box-shadow:0 12px 35px rgba(0,191,255,0.08);
+}
+nav.top a:hover{ transform:translateY(-3px); }
+
+/* ---------- Hero ---------- */
+.hero{ margin-top:20px; display:flex; gap:24px; align-items:flex-start; justify-content:space-between; }
+.hero-left{ flex:1; min-width:260px; }
+.hero-right{ width:340px; }
+.hero h1{ margin:0; font-size:2.5rem; color:var(--neon1); letter-spacing:0.8px; line-height:1.2; text-shadow:0 0 20px rgba(0,191,255,0.14); }
+.hero p{ color:var(--muted); margin:12px 0 0 0; max-width:780px; font-size:1.1rem; line-height:1.6; }
+
+/* ---------- KPI / Overview ---------- */
+.overview{
+  background:var(--panel); padding:20px; border-radius:16px; border:1px solid rgba(255,255,255,0.02);
+  box-shadow:0 18px 45px rgba(0,0,0,0.6);
+}
+.kpis{ display:flex; gap:16px; margin-top:16px; }
+.kpi{
+  padding:14px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+  flex:1; text-align:center;
+}
+.kpi h4{ margin:0; color:var(--neon2) }
+.kpi p{ margin:6px 0 0 0; color:var(--muted); font-size:13px }
+
+/* ---------- Layout Grid ---------- */
+.main-grid{ display:grid; grid-template-columns: 320px 1fr 360px; gap:24px; margin-top:24px; align-items:start; }
+@media (max-width:1100px){ .main-grid{ grid-template-columns:1fr;} .hero-right{ width:100%; } }
+
+/* ---------- LEFT Sidebar ---------- */
+aside.left{
+  position:sticky; top:90px; height:calc(100vh - 110px); overflow:auto; padding:18px;
+  border-radius:16px; background:var(--glass); border:1px solid rgba(255,255,255,0.02);
+  backdrop-filter: blur(16px); box-shadow:0 10px 35px rgba(0,0,0,0.6);
+}
+.curriculum h3{ margin:0 0 12px 0; color:var(--neon2); }
+.module{
+  padding:12px; border-radius:10px; margin-bottom:10px; transition:all .14s ease; color:var(--muted);
+}
+.module:hover{ background: rgba(0,191,255,0.03); color:#fff; }
+.module .m-title{ font-weight:700; color:var(--neon1) }
+.module .m-meta{ font-size:13px; color:var(--muted) }
+
+/* ---------- CENTER Content ---------- */
+section.center{
+  padding:20px; border-radius:16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.015), transparent);
+  border:1px solid rgba(255,255,255,0.02); min-height:420px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.65);
+}
+.lesson-title{ display:flex; justify-content:space-between; align-items:center; gap:14px }
+.lesson-title h2{ margin:0; color:var(--neon1) }
+.lesson-meta{ color:var(--muted); font-size:13px }
+.lesson{
+  margin-top:20px; padding:16px; border-radius:14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+  border:1px solid rgba(255,255,255,0.02);
+  box-shadow:0 10px 35px rgba(0,191,255,0.08);
+}
+.lesson h3{ margin:0 0 10px 0; color:var(--neon2) }
+.lesson p{ color:var(--muted) }
+
+/* ---------- Code Blocks ---------- */
+pre.code{
+  margin:14px 0 0; background:#07101a; border-radius:10px; padding:16px; overflow:auto;
+  font-family:var(--mono); font-size:14px; color:#dff7f0;
+  border:1px solid rgba(255,255,255,0.03); line-height:1.5;
+}
+.snippet-meta{ color:var(--muted); font-size:12px; margin-top:8px; }
+.run-btn{
+  display:inline-block; background:linear-gradient(90deg,var(--neon1),var(--neon2));
+  color:#021018; padding:10px 14px; border-radius:12px; font-weight:800; text-decoration:none; margin-top:12px;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.run-btn:hover{ transform:translateY(-3px) scale(1.02); box-shadow:0 12px 35px rgba(0,191,255,0.25); }
+
+/* ---------- Examples Grid ---------- */
+.examples-grid{ display:grid; grid-template-columns: repeat(2,1fr); gap:14px; margin-top:16px; }
+@media (max-width:900px){ .examples-grid{ grid-template-columns:1fr; } }
+
+/* ---------- RIGHT Sidebar ---------- */
+aside.right{
+  position:sticky; top:90px; height:calc(100vh - 110px); overflow:auto; padding:20px;
+  border-radius:16px; background:var(--glass); border:1px solid rgba(255,255,255,0.02);
+  backdrop-filter: blur(16px); box-shadow:0 10px 35px rgba(0,0,0,0.6);
+}
+.task{
+  margin-bottom:14px; padding:14px; border-radius:12px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.22), transparent);
+}
+.task h4{ margin:0; color:var(--neon1) }
+.task p{ color:var(--muted); margin:10px 0 0 0 }
+.badge{ display:inline-block; padding:6px 10px; border-radius:10px; background:rgba(255,255,255,0.03); color:var(--muted); font-weight:700; font-size:13px }
+
+/* ---------- Quiz Styles ---------- */
+.quiz{ margin-top:14px; padding:14px; background:rgba(0,0,0,0.22); border-radius:12px; border:1px solid rgba(255,255,255,0.02); }
+.quiz h4{ margin:0 0 10px 0; color:var(--neon2) }
+.option{
+  display:block; padding:10px; margin:10px 0; border-radius:10px;
+  background: rgba(255,255,255,0.02); cursor:pointer;
+  border:1px solid rgba(255,255,255,0.02);
+  transition: all .14s ease;
+}
+.option:hover{ background: rgba(0,191,255,0.03); }
+
+/* ---------- Footer ---------- */
+footer.sitefoot{ margin-top:36px; padding:32px; text-align:center; color:var(--muted); }
+
+/* Helpers */
+.muted{ color:var(--muted) }
+code.inline{ background:rgba(255,255,255,0.02); padding:4px 6px; border-radius:6px; font-family:var(--mono) }
+.note{ background:linear-gradient(90deg, rgba(0,191,255,0.03), rgba(0,230,195,0.02)); padding:10px; border-radius:10px; color:var(--muted); }
+
+/* Big spacing */
+.big-space{ height:28px }
+
+/* Neon Animation */
+@keyframes neonPulse{
+  0%{ text-shadow:0 0 10px rgba(0,230,195,0.08); }
+  50%{ text-shadow:0 0 30px rgba(0,191,255,0.2); }
+  100%{ text-shadow:0 0 10px rgba(0,230,195,0.08); }
+}
+.neon{ animation:neonPulse 3s infinite; color:var(--neon2); }
+  </style>
+</head>
+<body>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+  <!-- HEADER -->
+  <header class="site">
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo">DB</div>
+        <div>
+          <div class="title">Dawens DevOps School</div>
+          <div class="subtitle">Practice-first DevOps curriculum — labs, CI/CD, containerization, infra</div>
+        </div>
+      </div>
+
+      <nav class="top">
+        <a href="index.html">Home</a>
+        <a href="dawens.html">School</a>
+        <a href="devops.html" class="active">DevOps</a>
+        <a href="script.html">Tools</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-left">
+        <h1>Dawens — DevOps Intensive</h1>
+        <p>Learn practical DevOps: Git, Linux, Docker, CI/CD, Infrastructure as Code, monitoring, and deployment pipelines. This module contains labs, many code snippets, real-world examples, and a guided path to reach 60% competency fast.</p>
+
+        <div class="overview">
+          <strong>Fast track promise</strong>
+          <p class="muted">If you follow the labs and complete exercises (intensive), you'll reach practical "doing" level for many real-world tasks in ~48 hours of focused learning.</p>
+
+          <div class="kpis">
+            <div class="kpi"><h4>48h</h4><p>Intensive study goal</p></div>
+            <div class="kpi"><h4>9</h4><p>Core topics (modules)</p></div>
+            <div class="kpi"><h4>20+</h4><p>Hands-on labs</p></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="hero-right">
+        <div class="overview">
+          <h3 style="margin:0;color:var(--neon2)">Quick Start</h3>
+          <ol style="color:var(--muted);padding-left:18px;margin-top:10px">
+            <li>Install Git, Docker, and VSCode</li>
+            <li>Clone the starter repo (links below)</li>
+            <li>Run the basic Docker demo</li>
+            <li>Create a pipeline (GitHub Actions example provided)</li>
+          </ol>
+
+          <div style="margin-top:10px">
+            <a class="run-btn" href="#lab-1" onclick="location.hash='lab-1'">Start Lab 1</a>
+            <a class="run-btn" href="#qa" style="margin-left:8px">Ask Mentor</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="main-grid">
+
+      <!-- LEFT: Curriculum -->
+      <aside class="left">
+        <div class="curriculum">
+          <h3>Curriculum</h3>
+          <div class="module"><div class="m-title">Module 1: Git & Source Control</div><div class="m-meta">Version control fundamentals</div></div>
+          <div class="module"><div class="m-title">Module 2: Linux & Shell</div><div class="m-meta">Command line fluency</div></div>
+          <div class="module"><div class="m-title">Module 3: Docker</div><div class="m-meta">Containers and images</div></div>
+          <div class="module"><div class="m-title">Module 4: CI/CD</div><div class="m-meta">Pipelines & automation</div></div>
+          <div class="module"><div class="m-title">Module 5: Infrastructure as Code</div><div class="m-meta">Terraform & Cloud basics</div></div>
+          <div class="module"><div class="m-title">Module 6: Monitoring</div><div class="m-meta">Prometheus & Grafana</div></div>
+          <div class="module"><div class="m-title">Module 7: Security</div><div class="m-meta">Secrets & hardening</div></div>
+          <div class="module"><div class="m-title">Module 8: Deployments</div><div class="m-meta">Kubernetes basics</div></div>
+          <div class="module"><div class="m-title">Module 9: Projects & Capstone</div><div class="m-meta">Build & deploy a full app</div></div>
+
+          <div style="margin-top:12px" class="progress">
+            <small class="muted">Your recommended path</small>
+            <div style="height:10px;background:rgba(255,255,255,0.03);border-radius:8px;margin-top:8px;overflow:hidden">
+              <div style="width:24%;height:100%;background:linear-gradient(90deg,var(--neon2),var(--neon1))"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="margin-top:14px">
+          <div class="note"><strong>Pro tip:</strong> Open a terminal and keep it ready. Hands-on is the fastest way to learn.</div>
+        </div>
+      </aside>
+
+      <!-- CENTER: Lessons -->
+      <section class="center" id="content">
+
+        <!-- Module 1: Git -->
+        <div class="lesson" id="module-git">
+          <h3>Module 1 — Git & Source Control</h3>
+          <p class="muted">Essential commands, workflows, branching strategies, and a lab to practice merging and rebasing safely.</p>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">1.1 — Core Git Commands</h4>
+          <p class="muted">Clone, add, commit, push, pull, branch, merge, rebase, stash, log.</p>
+
+          <pre class="code">
+// Initialize a repository and make the first commit
+git init my-project
+cd my-project
+echo "# My Project" > README.md
+git add README.md
+git commit -m "chore: initial commit"
+git branch -M main
+git remote add origin git@github.com:YOURUSER/my-project.git
+git push -u origin main
+          </pre>
+
+          <div class="snippet-meta">Tip: use <code>git status</code> and <code>git log --oneline --graph --decorate</code> frequently.</div>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">1.2 — Branching & Workflows</h4>
+          <p class="muted">Feature branches, GitFlow basics, pull request etiquette.</p>
+
+          <pre class="code">
+// Create a feature branch and push
+git checkout -b feat/login-form
+# work...
+git add .
+git commit -m "feat(login): add login form"
+git push -u origin feat/login-form
+          </pre>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">1.3 — Lab: Safe Merge vs Rebase</h4>
+          <p class="muted">Follow steps to practice resolving conflicts, using rebase to keep history clean, and merging for release branches.</p>
+
+          <ol style="color:var(--muted)">
+            <li>Make a repo with two branches (main & feature).</li>
+            <li>Introduce conflicting changes on both branches and practice <code>git merge</code>.</li>
+            <li>Reset and practice <code>git rebase main</code> on the feature branch and resolve conflicts.</li>
+          </ol>
+
+          <pre class="code">
+// Example conflict resolution workflow
+git checkout feat/login-form
+git fetch origin
+git rebase origin/main
+# resolve conflicts in editor, then:
+git add <file>
+git rebase --continue
+git push -f origin feat/login-form
+          </pre>
+
+        </div>
+
+        <div class="big-space"></div>
+
+        <!-- Module 2: Linux & Shell -->
+        <div class="lesson" id="module-linux">
+          <h3>Module 2 — Linux & Shell</h3>
+          <p class="muted">Bash fluency, file system, process management, systemctl, journald, and practical day-to-day commands.</p>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">2.1 — Shell Basics</h4>
+          <pre class="code">
+# List files with details
+ls -lah
+
+# Find large files
+du -sh * | sort -h
+
+# Check memory and process
+top
+htop    # if installed
+
+# Search logs
+sudo journalctl -u myservice --since "2 hours ago"
+          </pre>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">2.2 — Services & Systemctl</h4>
+          <pre class="code">
+# Start/stop/restart a service
+sudo systemctl start myservice
+sudo systemctl status myservice
+sudo journalctl -u myservice -f
+          </pre>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">2.3 — Shell Scripting</h4>
+          <p class="muted">Create small scripts for automation and deploy tasks.</p>
+          <pre class="code">
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+echo "Starting backup..."
+tar -czf /backups/app-$(date +%F).tar.gz /var/www/app
+echo "Backup created"
+          </pre>
+
+        </div>
+
+        <div class="big-space"></div>
+
+        <!-- Module 3: Docker -->
+        <div class="lesson" id="module-docker">
+          <h3>Module 3 — Docker: Containers & Images</h3>
+          <p class="muted">Learn to containerize apps, build multi-stage images, and run containers locally and in CI.</p>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">3.1 — Dockerfile Basics</h4>
+          <pre class="code">
+# Dockerfile - multi-stage build for Node app
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --production=false
+COPY . .
+RUN npm run build
+
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY package*.json ./
+RUN npm ci --production=true
+CMD ["node", "dist/index.js"]
+          </pre>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">3.2 — Useful Commands</h4>
+          <pre class="code">
+# Build image
+docker build -t myapp:latest .
+
+# Run container with environment and port mapping
+docker run -d --name myapp -p 8080:8080 -e NODE_ENV=production myapp:latest
+
+# List images and prune
+docker images
+docker system prune -a
+          </pre>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">3.3 — Lab: Docker Compose</h4>
+          <p class="muted">Compose a stack with app + db + redis and practice scaling services.</p>
+          <pre class="code">
+version: "3.8"
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=postgres://postgres:password@db:5432/app
+    depends_on:
+      - db
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+volumes:
+  db-data:
+          </pre>
+
+        </div>
+
+        <div class="big-space"></div>
+
+        <!-- Module 4: CI/CD -->
+        <div class="lesson" id="module-cicd">
+          <h3>Module 4 — CI/CD Pipelines</h3>
+          <p class="muted">Automate builds, tests, and deployments. We'll provide GitHub Actions and GitLab CI examples.</p>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">4.1 — GitHub Actions (Simple Pipeline)</h4>
+          <pre class="code">
+# .github/workflows/ci.yml
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install
+        run: npm ci
+      - name: Run tests
+        run: npm test
+      - name: Build
+        run: npm run build
+      - name: Publish Docker
+        uses: docker/build-push-action@v4
+        with:
+          push: false
+          tags: user/myapp:${{ github.sha }}
+          load: true
+          file: ./Dockerfile
+          context: .
+          platforms: linux/amd64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NODE_ENV=production
+          secrets: |
+            DOCKERHUB_USERNAME:${{ secrets.DOCKERHUB_USERNAME }}
+            DOCKERHUB_TOKEN:${{ secrets.DOCKERHUB_TOKEN }}
+          env:
+            REGISTRY: docker.io
+          # Note: configure registry and push in a production setup
+          </pre>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">4.2 — GitLab CI Example</h4>
+          <pre class="code">
+# .gitlab-ci.yml
+stages:
+  - build
+  - test
+  - release
+
+build_job:
+  stage: build
+  image: node:18
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+
+test_job:
+  stage: test
+  image: node:18
+  script:
+    - npm ci
+    - npm test
+          </pre>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">4.3 — Blue/Green & Canary Deployments</h4>
+          <p class="muted">Strategies to reduce risk when deploying to production — basics and when to use each strategy.</p>
+          <pre class="code">
+# Canary approach (conceptual)
+# 1. Deploy new version to small subset of traffic (10%)
+# 2. Monitor metrics (errors, latency)
+# 3. If stable, increase traffic fraction progressively
+# 4. If failure, rollback to previous stable version
+          </pre>
+
+        </div>
+
+        <div class="big-space"></div>
+
+        <!-- Module 5: IaC (Terraform) -->
+        <div class="lesson" id="module-iac">
+          <h3>Module 5 — Infrastructure as Code (Terraform)</h3>
+          <p class="muted">Define cloud infra as code. Example shows how to create a simple EC2 instance and an S3 bucket (AWS).</p>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">5.1 — Terraform Basics</h4>
+          <pre class="code">
+// main.tf (AWS example)
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_s3_bucket" "static" {
+  bucket = "dawens-static-bucket-12345"
+  acl    = "private"
+}
+
+resource "aws_instance" "app" {
+  ami           = "ami-0c94855ba95c71c99"
+  instance_type = "t3.micro"
+  tags = {
+    Name = "dawens-app"
+  }
+}
+          </pre>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">5.2 — Workspaces & State</h4>
+          <p class="muted">Use remote state (S3 + DynamoDB lock) for team collaboration.</p>
+          <pre class="code">
+terraform init
+terraform plan -out plan.tfplan
+terraform apply plan.tfplan
+          </pre>
+
+        </div>
+
+        <div class="big-space"></div>
+
+        <!-- Module 6: Monitoring -->
+        <div class="lesson" id="module-monitoring">
+          <h3>Module 6 — Monitoring & Observability</h3>
+          <p class="muted">Prometheus + Grafana basics; instrumenting apps; setting alerts.</p>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">6.1 — Prometheus scrape config</h4>
+          <pre class="code">
+scrape_configs:
+  - job_name: 'app'
+    static_configs:
+      - targets: ['app:9100']
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+          </pre>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">6.2 — Grafana</h4>
+          <p class="muted">Create dashboards for latency, error rate, and throughput. Connect alerts to Slack or PagerDuty.</p>
+
+        </div>
+
+        <div class="big-space"></div>
+
+        <!-- Module 7: Security -->
+        <div class="lesson" id="module-security">
+          <h3>Module 7 — Security & Secrets</h3>
+          <p class="muted">Do not store secrets in repo. Use secrets manager (Vault, AWS Secrets Manager) or GitHub Secrets.</p>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">7.1 — Example: Using env in Docker</h4>
+          <pre class="code">
+// docker run with secret as env (not ideal for production)
+docker run -d --env DB_PASS_FILE=/run/secrets/db_pass --name myapp myapp:latest
+          </pre>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">7.2 — Hashicorp Vault snippet</h4>
+          <pre class="code">
+# read secret (vault kv get)
+vault kv get secret/data/myapp
+# inject secrets into CI during runtime using Vault agent or connectors
+          </pre>
+        </div>
+
+        <div class="big-space"></div>
+
+        <!-- Module 8: Kubernetes (Intro) -->
+        <div class="lesson" id="module-k8s">
+          <h3>Module 8 — Kubernetes Basics</h3>
+          <p class="muted">Pods, Deployments, Services, ConfigMaps, and simple manifest examples.</p>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">8.1 — Deployment + Service</h4>
+          <pre class="code">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: user/myapp:latest
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: myapp
+  ports:
+    - port: 80
+      targetPort: 8080
+          </pre>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">8.2 — Rolling Update Strategy</h4>
+          <p class="muted">Kubernetes performs rolling updates by default. Use readinessProbe to ensure pods are ready before routing traffic.</p>
+
+        </div>
+
+        <div class="big-space"></div>
+
+        <!-- Module 9: Projects & Capstone -->
+        <div class="lesson" id="module-projects">
+          <h3>Module 9 — Capstone Project</h3>
+          <p class="muted">Build a simple web app, containerize it, and create a CI/CD pipeline that deploys to a Kubernetes cluster or a managed service (Heroku, Render, Vercel).</p>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">Project roadmap</h4>
+          <ol style="color:var(--muted)">
+            <li>Create a TODO app (Node/Express + Postgres)</li>
+            <li>Write Dockerfile and docker-compose for local dev</li>
+            <li>Create GitHub Actions pipeline to build, test, and publish image</li>
+            <li>Deploy to Kubernetes or a managed PaaS with rolling updates and monitoring</li>
+          </ol>
+
+          <h4 style="margin-top:12px;color:var(--neon2)">Starter commands</h4>
+          <pre class="code">
+# clone starter template
+git clone https://github.com/yourorg/dawens-devops-starter.git
+cd dawens-devops-starter
+# run compose
+docker compose up --build
+# run tests
+npm test
+          </pre>
+
+        </div>
+
+        <!-- Hands-on labs section with many steps -->
+        <div class="lesson" id="labs">
+          <h3>Hands-on Labs (Selected)</h3>
+          <p class="muted">Complete these labs sequentially for best results.</p>
+
+          <h4 style="color:var(--neon2)">Lab 1 — Local Docker + Compose</h4>
+          <ol style="color:var(--muted)">
+            <li>Clone repo</li>
+            <li>Inspect Dockerfile and docker-compose.yml</li>
+            <li>Run <code>docker compose up --build</code></li>
+            <li>Access app at <code>http://localhost:8080</code></li>
+            <li>Modify code and observe hot-reload (if configured)</li>
+          </ol>
+
+          <h4 style="color:var(--neon2)">Lab 2 — GitHub Actions CI</h4>
+          <ol style="color:var(--muted)">
+            <li>Create <code>.github/workflows/ci.yml</code></li>
+            <li>Create test job</li>
+            <li>Commit and push, check Actions UI for build logs</li>
+            <li>Fix failing tests and iterate</li>
+          </ol>
+
+          <h4 style="color:var(--neon2)">Lab 3 — Terraform + Remote State</h4>
+          <ol style="color:var(--muted)">
+            <li>Create S3 bucket + DynamoDB (for locking)</li>
+            <li>Configure backend in terraform</li>
+            <li>Run plan + apply</li>
+          </ol>
+
+          <h4 style="color:var(--neon2)">Lab 4 — Canary Release (Manual)</h4>
+          <ol style="color:var(--muted)">
+            <li>Deploy version v1</li>
+            <li>Deploy v2 to subset (10%)</li>
+            <li>Monitor metrics (error rate)</li>
+            <li>Promote or rollback</li>
+          </ol>
+
+        </div>
+
+        <!-- Extended examples and snippets — many variants to increase length -->
+        <div class="lesson" id="examples">
+          <h3>Extended Examples & Patterns</h3>
+          <p class="muted">These are real snippets you can copy into your projects.</p>
+
+          <h4 style="color:var(--neon2)">CI: Test matrix example</h4>
+          <pre class="code">
+# GitHub Actions matrix example
+name: CI Matrix
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm test
+  </pre>
+
+          <h4 style="color:var(--neon2)">Docker: Healthcheck + graceful shutdown</h4>
+          <pre class="code">
+# Dockerfile snippet (healthcheck)
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s CMD curl -f http://localhost:8080/health || exit 1
+
+# Node graceful shutdown (signal handling)
+process.on('SIGINT', async () => {
+  console.log('SIGINT received - graceful shutdown');
+  await server.close(); // wait for connections to finish
+  process.exit(0);
+});
+          </pre>
+
+          <h4 style="color:var(--neon2)">Helm: Simple Chart structure</h4>
+          <pre class="code">
+# basic Helm chart layout (values.yaml example)
+replicaCount: 2
+image:
+  repository: user/myapp
+  tag: "latest"
+service:
+  type: ClusterIP
+  port: 80
+          </pre>
+
+          <h4 style="color:var(--neon2)">Monitoring: Alert rule example (Prometheus)</h4>
+          <pre class="code">
+- alert: HighErrorRate
+  expr: job:request_errors:rate5m > 0.05
+  for: 5m
+  labels:
+    severity: critical
+  annotations:
+    summary: "High error rate detected"
+    description: "Job {{ $labels.job }} has error rate > 5% for more than 5 minutes."
+          </pre>
+
+        </div>
+
+        <!-- Challenges (mini projects) -->
+        <div class="lesson" id="challenges">
+          <h3>Challenges (Do these to prove hands-on)</h3>
+
+          <h4 style="color:var(--neon2)">Challenge A — Build & Deploy</h4>
+          <ol style="color:var(--muted)">
+            <li>Create a simple Node app exposing /health</li>
+            <li>Write Dockerfile and compose for local dev</li>
+            <li>Create CI that runs tests and builds an image</li>
+            <li>Deploy to a simple cluster (k3s, minikube) or render/heroku</li>
+          </ol>
+
+          <h4 style="color:var(--neon2)">Challenge B — Terraform infra</h4>
+          <ol style="color:var(--muted)">
+            <li>Provision a managed DB and network in your cloud provider</li>
+            <li>Use terraform remote state</li>
+            <li>Destroy and recreate resources safely</li>
+          </ol>
+
+        </div>
+
+        <!-- Long section: Common mistakes and debugging -->
+        <div class="lesson" id="debugging">
+          <h3>Debugging & Common Pitfalls</h3>
+          <p class="muted">Real-world issues and how to quickly troubleshoot them.</p>
+
+          <h4 style="color:var(--neon2)">Docker Container won't start</h4>
+          <ol style="color:var(--muted)">
+            <li>Check container logs: <code>docker logs CONTAINER</code></li>
+            <li>Run an interactive shell: <code>docker run -it --entrypoint /bin/sh IMAGE</code></li>
+            <li>Check healthcheck failures</li>
+          </ol>
+
+          <h4 style="color:var(--neon2)">CI job fails on unknown dependency</h4>
+          <p class="muted">Pin dependency versions and cache installs in CI.</p>
+
+          <h4 style="color:var(--neon2)">Kubernetes CrashLoopBackOff</h4>
+          <pre class="code">
+# Inspect pod
+kubectl describe pod mypod
+kubectl logs mypod -c containername
+# If crash due to env, check ConfigMap and Secrets
+kubectl get secrets
+          </pre>
+
+        </div>
+
+        <!-- Learning plan timetable (helps hit 60% in 2 days) -->
+        <div class="lesson" id="plan">
+          <h3>2-Day Intensive Plan (Reach 60% Practical Skills)</h3>
+          <p class="muted">Follow the plan below — each block is focused practice with labs and breaks.</p>
+
+          <h4 style="color:var(--neon2)">Day 1 — Core Tools</h4>
+          <ol style="color:var(--muted)">
+            <li>Hour 0–2: Git fundamentals + branching labs</li>
+            <li>Hour 2–4: Linux shell tasks + write simple scripts</li>
+            <li>Hour 4–6: Dockerfile + build image + compose</li>
+            <li>Hour 6–8: Create basic CI pipeline (run tests)</li>
+          </ol>
+
+          <h4 style="color:var(--neon2)">Day 2 — Automation & Deployments</h4>
+          <ol style="color:var(--muted)">
+            <li>Hour 0–2: Terraform basics + remote state lab</li>
+            <li>Hour 2–4: Kubernetes deployment + service</li>
+            <li>Hour 4–6: Monitoring basics (Prometheus + Grafana)</li>
+            <li>Hour 6–8: Capstone setup + deploy pipeline end-to-end</li>
+          </ol>
+
+          <p class="note">Focus on doing — reading without practice will not help achieve the 60% threshold.</p>
+        </div>
+
+        <!-- Additional resources (big list to extend content) -->
+        <div class="lesson" id="resources">
+          <h3>Further Reading & Tools</h3>
+          <ul style="color:var(--muted)">
+            <li>Git Pro Book - https://git-scm.com/book/en/v2</li>
+            <li>Docker docs - https://docs.docker.com/</li>
+            <li>Terraform docs - https://www.terraform.io/docs</li>
+            <li>Kubernetes docs - https://kubernetes.io/docs/</li>
+            <li>Prometheus - https://prometheus.io/docs</li>
+            <li>Grafana - https://grafana.com/docs</li>
+            <li>HashiCorp Vault - https://www.vaultproject.io/docs</li>
+            <li>GitHub Actions - https://docs.github.com/actions</li>
+          </ul>
+        </div>
+
+        <!-- Large extra area with many code snippets for practice to increase file length -->
+        <div class="lesson" id="extra-snippets">
+          <h3>Extra Snippets & Templates</h3>
+
+          <h4 style="color:var(--neon2)">Nginx Dockerfile / config</h4>
+          <pre class="code">
+# Simple Dockerfile for serving static site via nginx
+FROM nginx:stable-alpine
+COPY ./dist /usr/share/nginx/html
+# Copy custom config if needed
+# COPY nginx.conf /etc/nginx/nginx.conf
+          </pre>
+
+          <h4 style="color:var(--neon2)">Simple health endpoint (Express)</h4>
+          <pre class="code">
+// express health endpoint
+const express = require('express');
+const app = express();
+app.get('/health', (req,res)=>res.json({status: 'ok'}));
+app.listen(8080, ()=>console.log('listening on 8080'));
+          </pre>
+
+          <h4 style="color:var(--neon2)">Systemd service unit (example)</h4>
+          <pre class="code">
+# /etc/systemd/system/myapp.service
+[Unit]
+Description=My Node App
+After=network.target
+
+[Service]
+User=node
+WorkingDirectory=/srv/myapp
+ExecStart=/usr/bin/node /srv/myapp/dist/index.js
+Restart=always
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
+          </pre>
+
+          <h4 style="color:var(--neon2)">Bash: Wait for service (retry)</h4>
+          <pre class="code">
+#!/usr/bin/env bash
+set -e
+for i in {1..30}; do
+  if curl -sSf http://localhost:8080/health >/dev/null; then
+    echo "Service up"
+    exit 0
+  fi
+  echo "Waiting for service... ($i)"
+  sleep 2
+done
+echo "Service did not start" >&2
+exit 1
+          </pre>
+
+          <h4 style="color:var(--neon2)">Sample Git hook (pre-commit)</h4>
+          <pre class="code">
+#!/bin/sh
+# Simple pre-commit hook to run lint
+npm run lint
+if [ $? -ne 0 ]; then
+  echo "Lint failed. Fix errors before commit."
+  exit 1
+fi
+          </pre>
+
+          <h4 style="color:var(--neon2)">Docker multi-arch build (experimental)</h4>
+          <pre class="code">
+docker buildx create --use
+docker buildx build --platform linux/amd64,linux/arm64 -t user/myapp:latest --push .
+          </pre>
+
+        </div>
+
+        <!-- QUIZ (interactive) -->
+        <div class="lesson" id="quiz">
+          <h3>Quick Quiz — Test your knowledge</h3>
+          <div class="quiz" id="quiz-1">
+            <h4>Q1: Which command shows commit history graphically?</h4>
+            <div class="option" data-answer="false">git show</div>
+            <div class="option" data-answer="true">git log --oneline --graph --decorate</div>
+            <div class="option" data-answer="false">git status --graph</div>
+          </div>
+
+          <div class="quiz" id="quiz-2" style="margin-top:10px">
+            <h4>Q2: Which file instructs Docker to build an image?</h4>
+            <div class="option" data-answer="true">Dockerfile</div>
+            <div class="option" data-answer="false">docker-compose.yml</div>
+            <div class="option" data-answer="false">image.json</div>
+          </div>
+
+          <div style="margin-top:12px" id="quiz-result" class="note" style="display:none"></div>
+        </div>
+
+        <!-- Mentor CTA -->
+        <div class="lesson" id="mentor">
+          <h3>Mentor Support</h3>
+          <p class="muted">Need a code review or help on a lab? Use our support channel or schedule a 1:1 mentoring session.</p>
+          <a class="run-btn" href="https://t.me/Mr_Da5" target="_blank">Join Telegram Support</a>
+        </div>
+
+      </section>
+
+      <!-- RIGHT: Tasks & Resources -->
+      <aside class="right">
+        <div class="task">
+          <h4>Starter Repo</h4>
+          <p class="muted">Clone the starter repository for the course (replace with your repo):</p>
+          <pre class="code">git clone https://github.com/yourorg/dawens-devops-starter.git</pre>
+          <div style="margin-top:8px"><a class="run-btn" href="#">Open in GitHub</a></div>
+        </div>
+
+        <div class="task">
+          <h4>Checklist</h4>
+          <ul style="color:var(--muted);padding-left:18px">
+            <li>Install Docker & Docker Compose</li>
+            <li>Install Git & configure SSH key</li>
+            <li>Sign up for cloud provider (optional)</li>
+            <li>Install kubectl & k3s or minikube for local cluster</li>
+          </ul>
+        </div>
+
+        <div class="task">
+          <h4>Resources</h4>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <a class="badge" href="#">Git Cheatsheet</a>
+            <a class="badge" href="#">Docker Cheatsheet</a>
+            <a class="badge" href="#">Terraform Cheatsheet</a>
+            <a class="badge" href="#">Kubernetes Cheatsheet</a>
+          </div>
+        </div>
+
+        <div class="task">
+          <h4>Mini-tasks (Daily)</h4>
+          <ol style="color:var(--muted)">
+            <li>Read one module</li>
+            <li>Do one lab</li>
+            <li>Push code & create PR</li>
+          </ol>
+        </div>
+
+        <div class="task">
+          <h4>Contact & Support</h4>
+          <p class="muted">Urgent help via Telegram:</p>
+          <a class="run-btn" href="https://t.me/Mr_Da5" target="_blank">Telegram Support</a>
+        </div>
+
+      </aside>
+
+    </div> <!-- main-grid end -->
+
+    <footer class="sitefoot">
+      © 2025 Dawens School — DevOps Module • Built by DAWENS • Recommended: create <code>code/devops/</code> folder for module materials
+    </footer>
+
+  </main>
+
+  <!-- =========================
+       JavaScript interactive behavior
+       ========================= -->
+  <script>
+    // Quiz interactivity
+    document.querySelectorAll('.quiz .option').forEach(function(opt){
+      opt.addEventListener('click', function(){
+        const correct = opt.getAttribute('data-answer') === 'true';
+        if(correct){
+          opt.style.background = 'linear-gradient(90deg, rgba(0,230,195,0.08), rgba(0,191,255,0.06))';
+          opt.style.borderColor = 'rgba(0,191,255,0.12)';
+        } else {
+          opt.style.background = 'rgba(255,50,50,0.06)';
+          opt.style.borderColor = 'rgba(255,50,50,0.12)';
+        }
+        // reveal explanation (simple)
+        const parent = opt.closest('.quiz');
+        if(parent){
+          const result = document.createElement('div');
+          result.style.marginTop = '8px';
+          result.style.padding = '8px';
+          result.style.borderRadius = '8px';
+          result.style.background = 'rgba(0,0,0,0.25)';
+          result.style.color = '#dff7f0';
+          if(correct) result.textContent = 'Correct — good job!';
+          else result.textContent = 'Not quite — review the lesson above for details.';
+          if(!parent.querySelector('.quiz-result')) parent.appendChild(result);
+        }
+      });
+    });
+
+    // Smooth anchor scrolling for modules
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click', function(e){
+        const target = document.querySelector(a.getAttribute('href'));
+        if(target){
+          e.preventDefault();
+          target.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+    });
+
+    // Expand/collapse modules in left sidebar
+    document.querySelectorAll('.curriculum .module').forEach(function(m){
+      m.addEventListener('click', function(){
+        // find corresponding id by lowercasing and replacing spaces
+        const title = m.querySelector('.m-title') ? m.querySelector('.m-title').textContent : m.textContent;
+        const id = title.toLowerCase().split(':')[0].trim().replace(/[^a-z0-9]+/g,'-');
+        const target = document.getElementById('module-' + id.split(' ').join('-').replace(/^-+|-+$/g,''));
+        if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+
+    // Tiny function to open a sample code block
+    function showCodeBlock(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    }
+
+    // Deep linking: open if hash points to module
+    document.addEventListener('DOMContentLoaded', function(){
+      if(location.hash){
+        const id = location.hash.slice(1);
+        const elem = document.getElementById(id);
+        if(elem){
+          setTimeout(()=> elem.scrollIntoView({behavior:'smooth', block:'start'}),120);
+        }
+      }
+    });
+
+    // Accessibility: keyboard navigation for options
+    document.querySelectorAll('.option').forEach(function(opt){
+      opt.setAttribute('tabindex', '0');
+      opt.addEventListener('keypress', function(e){
+        if(e.key === 'Enter' || e.key === ' ') opt.click();
+      });
+    });
+  </script>
+
+</body>
+</html>

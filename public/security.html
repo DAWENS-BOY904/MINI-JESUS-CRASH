@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dawens School — Security Module</title>
+  <meta name="description" content="Dawens School - Security curriculum: secure coding, web security, encryption, incident response, secure DevOps. Includes examples, quizzes and resources.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ===== THEME & LAYOUT ===== */
+    :root{
+      --bg: #0b0f17;
+      --panel: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      --glass: rgba(255,255,255,0.03);
+      --muted: #9aa6b2;
+      --accent: #00d1ff;
+      --accent-2: #00ffb3;
+      --success: #2dd4bf;
+      --danger: #ff6b6b;
+      --maxW: 1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(0,209,255,0.03), transparent), var(--bg);
+      color:#e6f0f5;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    /* top header */
+    header{
+      position:sticky; top:0; z-index:60;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.35));
+      border-bottom:1px solid rgba(255,255,255,0.02);
+    }
+    .topbar{
+      max-width:var(--maxW);
+      margin:0 auto;
+      padding:14px 20px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .brand{
+      font-weight:800;
+      color:var(--accent-2);
+      font-size:1.1rem;
+      letter-spacing:0.6px;
+    }
+    nav.top{
+      margin-left:auto;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .nav-link{
+      color:var(--muted);
+      text-decoration:none;
+      padding:8px 10px;
+      border-radius:8px;
+      font-weight:600;
+      transition:all .14s ease;
+    }
+    .nav-link.active, .nav-link:hover{ color:#fff; text-shadow:0 6px 22px rgba(0,209,255,0.06) }
+
+    .toggle{
+      margin-left:12px;
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.03);
+      padding:8px 10px;
+      border-radius:8px;
+      color:var(--muted);
+      cursor:pointer;
+    }
+
+    /* main layout */
+    .wrap{ max-width:var(--maxW); margin:22px auto; padding:0 18px; display:grid; grid-template-columns: 300px 1fr 320px; gap:20px; align-items:start; }
+    @media (max-width:1000px){ .wrap{ grid-template-columns:1fr; padding:0 14px } .right, .left{ order:99 } }
+
+    /* left navigation */
+    .left{
+      position:sticky; top:86px; align-self:start;
+      background:var(--glass);
+      border-radius:12px;
+      padding:14px;
+      border:1px solid rgba(255,255,255,0.02);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.6);
+      max-height: calc(100vh - 120px); overflow:auto;
+    }
+    .left h4{ margin:4px 0 12px; color:var(--accent); font-size:14px }
+    .toc a{ display:block; color:var(--muted); text-decoration:none; padding:8px 10px; border-radius:8px; margin-bottom:6px; font-weight:600 }
+    .toc a:hover{ color:#fff; background:linear-gradient(90deg, rgba(0,209,255,0.04), rgba(0,255,179,0.02)) }
+
+    /* main content */
+    .main{
+      background:var(--panel);
+      padding:18px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.02);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+    }
+    .hero{
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      margin-bottom:14px;
+    }
+    .hero h1{ margin:0; color:var(--accent-2); font-size:1.6rem; letter-spacing:0.6px }
+    .hero p{ margin:0; color:var(--muted); font-size:0.95rem; max-width:760px }
+
+    section.module{ margin-top:18px; padding:14px; border-radius:10px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); border:1px solid rgba(255,255,255,0.01) }
+    section.module h2{ margin:0 0 8px 0; color:var(--accent); font-size:1.05rem }
+    section.module p.lead{ color:var(--muted); margin:0 0 12px 0 }
+
+    .bullets{ display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; margin-top:10px }
+    .item{
+      background: rgba(255,255,255,0.02);
+      padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.01);
+    }
+    .item h4{ margin:0 0 6px; color:#fff; font-size:0.95rem }
+    .item p{ margin:0; color:var(--muted); font-size:0.92rem }
+
+    /* code box */
+    pre.code{
+      background:#071024; color:#cfeff3; padding:12px; border-radius:8px; overflow:auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace; font-size:13px;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+
+    /* examples grid */
+    .examples{ display:grid; gap:12px; margin-top:12px }
+    .example{
+      padding:10px; border-radius:10px; background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.01)
+    }
+
+    /* right resources */
+    .right{
+      position:sticky; top:86px; align-self:start;
+      padding:14px; border-radius:12px; background:var(--glass); border:1px solid rgba(255,255,255,0.02);
+      max-height: calc(100vh - 120px); overflow:auto;
+    }
+    .right h4{ margin:0 0 10px 0; color:var(--accent) }
+    .resource{ display:flex; gap:12px; align-items:flex-start; margin-bottom:12px }
+    .resource a{ color:var(--muted); text-decoration:none; font-weight:700 }
+
+    /* quiz modal / layout */
+    .quiz{
+      margin-top:12px; padding:12px; border-radius:10px; background: linear-gradient(180deg, rgba(0,0,0,0.16), rgba(0,0,0,0.08)); border:1px solid rgba(255,255,255,0.02)
+    }
+    .quiz h3{ margin:0 0 8px 0; color:var(--accent-2) }
+    .q-list{ margin-top:8px }
+
+    .q-card{ padding:10px; margin-bottom:10px; border-radius:8px; background:rgba(255,255,255,0.01) }
+    .q-card label{ display:block; margin:6px 0; color:var(--muted); cursor:pointer }
+    .btn{
+      display:inline-block; padding:8px 12px; border-radius:8px; border:none; cursor:pointer;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#042022; font-weight:800; box-shadow:0 10px 30px rgba(0,209,255,0.06)
+    }
+    .btn.ghost{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.02) }
+
+    footer{
+      margin-top:20px; padding:18px; text-align:center; color:var(--muted); font-size:13px
+    }
+
+    /* small responsiveness */
+    @media (max-width:1000px){
+      .bullets{ grid-template-columns:1fr }
+      .examples{ grid-template-columns:1fr }
+    }
+
+    /* subtle animations */
+    .fadein{ animation:fadeIn .6s ease both }
+    @keyframes fadeIn{ from{ opacity:0; transform:translateY(8px)} to{ opacity:1; transform:none }}
+
+    /* dark/light inversion (JS toggles .light on body) */
+    body.light{
+      --bg: #f7fbff; color:#071029;
+      --panel: linear-gradient(180deg, rgba(2,6,12,0.02), rgba(2,6,12,0.01));
+      --glass: rgba(2,6,12,0.03);
+      --muted:#3b556b;
+      --accent:#004f66;
+      --accent-2:#007a5c;
+    }
+    body.light a.nav-link{ color:#004f66 }
+    body.light .nav-link.active{ color:#0a1116 }
+  </style>
+</head>
+<body>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+  <!-- HEADER -->
+  <header>
+    <div class="topbar">
+      <div class="brand">Dawens School — Security Track</div>
+      <nav class="top" aria-label="Top navigation">
+        <a class="nav-link" href="dawens.html">School</a>
+        <a class="nav-link" href="script.html">Tools</a>
+        <a class="nav-link active" href="security.html">Security</a>
+        <a class="nav-link" href="contact.html">Contact</a>
+        <button class="toggle" id="themeToggle" title="Toggle light/dark">Toggle Theme</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN WRAP -->
+  <div class="wrap">
+
+    <!-- LEFT: TOC -->
+    <aside class="left fadein" aria-label="Module navigation">
+      <h4>Module Contents</h4>
+      <nav class="toc">
+        <a href="#intro">Introduction</a>
+        <a href="#passwords">Passwords & Authentication</a>
+        <a href="#input">Input Validation & Sanitization</a>
+        <a href="#web">Web Security (XSS, CSRF)</a>
+        <a href="#crypto">Cryptography Basics</a>
+        <a href="#network">Network Security Basics</a>
+        <a href="#devops">Secure DevOps</a>
+        <a href="#incident">Incident Response</a>
+        <a href="#tools">Tools & Resources</a>
+        <a href="#quiz">Quizzes</a>
+      </nav>
+
+      <div style="height:12px"></div>
+      <div class="progress" style="font-size:13px;color:var(--muted)"><strong>Learning Goal:</strong> Gain 60% practical security understanding in 2 days (guided exercises).</div>
+
+      <div style="margin-top:12px" class="progress-box">
+        <small style="color:var(--muted)">Saved Progress</small>
+        <div style="height:10px;background:rgba(255,255,255,0.02);border-radius:8px;margin-top:8px;overflow:hidden">
+          <div id="progressFill" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main fadein" role="main">
+      <div class="hero">
+        <div>
+          <h1>Security Module — Practical Defensive Coding & Practices</h1>
+          <p>Structured lessons, code examples across multiple languages, guided exercises, and quizzes to measure progress. This module focuses on safe, ethical learning and real-world defensive techniques.</p>
+        </div>
+        <div style="text-align:right">
+          <div class="muted">Estimated reading + exercises: <strong>~4–8 hours</strong></div>
+          <div style="margin-top:8px"><a class="btn ghost" href="#quiz" onclick="scrollToId('quiz')">Start Quiz</a></div>
+        </div>
+      </div>
+
+      <!-- INTRO -->
+      <section id="intro" class="module">
+        <h2>Introduction</h2>
+        <p class="lead">This security track teaches defensive programming, secure architecture, incident readiness, and secure deployment practices. It's designed to be practical: each concept is paired with code examples in multiple languages (Java, Python, JavaScript, C++, CSS). The exercises emphasize mitigation rather than exploitation.</p>
+        <div class="bullets">
+          <div class="item">
+            <h4>Learning Outcomes</h4>
+            <p>Understand authentication, hashing, input validation, web vulnerabilities at a conceptual level, encryption basics, secure CI/CD, and incident response playbooks.</p>
+          </div>
+          <div class="item">
+            <h4>How to use this module</h4>
+            <p>Open the example code snippets, run them locally for practice, and answer the quizzes. Replace placeholder links with your repo when ready.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PASSWORDS -->
+      <section id="passwords" class="module">
+        <h2>Passwords & Authentication (10 key points)</h2>
+        <p class="lead">Good authentication prevents unauthorized access. Below are practical rules and examples.</p>
+        <div class="bullets">
+          <div class="item"><h4>1. Use salted hashing</h4><p>Store passwords using a slow, adaptive hash (bcrypt, Argon2). Never store plaintext.</p></div>
+          <div class="item"><h4>2. Use 2FA</h4><p>Support TOTP or hardware keys for high-privilege accounts.</p></div>
+          <div class="item"><h4>3. Password policy</h4><p>Encourage passphrases; avoid arbitrary complexity rules that push users to weak patterns.</p></div>
+          <div class="item"><h4>4. Rate limiting</h4><p>Block or throttle brute-force attempts per IP/account with exponential backoff.</p></div>
+          <div class="item"><h4>5. Session management</h4><p>Use secure, HttpOnly, SameSite cookies and short session lifetimes with refresh flow.</p></div>
+          <div class="item"><h4>6. Password reset</h4><p>Implement single-use, short-lived reset tokens that are revoked immediately after use.</p></div>
+          <div class="item"><h4>7. Password storage</h4><p>Rotate salts and re-hash on login if hashing parameters change.</p></div>
+          <div class="item"><h4>8. Account lockout</h4><p>Use progressive delays or temporary lockouts for suspicious activity.</p></div>
+          <div class="item"><h4>9. MFA fallback</h4><p>Avoid SMS-only 2FA. Use authenticator apps, hardware tokens, or secure push.</p></div>
+          <div class="item"><h4>10. Monitoring</h4><p>Alert on credential stuffing patterns; integrate with breach feeds (hashed) to warn users.</p></div>
+        </div>
+
+        <h3 style="margin-top:12px">Code Example — Password hashing (Python + bcrypt)</h3>
+        <pre class="code">
+# Python: bcrypt usage (defensive)
+import bcrypt
+
+def hash_password(password: str) -> bytes:
+    salt = bcrypt.gensalt(rounds=12)   # adaptive cost
+    return bcrypt.hashpw(password.encode('utf-8'), salt)
+
+def verify_password(password: str, stored_hash: bytes) -> bool:
+    return bcrypt.checkpw(password.encode('utf-8'), stored_hash)
+
+# Example:
+# hashed = hash_password("myS3cretPassphrase")
+# verify_password("myS3cretPassphrase", hashed)
+        </pre>
+      </section>
+
+      <!-- INPUT VALIDATION -->
+      <section id="input" class="module">
+        <h2>Input Validation & Output Encoding (10 patterns)</h2>
+        <p class="lead">Never trust user input. Validation must be server-side and output must be encoded for the target context.</p>
+        <div class="bullets">
+          <div class="item"><h4>1. Whitelist validation</h4><p>Prefer allow-lists (e.g., allowed file types) over block-lists.</p></div>
+          <div class="item"><h4>2. Canonicalization</h4><p>Normalize inputs before validation to avoid bypasses.</p></div>
+          <div class="item"><h4>3. Length limits</h4><p>Impose reasonable minimum and maximum lengths for fields.</p></div>
+          <div class="item"><h4>4. Contextual encoding</h4><p>Encode for HTML, attribute, JS, URL contexts before rendering.</p></div>
+          <div class="item"><h4>5. Parameterized queries</h4><p>Avoid string concatenation when interacting with databases.</p></div>
+          <div class="item"><h4>6. File upload safety</h4><p>Validate MIME types, store outside webroot, and scan content.</p></div>
+          <div class="item"><h4>7. Strong parsing</h4><p>Use well-tested parsers (JSON libraries) and avoid eval/unsafe deserialization.</p></div>
+          <div class="item"><h4>8. Output escaping</h4><p>Escape dynamically generated attributes and data in templates.</p></div>
+          <div class="item"><h4>9. Rate-limit resource-heavy endpoints</h4><p>Protect CPU-bound operations from abuse.</p></div>
+          <div class="item"><h4>10. Logging</h4><p>Log invalid inputs with context for detection, avoid recording secrets.</p></div>
+        </div>
+
+        <h3 style="margin-top:12px">Examples — Parameterized SQL (Node.js) & Sanitization (JS)</h3>
+        <pre class="code">
+// Node + parameterized query (pg)
+const { Pool } = require('pg');
+const pool = new Pool({ /* config */ });
+
+async function getUserByEmail(email) {
+  const res = await pool.query('SELECT id, email FROM users WHERE email = $1', [email]);
+  return res.rows[0];
+}
+
+// Client-side: avoid innerHTML; use textContent
+const safeInsert = (el, text) => { el.textContent = text; }
+        </pre>
+      </section>
+
+      <!-- WEB SECURITY -->
+      <section id="web" class="module">
+        <h2>Web Security: Concepts & Mitigations</h2>
+        <p class="lead">High-impact web issues and practical mitigations. Explanations are defensive and conceptual.</p>
+
+        <div class="bullets">
+          <div class="item"><h4>XSS — Cross-Site Scripting</h4><p>Cause: unsanitized HTML injection. Mitigation: encode output, use CSP, and avoid dangerous sinks.</p></div>
+          <div class="item"><h4>CSRF — Cross-Site Request Forgery</h4><p>Mitigation: SameSite cookies, CSRF tokens, double submit pattern.</p></div>
+          <div class="item"><h4>Clickjacking</h4><p>Mitigation: X-Frame-Options or frame-ancestors CSP.</p></div>
+          <div class="item"><h4>Insecure Direct Object Reference</h4><p>Mitigation: access control checks and opaque IDs.</p></div>
+          <div class="item"><h4>Security headers</h4><p>Add HSTS, CSP, X-Content-Type-Options, Referrer-Policy, Permissions-Policy.</p></div>
+          <div class="item"><h4>File upload</h4><p>Validate and store outside webroot; use content scanners.</p></div>
+          <div class="item"><h4>Open redirects</h4><p>Validate return URLs and use allowlists.</p></div>
+          <div class="item"><h4>Authentication misconfig</h4><p>Use tested libraries for sessions and auth flows.</p></div>
+          <div class="item"><h4>Dependency security</h4><p>Scan dependencies for known vulnerabilities (SCA tools).</p></div>
+          <div class="item"><h4>Logging & monitoring</h4><p>Monitor unusual patterns; instrument alerts for suspicious behavior.</p></div>
+        </div>
+
+        <h3 style="margin-top:12px">Example — Content Security Policy (server header)</h3>
+        <pre class="code">
+// Example CSP header (minimal)
+Content-Security-Policy: default-src 'self'; script-src 'self' https://trusted.cdn.example; object-src 'none'; frame-ancestors 'none'; base-uri 'self';
+        </pre>
+
+      </section>
+
+      <!-- CRYPTO -->
+      <section id="crypto" class="module">
+        <h2>Cryptography Basics</h2>
+        <p class="lead">High-level cryptography guidance: what to use, and what to avoid. Use well-reviewed libraries — don't implement crypto primitives yourself.</p>
+        <div class="bullets">
+          <div class="item"><h4>1. Use TLS</h4><p>Always use HTTPS with modern ciphers and HSTS.</p></div>
+          <div class="item"><h4>2. Use AEAD</h4><p>Use authenticated encryption (AES-GCM, ChaCha20-Poly1305) for confidentiality+authenticity.</p></div>
+          <div class="item"><h4>3. Key management</h4><p>Store keys in KMS or HSM; rotate keys regularly.</p></div>
+          <div class="item"><h4>4. Use libs</h4><p>Use libs like libsodium or platform-provided, not custom crypto.</p></div>
+          <div class="item"><h4>5. Password hashing</h4><p>Argon2 or bcrypt with appropriate cost factors.</p></div>
+          <div class="item"><h4>6. RNG</h4><p>Use a cryptographically secure RNG for keys and nonces.</p></div>
+          <div class="item"><h4>7. Signatures</h4><p>Use standard schemes (Ed25519, ECDSA) and verify carefully.</p></div>
+          <div class="item"><h4>8. Avoid homegrown</h4><p>Never invent your own encryption protocol: use standard authenticated constructions.</p></div>
+          <div class="item"><h4>9. Transport vs at-rest</h4><p>Encrypt both in transit and at rest where needed.</p></div>
+          <div class="item"><h4>10. Audit</h4><p>Have crypto usage reviewed by experts for high-risk systems.</p></div>
+        </div>
+
+        <h3 style="margin-top:12px">Code Example — Encrypt/Decrypt (Node.js + libsodium)</h3>
+        <pre class="code">
+// Node.js + sodium-native or libsodium wrapper (example pseudocode)
+const sodium = require('libsodium-wrappers');
+
+(async() => {
+  await sodium.ready;
+  const key = sodium.randombytes_buf(sodium.crypto_secretbox_KEYBYTES);
+  const nonce = sodium.randombytes_buf(sodium.crypto_secretbox_NONCEBYTES);
+  const message = Buffer.from("secret data");
+
+  const ciphertext = sodium.crypto_secretbox_easy(message, nonce, key);
+  const plaintext = sodium.crypto_secretbox_open_easy(ciphertext, nonce, key);
+})();
+        </pre>
+      </section>
+
+      <!-- NETWORK -->
+      <section id="network" class="module">
+        <h2>Network Security Basics</h2>
+        <p class="lead">Principles for protecting networked services and infrastructure.</p>
+        <div class="bullets">
+          <div class="item"><h4>1. Firewall segmentation</h4><p>Limit access between services with least privilege.</p></div>
+          <div class="item"><h4>2. VPN & Zero Trust</h4><p>Consider Zero Trust models for internal access.</p></div>
+          <div class="item"><h4>3. TLS everywhere</h4><p>Encrypt all service-to-service traffic.</p></div>
+          <div class="item"><h4>4. Secure DNS</h4><p>Use DNSSEC and monitor DNS logs for anomalies.</p></div>
+          <div class="item"><h4>5. Logging & telemetry</h4><p>Centralize logs & alerts for detection.</p></div>
+          <div class="item"><h4>6. Rate limiting</h4><p>Protect APIs from abuse.</p></div>
+          <div class="item"><h4>7. DDoS mitigation</h4><p>Use providers or edge protections for volumetric attacks.</p></div>
+          <div class="item"><h4>8. IAM & MFA</h4><p>Strict identity controls for infra and cloud consoles.</p></div>
+          <div class="item"><h4>9. Secrets</h4><p>Never store secrets in code or plaintext config.</p></div>
+          <div class="item"><h4>10. Backups & DR</h4><p>Regular backups with tested recovery plans.</p></div>
+        </div>
+      </section>
+
+      <!-- DEVOPS -->
+      <section id="devops" class="module">
+        <h2>Secure DevOps & CI/CD</h2>
+        <p class="lead">Integrate security early in the SDLC (DevSecOps): code scanning, dependency checks, and signed artifacts.</p>
+        <div class="bullets">
+          <div class="item"><h4>1. Static analysis</h4><p>Run SAST in CI and fix findings with triage.</p></div>
+          <div class="item"><h4>2. Dependency scanning</h4><p>Use SCA tools to detect vulnerable libs and pin versions.</p></div>
+          <div class="item"><h4>3. Secrets scanning</h4><p>Prevent accidental secret commits; rotate if leaked.</p></div>
+          <div class="item"><h4>4. Build isolation</h4><p>Build artifacts in ephemeral, reproducible environments.</p></div>
+          <div class="item"><h4>5. Signed releases</h4><p>Sign containers and packages to ensure provenance.</p></div>
+          <div class="item"><h4>6. Minimal images</h4><p>Use small base images and remove unused packages.</p></div>
+          <div class="item"><h4>7. Infrastructure as code</h4><p>Review IaC changes and scan templates.</p></div>
+          <div class="item"><h4>8. Canary & rollout</h4><p>Deploy gradually and monitor errors/metrics.</p></div>
+          <div class="item"><h4>9. RBAC</h4><p>Principle of least privilege for pipelines and run-time roles.</p></div>
+          <div class="item"><h4>10. Incident drills</h4><p>Run tabletop exercises and rehearse playbooks.</p></div>
+        </div>
+
+        <h3 style="margin-top:12px">Example — Minimal Dockerfile</h3>
+        <pre class="code">
+# Dockerfile: minimal Node app (best effort)
+FROM node:18-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+CMD ["node", "index.js"]
+        </pre>
+
+      </section>
+
+      <!-- INCIDENT RESPONSE -->
+      <section id="incident" class="module">
+        <h2>Incident Response & Monitoring</h2>
+        <p class="lead">Prepare playbooks, detection rules, and communication templates before incidents occur.</p>
+        <div class="bullets">
+          <div class="item"><h4>1. Preparation</h4><p>Define roles, contacts, and tools for triage.</p></div>
+          <div class="item"><h4>2. Detection</h4><p>Implement alerts, SIEM, and anomaly detection.</p></div>
+          <div class="item"><h4>3. Containment</h4><p>Isolate affected systems; preserve logs and evidence.</p></div>
+          <div class="item"><h4>4. Eradication</h4><p>Remove malicious artifacts and patch vulnerabilities.</p></div>
+          <div class="item"><h4>5. Recovery</h4><p>Restore from known-good backups and validate integrity.</p></div>
+          <div class="item"><h4>6. Lessons learned</h4><p>Run post-mortems and update controls and playbooks.</p></div>
+        </div>
+
+        <h3 style="margin-top:12px">Incident Playbook — Example checklist</h3>
+        <pre class="code">
+# checklist (example)
+- Identify scope of incident (systems, users affected)
+- Preserve logs; create snapshots
+- Rotate credentials and revoke tokens if leaked
+- Notify stakeholders and law/security teams
+- Document timeline and actions
+        </pre>
+      </section>
+
+      <!-- TOOLS & RESOURCES -->
+      <section id="tools" class="module">
+        <h2>Tools & Resources</h2>
+        <p class="lead">Safe tools for defenders and learners. Use them responsibly and legally.</p>
+        <div class="examples">
+          <div class="example">
+            <strong>Static analysis</strong> — <span class="muted">Semgrep, SonarQube</span>
+          </div>
+          <div class="example">
+            <strong>Dependency scanning</strong> — <span class="muted">OWASP Dependency-Check, Snyk</span>
+          </div>
+          <div class="example">
+            <strong>Container scanning</strong> — <span class="muted">Trivy, Clair</span>
+          </div>
+          <div class="example">
+            <strong>Secrets & SCA</strong> — <span class="muted">git-secrets, detect-secrets</span>
+          </div>
+          <div class="example">
+            <strong>Monitoring</strong> — <span class="muted">Prometheus, ELK, Grafana</span>
+          </div>
+        </div>
+
+        <h3 style="margin-top:12px">Learning resources</h3>
+        <ul style="color:var(--muted)">
+          <li>OWASP Top 10 — Fundamental web risks</li>
+          <li>Cryptography best practices docs</li>
+          <li>Secure coding guidelines (language-specific)</li>
+        </ul>
+      </section>
+
+      <!-- QUIZ -->
+      <section id="quiz" class="module">
+        <h2>Quizzes — Test your knowledge</h2>
+        <p class="lead">Five short quizzes. Your scores are saved locally. Aim for 60% or more across modules.</p>
+
+        <div class="quiz" id="quizArea">
+          <!-- quiz UI injected by JS -->
+        </div>
+
+        <div style="margin-top:10px">
+          <button class="btn" onclick="startQuiz()">Start/Resume Quiz</button>
+          <button class="btn ghost" onclick="resetQuiz()">Reset Scores</button>
+          <div id="quizSummary" style="margin-top:10px;color:var(--muted)"></div>
+        </div>
+      </section>
+
+      <!-- PRACTICAL EXERCISES -->
+      <section class="module" id="exercises" style="margin-top:14px">
+        <h2>Guided Exercises (Practical, safe)</h2>
+        <p class="lead">Complete these to build up practical knowledge. Each exercise includes goals and hints.</p>
+
+        <div class="bullets">
+          <div class="item"><h4>Exercise 1 — Implement secure password hashing</h4><p>Goal: create a small service that registers users and stores hashed passwords. Hint: use bcrypt/argon2 libraries.</p></div>
+          <div class="item"><h4>Exercise 2 — Harden a sample web form</h4><p>Goal: validate input server-side and escape output. Hint: use parameterized DB queries and template escaping.</p></div>
+          <div class="item"><h4>Exercise 3 — Add Content Security Policy</h4><p>Goal: configure CSP header for a static site and observe blocked inline scripts.</p></div>
+          <div class="item"><h4>Exercise 4 — Scan project dependencies</h4><p>Goal: run an SCA tool and fix a transitive vulnerability.</p></div>
+          <div class="item"><h4>Exercise 5 — Simulate an incident (tabletop)</h4><p>Goal: prepare a short incident response timeline for a hypothetical credential leak.</p></div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- RIGHT: resources / quick references -->
+    <aside class="right fadein" aria-label="Resources">
+      <h4>Quick References</h4>
+      <div class="resource">
+        <div style="font-size:20px">📘</div>
+        <div><a href="#" id="owaspLink">OWASP Top 10 (link)</a><div class="small muted">Read the Top 10</div></div>
+      </div>
+
+      <div class="resource">
+        <div style="font-size:20px">🔐</div>
+        <div><a href="#" id="cryptoGuide">Cryptography Guide</a><div class="small muted">Best practices</div></div>
+      </div>
+
+      <div style="margin-top:12px">
+        <h4 style="margin:0 0 8px 0;color:var(--accent)">Cheat Sheets</h4>
+        <div class="small muted">Download quick references for XSS, CSRF, and secure headers.</div>
+        <div style="margin-top:10px"><a class="btn ghost" href="#">Download Cheat Sheets</a></div>
+      </div>
+
+      <div style="margin-top:18px">
+        <h4 style="margin:0 0 8px 0;color:var(--accent)">Progress</h4>
+        <div style="color:var(--muted)">Your quiz progress and saved status appear here.</div>
+        <div id="progressBox" style="margin-top:8px;color:var(--muted)"></div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <footer>
+    © 2025 Dawens School — Security Module • Built for learning & defense. Replace placeholder links with your repo / docs when publishing.
+  </footer>
+
+  <!-- SCRIPTS: quiz logic, theme toggle, persistence -->
+  <script>
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      localStorage.setItem('dawens:theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    });
+    (function initTheme(){
+      const t = localStorage.getItem('dawens:theme');
+      if(t === 'light') document.body.classList.add('light');
+    })();
+
+    // Smooth anchors
+    document.querySelectorAll('.toc a').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        const id = a.getAttribute('href').slice(1);
+        document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+    function scrollToId(id){ document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'}); }
+
+    // QUIZ DATA: 5 quizzes, each has 5 questions. Defensive, non-actionable.
+    const quizzes = [
+      {
+        id: 'q1',
+        title: 'Basics: Authentication & Passwords',
+        questions: [
+          { q: 'Which is best for password storage?', a: ['Plaintext', 'MD5', 'bcrypt/argon2', 'Base64'], correct: 2 },
+          { q: 'What is 2FA useful for?', a: ['Replacing passwords', 'Additional login factor', 'Encrypting DB', 'Faster auth'], correct: 1 },
+          { q: 'What is a safe cost factor approach?', a: ['Use minimal cost', 'Use adaptive slow hash and monitor', 'Use SHA1', 'No hash'], correct: 1 },
+          { q: 'Should passwords be stored in source code?', a: ['Yes', 'Only for dev', 'Never', 'If encrypted'], correct: 2 },
+          { q: 'Best practice for password resets?', a: ['Permanent link in email', 'Single-use short-lived token', 'Send password via email', 'Reset to "password123"'], correct: 1 }
+        ]
+      },
+      {
+        id: 'q2',
+        title: 'Input Validation & DB Safety',
+        questions: [
+          { q: 'Prefer which validation strategy?', a: ['Blacklist', 'Whitelist', 'No validation', 'Regex-only for every case'], correct: 1 },
+          { q: 'DB queries should use?', a: ['String concatenation', 'Parameterized queries', 'Direct eval', 'CSV concat'], correct: 1 },
+          { q: 'Client-side validation suffices?', a: ['Yes', 'Only for UX', 'Always', 'If server trusts it'], correct: 1 },
+          { q: 'Sanitize before showing in HTML?', a: ['No need', 'Yes — encode output', 'Only for mobile', 'Only for images'], correct: 1 },
+          { q: 'Avoid which function for JSON?', a: ['JSON.parse', 'eval', 'JSON.stringify', 'safe parser'], correct: 1 }
+        ]
+      },
+      {
+        id: 'q3',
+        title: 'Web (headers & CSP)',
+        questions: [
+          { q: 'CSP helps prevent?', a: ['CSRF', 'XSS', 'DDoS', 'SQLi'], correct: 1 },
+          { q: 'Which header stops MIME sniffing?', a: ['X-Frame-Options', 'X-Content-Type-Options', 'Content-Security-Policy', 'Referrer-Policy'], correct: 1 },
+          { q: 'Use HTTPS?', a: ['Optional', 'Always', 'Only prod', 'Only for login'], correct: 1 },
+          { q: 'Frame-ancestors in CSP prevents?', a: ['Open redirect', 'Clickjacking', 'CSRF', 'DNS hijack'], correct: 1 },
+          { q: 'SameSite cookie defends against?', a: ['XSS', 'CSRF', 'SQLi', 'Broken auth'], correct: 1 }
+        ]
+      },
+      {
+        id: 'q4',
+        title: 'Cryptography & Keys',
+        questions: [
+          { q: 'Implement crypto primitives yourself?', a: ['Yes', 'No', 'Only AES', 'Only RSA'], correct: 1 },
+          { q: 'Use which type for authenticated encryption?', a: ['AES-CBC', 'AES-GCM', 'MD5', 'Plain RSA'], correct: 1 },
+          { q: 'Where to store keys?', a: ['In source', 'KMS/HSM', 'On desktop', 'In DB plaintext'], correct: 1 },
+          { q: 'Good random source?', a: ['Math.random', 'CSPRNG', 'Date.now', 'Counter'], correct: 1 },
+          { q: 'Rotate keys regularly?', a: ['Yes', 'No', 'Only if leaked', 'Never'], correct: 0 }
+        ]
+      },
+      {
+        id: 'q5',
+        title: 'DevOps & Incident',
+        questions: [
+          { q: 'What to do first after a suspected breach?', a: ['Delete logs', 'Isolate impacted systems', 'Publish everything', 'Ignore'], correct: 1 },
+          { q: 'CI should include?', a: ['SAST & SCA', 'No checks', 'Only tests', 'Only lint'], correct: 0 },
+          { q: 'Secrets in repo?', a: ['OK for internal', 'Never', 'If encrypted', 'Only small keys'], correct: 1 },
+          { q: 'Canary deploy is used for?', a: ['Faster rollback', 'Higher cost', 'Hide bugs', 'Disable monitoring'], correct: 0 },
+          { q: 'Practice for incidents?', a: ['Tabletop exercises', 'Ad-hoc improv', 'Only after real attack', 'Never'], correct: 0 }
+        ]
+      }
+    ];
+
+    // QUIZ STATE persistence
+    const STORAGE_KEY = 'dawens:security:quiz';
+    const PROG_KEY = 'dawens:security:progress';
+
+    function getSavedState(){
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    }
+    function saveState(state){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      updateProgressUi();
+    }
+
+    // render quiz UI
+    function startQuiz(){
+      const container = document.getElementById('quizArea');
+      container.innerHTML = '';
+      const saved = getSavedState();
+      quizzes.forEach((quiz, qi) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'q-card';
+        const title = document.createElement('h3');
+        title.textContent = `${qi+1}. ${quiz.title}`;
+        wrapper.appendChild(title);
+
+        quiz.questions.forEach((qq, idx) => {
+          const qbox = document.createElement('div');
+          qbox.style.marginTop = '8px';
+          const qtitle = document.createElement('div');
+          qtitle.textContent = (idx+1)+'. '+qq.q;
+          qtitle.style.fontWeight = '700';
+          qbox.appendChild(qtitle);
+
+          qq.a.forEach((opt, oi) => {
+            const id = `${quiz.id}_${idx}_${oi}`;
+            const label = document.createElement('label');
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = `${quiz.id}_${idx}`;
+            input.value = oi;
+            input.style.marginRight = '8px';
+            if(saved[quiz.id] && saved[quiz.id][idx] !== undefined){
+              // preselect saved answer
+              input.checked = (saved[quiz.id][idx] === oi);
+            }
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(opt));
+            qbox.appendChild(label);
+          });
+
+          wrapper.appendChild(qbox);
+        });
+
+        // buttons per quiz
+        const btnWrap = document.createElement('div'); btnWrap.style.marginTop='10px';
+        const saveBtn = document.createElement('button'); saveBtn.className='btn'; saveBtn.textContent='Save Answers';
+        saveBtn.addEventListener('click', ()=> saveQuizAnswers(quiz.id));
+        const scoreBtn = document.createElement('button'); scoreBtn.className='btn ghost'; scoreBtn.style.marginLeft='8px'; scoreBtn.textContent='Score';
+        scoreBtn.addEventListener('click', ()=> scoreQuiz(quiz.id));
+        btnWrap.appendChild(saveBtn); btnWrap.appendChild(scoreBtn);
+        wrapper.appendChild(btnWrap);
+
+        container.appendChild(wrapper);
+      });
+
+      // show summary
+      updateProgressUi();
+    }
+
+    function saveQuizAnswers(quizId){
+      const saved = getSavedState();
+      const quiz = quizzes.find(q=>q.id===quizId);
+      if(!quiz) return;
+      saved[quizId] = [];
+      quiz.questions.forEach((qq, i) => {
+        const sel = document.querySelector(`input[name="${quizId}_${i}"]:checked`);
+        saved[quizId][i] = sel ? parseInt(sel.value) : null;
+      });
+      saveState(saved);
+      alert('Answers saved locally.');
+    }
+
+    function scoreQuiz(quizId){
+      const saved = getSavedState();
+      const quiz = quizzes.find(q=>q.id===quizId);
+      if(!quiz) return;
+      const user = saved[quizId] || [];
+      let correct = 0, total = quiz.questions.length;
+      quiz.questions.forEach((qq, i) => {
+        if(user[i] !== null && user[i] !== undefined && user[i] === qq.correct) correct++;
+      });
+      const pct = Math.round((correct/total)*100);
+      // store progress aggregate
+      const prog = JSON.parse(localStorage.getItem(PROG_KEY) || '{}');
+      prog[quizId] = {score: pct, correct, total, timestamp: Date.now()};
+      localStorage.setItem(PROG_KEY, JSON.stringify(prog));
+      updateProgressUi();
+      alert(`Score for "${quiz.title}": ${correct}/${total} (${pct}%)`);
+    }
+
+    function updateProgressUi(){
+      const box = document.getElementById('progressBox');
+      const prog = JSON.parse(localStorage.getItem(PROG_KEY) || '{}');
+      const keys = Object.keys(prog);
+      if(keys.length===0){ box.textContent = 'No quiz scores yet.'; document.getElementById('progressFill').style.width = '0%'; return; }
+      // compute average
+      let sum = 0, count = 0;
+      keys.forEach(k=>{ sum += prog[k].score; count++ });
+      const avg = Math.round(sum/count);
+      box.textContent = `Quizzes completed: ${keys.length} • Average score: ${avg}%`;
+      document.getElementById('progressFill').style.width = avg + '%';
+    }
+
+    function resetQuiz(){
+      if(!confirm('Reset all saved quiz answers and scores?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(PROG_KEY);
+      document.getElementById('quizArea').innerHTML = '';
+      updateProgressUi();
+      alert('Quiz progress reset.');
+    }
+
+    // init on load
+    document.addEventListener('DOMContentLoaded', () => {
+      updateProgressUi();
+      // attempt to pre-render quiz if previously saved
+      const saved = getSavedState();
+      if(Object.keys(saved).length > 0) startQuiz();
+    });
+
+    // Accessibility helper: keyboard shortcuts for testing quickly
+    document.addEventListener('keydown', (e) => {
+      if(e.ctrlKey && e.key === 'k'){ // ctrl+k to start quiz
+        e.preventDefault(); startQuiz();
+      }
+    });
+
+  </script>
+</body>
+</html>

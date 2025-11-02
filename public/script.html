@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Tools & Scripts - MINI JESUS BOT</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1: #060612;
+    --bg-2: #0a0f1a;
+    --neon-a: #00ffb3;
+    --neon-b: #00d1ff;
+    --muted: #bfc7d0;
+    --card: rgba(255,255,255,0.04);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background: radial-gradient(circle at 10% 10%, #061022 0%, #02030a 40%, #000 100%);
+    color:#eef2f7;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    min-height:100vh;
+  }
+
+  /* header */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:40;
+    backdrop-filter: blur(6px);
+    background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.35));
+    border-bottom:1px solid rgba(255,255,255,0.03);
+  }
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:16px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .brand{
+    font-weight:700;
+    color:var(--neon-a);
+    font-size:1.25rem;
+    letter-spacing:1px;
+    text-shadow: 0 0 15px rgba(0,255,179,0.12), 0 0 35px rgba(0,209,255,0.06);
+  }
+  nav ul{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    margin:0; padding:0; list-style:none;
+  }
+  nav a{
+    color:var(--muted);
+    text-decoration:none;
+    font-weight:500;
+    padding:8px 12px;
+    border-radius:10px;
+    transition:all .18s ease;
+  }
+  nav a:hover{
+    color:#fff;
+    transform:translateY(-2px);
+    text-shadow:0 0 10px rgba(0,209,255,0.12);
+  }
+  nav a.active{
+    background: linear-gradient(135deg, rgba(0,255,179,0.12), rgba(0,209,255,0.08));
+    color: #001019;
+    box-shadow: 0 8px 20px rgba(0,255,179,0.06), inset 0 0 8px rgba(255,255,255,0.02);
+    font-weight:600;
+  }
+
+  /* page hero */
+  .hero{
+    max-width:1100px;
+    margin:120px auto 28px;
+    padding: 0 20px;
+  }
+  .hero h1{
+    font-size:2.6rem;
+    margin:0 0 10px 0;
+    color:var(--neon-a);
+    letter-spacing:1px;
+    text-shadow: 0 0 22px rgba(0,255,179,0.12);
+  }
+  .hero p{
+    margin:0 0 22px 0;
+    color:var(--muted);
+    font-size:1rem;
+    max-width:880px;
+    line-height:1.6;
+  }
+
+  /* big CTA box (top download example) */
+  .cta {
+    margin:18px 0 30px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:18px;
+    padding:24px;
+    border:1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display:flex;
+    align-items:center;
+    gap:18px;
+    justify-content:space-between;
+  }
+  .cta .left{
+    text-align:left;
+  }
+  .cta h2{
+    margin:0 0 6px 0;
+    color:var(--neon-b);
+    font-size:1.1rem;
+    letter-spacing:0.6px;
+  }
+  .cta p{ margin:0; color:var(--muted); font-size:0.95rem; }
+  .cta .cta-btn{
+    background: linear-gradient(135deg,var(--neon-a),var(--neon-b));
+    color:#001019;
+    padding:12px 18px;
+    border-radius:12px;
+    font-weight:700;
+    text-decoration:none;
+    box-shadow: 0 8px 30px rgba(0,255,179,0.14);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .cta .cta-btn:hover{ transform:translateY(-3px); box-shadow: 0 18px 50px rgba(0,209,255,0.18) }
+
+  /* scripts grid */
+  .grid{
+    max-width:1100px;
+    margin:18px auto 60px;
+    padding:0 20px;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:18px;
+  }
+
+  .card{
+    background: var(--card);
+    border-radius:16px;
+    padding:22px;
+    border:1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    transition: transform .22s cubic-bezier(.16,.8,.28,1), box-shadow .22s ease;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    min-height:160px;
+    position:relative;
+    overflow:hidden;
+  }
+  .card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: linear-gradient(120deg, rgba(0,255,179,0.02), transparent 40%, rgba(0,209,255,0.02));
+    pointer-events:none;
+  }
+  .card .icon{
+    width:48px; height:48px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:12px;
+    background: linear-gradient(135deg, rgba(0,255,179,0.08), rgba(0,209,255,0.06));
+    box-shadow: 0 6px 18px rgba(0,255,179,0.04);
+  }
+  .card h3{
+    margin:6px 0 8px; color:var(--neon-a); font-size:1.05rem;
+    text-shadow:0 0 8px rgba(0,255,179,0.06);
+  }
+  .card p{
+    margin:0 0 14px; color:var(--muted); font-size:0.95rem;
+  }
+  .card .small-btn{
+    margin-top:auto;
+    display:inline-block;
+    padding:8px 14px;
+    background: linear-gradient(135deg,var(--neon-a),var(--neon-b));
+    color:#001019; text-decoration:none; font-weight:700;
+    border-radius:9px;
+    box-shadow: 0 8px 24px rgba(0,255,179,0.12);
+    transition:transform .14s ease, box-shadow .14s ease;
+    font-size:0.9rem;
+  }
+  .card .small-btn:hover{ transform:translateY(-4px); box-shadow:0 18px 40px rgba(0,209,255,0.16) }
+
+  /* card hover neon streak */
+  .card:hover{
+    transform:translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 12px 40px rgba(0,255,179,0.06);
+  }
+
+  /* accent big section titles */
+  .section-title{
+    max-width:1100px;
+    margin:36px auto 12px;
+    padding:0 20px;
+    color:var(--neon-b);
+    font-size:1.6rem;
+    text-align:left;
+    letter-spacing:0.6px;
+    text-shadow:0 0 10px rgba(0,209,255,0.06);
+  }
+
+  /* footer */
+  footer{
+    text-align:center;
+    color:var(--muted);
+    padding:48px 20px 80px;
+    font-size:0.9rem;
+  }
+
+  /* responsive */
+  @media (max-width:980px){
+    .grid{ grid-template-columns: repeat(2, 1fr); }
+    .hero h1{ font-size:2rem }
+  }
+  @media (max-width:640px){
+    nav .wrap{flex-direction:column; align-items:flex-start}
+    .grid{ grid-template-columns: 1fr; gap:14px; padding-bottom:30px }
+    .hero{ margin-top:110px }
+    .cta{ flex-direction:column; align-items:flex-start; gap:12px }
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">DAWENS BOY SENSEI</div>
+    <nav>
+      <ul>
+        <li><a href="public/index.html">Home</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="tools.html" class="active">Tools</a></li>
+        <li><a href="api.html">API</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Tools & Scripts</h1>
+    <p>Download our most popular tools and scripts. Click any button to start your download — files hosted or linked by you.</p>
+
+    <!-- big CTA download (example) -->
+    <div class="cta" role="region" aria-label="Featured download">
+      <div class="left">
+        <h2>Fake Chat WhatsApp</h2>
+        <p>Download the latest version of Fake Chat WhatsApp — lightweight, themeable, and mobile-ready.</p>
+      </div>
+      <a class="cta-btn" href="https://www.mediafire.com/file/2ysgd12b6g5b379/GB_WHATSAPP_FAKE_CHAT_2.25.16.82.7z/file" download>DOWNLOAD FAKE CHAT</a>
+    </div>
+  </section>
+
+  <h2 class="section-title">Download Ban Scripts</h2>
+
+  <section class="grid" aria-label="Script list">
+    <!-- Script 1 -->
+    <article class="card">
+      <div class="icon">⚠️</div>
+      <h3>Script 1</h3>
+      <p>Quick ban script — easy to configure and run.</p>
+      <a class="small-btn" href="https://www.mediafire.com/file/xq44xc72j2nedjq/BAN_SCRIPT_1.txt/file" download>Download</a>
+    </article>
+
+    <!-- Script 2 -->
+    <article class="card">
+      <div class="icon">👺</div>
+      <h3>Script 2</h3>
+      <p>Moderation + autopilot banning logic for groups.</p>
+      <a class="small-btn" href="https://www.mediafire.com/file/b0q0uo5xn9cs2vg/BAN_SCRIPT_2.txt/file" download>Download</a>
+    </article>
+
+    <!-- Script 3 -->
+    <article class="card">
+      <div class="icon">⚡</div>
+      <h3>Script 3</h3>
+      <p>Fast-check script (low CPU) for mass checks.</p>
+      <a class="small-btn" href="https://www.mediafire.com/file/bslleekddasw9y7/3.txt/file" download>Download</a>
+    </article>
+
+    <!-- Script 4 -->
+    <article class="card">
+      <div class="icon">🔒</div>
+      <h3>Script 4</h3>
+      <p>Secure ban flow with logging and rollback.</p>
+      <a class="small-btn" href="https://www.mediafire.com/file/s6ci708msc1s9wi/4.txt/file" download>Download</a>
+    </article>
+
+    <!-- Script 5 -->
+    <article class="card">
+      <div class="icon">😈</div>
+      <h3>Script 5</h3>
+      <p>Smart rules engine — set custom ban conditions.</p>
+      <a class="small-btn" href="https://www.mediafire.com/file/29xu0ee3bhcx91b/5.txt/file" download>Download</a>
+    </article>
+
+    <!-- Script 6 -->
+    <article class="card">
+      <div class="icon">⬇️</div>
+      <h3>Script 6</h3>
+      <p>Auto-ban + notify pipeline with webhooks.</p>
+      <a class="small-btn" href="https://www.mediafire.com/file/motac0bhhjg9iho/SCRIPT_6.txt/file" download>Download</a>
+    </article>
+
+    <!-- Script 7 -->
+    <article class="card">
+      <div class="icon">☠️</div>
+      <h3>Script 7</h3>
+      <p>Remote-control script for distributed checks.</p>
+      <a class="small-btn" href="https://www.mediafire.com/file/xh1hzowxtl31xfg/BAN-7.txt/file" download>Download</a>
+    </article>
+
+    <!-- Script 8 -->
+    <article class="card">
+      <div class="icon">👿</div>
+      <h3>Script 8</h3>
+      <p>Toolkit: test, preview, and simulate bans safely.</p>
+      <a class="small-btn" href="https://www.mediafire.com/file/oh6ls25mawo5c7i/BAN_SCRIPT_8.txt/file" download>Download</a>
+    </article>
+
+    <!-- Script 9 -->
+    <article class="card">
+      <div class="icon">🚀</div>
+      <h3>Script 9</h3>
+      <p>Optimized release — low-latency and ready for production.</p>
+      <a class="small-btn" href="https://royal-ban-spam.vercel.app" download>Download</a>
+    </article>
+  </section>
+
+  <footer>
+    © 2025 DAWENS BOY SENSEI — All rights reserved • Need files hosted? Replace each <code>href="#"</code> by your file URL.
+  </footer>
+</main>
+
+</body>
+</html>

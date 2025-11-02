@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Java Course — Dawens School</title>
+  <meta name="description" content="Dawens School — Complete Java course, lessons, examples and 15-question quiz with auto-correction."/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================
+       Dawens Java Course Styles
+       Light/Dark toggle included
+       ============================ */
+    :root{
+      --bg-dark: #05060b;
+      --panel-dark: rgba(255,255,255,0.03);
+      --muted: #9aa6b2;
+      --accent-a: #00eaff;
+      --accent-b: #00ffa8;
+      --card-radius: 12px;
+      --max-width: 1100px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+      --success: #2dd4bf;
+      --danger: #ff6b6b;
+    }
+
+    /* Light theme variables (will toggle class on body) */
+    body.light {
+      --bg-dark: #f6f9fb;
+      --panel-dark: rgba(0,0,0,0.03);
+      --muted: #475569;
+      --accent-a: #0066ff;
+      --accent-b: #00a86b;
+      color: #0b1320;
+    }
+
+    /* Base */
+    *{ box-sizing: border-box; }
+    html,body{ height:100%; margin:0; font-family:'Poppins', sans-serif; background: radial-gradient(circle at top left, #020617, #000); color:#eef2f7; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+    body { background: linear-gradient(180deg,var(--bg-dark), #000); padding-bottom:80px; }
+
+    /* Container */
+    .container { max-width: var(--max-width); margin: 90px auto 40px; padding: 20px; }
+
+    /* Header */
+    .topbar { position: fixed; top:0; left:0; right:0; height:70px; display:flex; align-items:center; justify-content:center; backdrop-filter: blur(6px); z-index:60; background: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3)); border-bottom:1px solid rgba(255,255,255,0.03); }
+    .topbar .wrap { width:100%; max-width:var(--max-width); display:flex; gap:12px; align-items:center; padding:12px; }
+    .brand { color:var(--accent-a); font-weight:700; font-size:18px; letter-spacing:1px; }
+    .topnav { margin-left:auto; display:flex; gap:10px; align-items:center; }
+    .topnav a { color:var(--muted); text-decoration:none; padding:8px 12px; border-radius:10px; font-weight:600; }
+    .topnav a.active{ background: linear-gradient(90deg,var(--accent-b),var(--accent-a)); color:#001018; box-shadow:0 8px 24px rgba(0,0,0,0.4); }
+    .theme-toggle { background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.02); padding:8px 10px; border-radius:9px; cursor:pointer; font-weight:600; }
+
+    /* layout grid */
+    .layout { display:grid; grid-template-columns: 280px 1fr 320px; gap:18px; align-items:start; }
+    @media (max-width:1100px){ .layout{ grid-template-columns: 1fr; } .container{ margin-top:110px } .topbar { position:fixed; } }
+
+    /* Sidebar */
+    aside.sidebar { background: var(--panel-dark); border-radius: var(--card-radius); padding:14px; border:1px solid rgba(255,255,255,0.03); height: calc(100vh - 120px); overflow:auto; position: sticky; top:82px; }
+    aside h4 { margin:6px 0 10px 0; color:var(--accent-a); }
+    .toc a { display:block; color:var(--muted); padding:8px; border-radius:8px; text-decoration:none; margin-bottom:6px; font-weight:600; }
+    .toc a:hover { color:#fff; background: rgba(0,255,179,0.04) }
+    .progress { margin-top:14px; background: rgba(255,255,255,0.02); padding:10px; border-radius:10px; }
+    .progress .bar { height:10px; background: rgba(255,255,255,0.03); border-radius:10px; overflow:hidden; }
+    .progress .bar > span { display:block; height:100%; width:0%; background: linear-gradient(90deg,var(--accent-b),var(--accent-a)); border-radius:10px; transition:width 400ms ease; }
+
+    /* Main content */
+    main.content { background: var(--panel-dark); padding:18px; border-radius:var(--card-radius); border:1px solid rgba(255,255,255,0.03); min-height:60vh; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+    .course-title { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+    .course-title h1 { margin:0; color:var(--accent-b); font-size:1.6rem; letter-spacing:0.6px; }
+    .meta { color:var(--muted); font-size:0.95rem; margin-top:6px; }
+
+    /* Lesson sections */
+    section.lesson { margin-top:18px; padding:14px; border-radius:10px; background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent); border:1px solid rgba(255,255,255,0.01); }
+    .lesson h2 { margin:0 0 8px 0; color:var(--accent-a); }
+    .lesson p { color:var(--muted); margin:0 0 12px 0; line-height:1.6; }
+
+    /* code box */
+    .code {
+      background:#07111a;
+      border-radius:8px;
+      padding:12px;
+      color:#cfeff3;
+      font-family: var(--mono);
+      font-size:13px;
+      line-height:1.5;
+      border:1px solid rgba(255,255,255,0.03);
+      overflow:auto;
+      position:relative;
+    }
+    .code .toolbar { position:absolute; top:8px; right:8px; display:flex; gap:6px; }
+    .btn { display:inline-block; padding:8px 12px; border-radius:10px; background: linear-gradient(90deg,var(--accent-b),var(--accent-a)); color:#001018; text-decoration:none; font-weight:700; box-shadow:0 8px 20px rgba(0,0,0,0.5); cursor:pointer; }
+    .btn.ghost { background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03); }
+
+    .copy-btn { background: rgba(255,255,255,0.03); color:var(--muted); padding:6px 8px; border-radius:8px; cursor:pointer; border:1px solid rgba(255,255,255,0.02); }
+    .output { margin-top:10px; background:rgba(0,0,0,0.3); padding:10px; border-radius:8px; color:#bfeee6; font-family:var(--mono); white-space:pre-wrap; }
+
+    /* Quiz */
+    .quiz { margin-top:18px; padding:14px; border-radius:10px; background: linear-gradient(180deg, rgba(0,0,0,0.04), transparent); border:1px solid rgba(255,255,255,0.02); }
+    .question { margin-bottom:12px; padding:10px; border-radius:8px; background: rgba(255,255,255,0.02); }
+    .question h4 { margin:0 0 8px 0; color:var(--accent-a); font-size:1rem; }
+    .choices { display:flex; flex-direction:column; gap:8px; }
+    .choice { padding:10px; border-radius:8px; background: rgba(255,255,255,0.015); cursor:pointer; border:1px solid rgba(255,255,255,0.02); color:var(--muted); }
+    .choice.selected { background: linear-gradient(90deg,var(--accent-b),var(--accent-a)); color:#001018; font-weight:700; border-color: rgba(0,0,0,0.04); }
+    .result { margin-top:10px; padding:10px; border-radius:8px; font-weight:700; }
+
+    /* Right column resources */
+    aside.resources { background: var(--panel-dark); border-radius:var(--card-radius); padding:14px; border:1px solid rgba(255,255,255,0.03); height:calc(100vh - 120px); overflow:auto; position:sticky; top:82px; }
+    .resource { display:flex; gap:10px; align-items:center; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.02); margin-bottom:10px; }
+    .resource .label { color:var(--muted); font-size:0.95rem; }
+
+    /* Footer */
+    footer { max-width:var(--max-width); margin:30px auto 120px; padding:12px; color:var(--muted); text-align:center; }
+
+    /* small screens */
+    @media (max-width:1100px){
+      .container{ margin-top:110px; }
+      aside.sidebar, aside.resources{ position:relative; height:auto; top:auto; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+  <!-- TOPBAR -->
+  <div class="topbar" role="banner" aria-label="Dawens header">
+    <div class="wrap">
+      <div class="brand">Dawens School — Java</div>
+      <nav class="topnav" aria-label="Main navigation">
+        <a href="../dawens.html">Back to School</a>
+        <a href="../code/python.html">Python</a>
+        <a href="../code/javascript.html">JS</a>
+        <a href="#" class="active">Java</a>
+        <button id="themeToggle" class="theme-toggle" aria-pressed="false">Toggle Light</button>
+      </nav>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="layout">
+
+      <!-- LEFT SIDEBAR: Table of contents & progress -->
+      <aside class="sidebar" aria-label="Course contents">
+        <h4>Course Contents</h4>
+        <nav class="toc" aria-label="Table of contents">
+          <a href="#intro">Intro</a>
+          <a href="#setup">Setup & Tools</a>
+          <a href="#basics">Basics: Variables & Types</a>
+          <a href="#control">Control Flow</a>
+          <a href="#arrays">Arrays & Collections</a>
+          <a href="#oop">OOP: Classes & Objects</a>
+          <a href="#exceptions">Exceptions</a>
+          <a href="#streams">Streams & Lambda</a>
+          <a href="#concurrency">Concurrency Intro</a>
+          <a href="#project">Mini Project</a>
+          <a href="#quiz">Quiz (15)</a>
+        </nav>
+
+        <div class="progress" aria-hidden="false">
+          <small style="color:var(--muted)">Course Progress</small>
+          <div class="bar"><span id="progressBar" style="width:0%"></span></div>
+          <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:13px;color:var(--muted)"><span id="progressText">0% complete</span><span id="completedLessons">0/10</span></div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <small style="color:var(--muted)">Quick Links</small>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+            <a class="btn" href="#" onclick="downloadAll()">Download All Starter Codes</a>
+            <a class="btn ghost" href="#" onclick="resetProgress()">Reset Progress</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="content" role="main">
+
+        <div class="course-title">
+          <div>
+            <h1>Java — From Basics to 60% Practical in 2 Days</h1>
+            <div class="meta">This course is designed to get you productive quickly. Complete core lessons, run examples and pass the 15-question quiz to evaluate your understanding.</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-weight:700;color:var(--accent-b)">Instructor: DAWENS</div>
+            <div class="meta">Estimated time: Intensive 2 days track</div>
+          </div>
+        </div>
+
+        <!-- INTRO -->
+        <section id="intro" class="lesson" aria-labelledby="intro-title">
+          <h2 id="intro-title">Introduction to Java</h2>
+          <p>Java is a versatile, object-oriented programming language used for backend services, Android apps, desktop applications and more. This module focuses on practical Java patterns, rapid learning, and examples you can run locally.</p>
+          <p class="muted">Goal: after completing core lessons + the quiz, you should reach ~60% practical competence in Java essentials for building simple apps and scripts.</p>
+        </section>
+
+        <!-- SETUP -->
+        <section id="setup" class="lesson">
+          <h2>Setup & Tools</h2>
+          <p>Install JDK (version 17+ recommended) and a code editor (VSCode, IntelliJ). We'll use command-line `javac` and `java` for examples, plus small code snippets you can copy into files.</p>
+
+          <div class="code" aria-label="Setup commands">
+            <div class="toolbar">
+              <button class="copy-btn" onclick="copyText('setupCmd')">Copy</button>
+            </div>
+<pre id="setupCmd">
+// macOS / Linux
+sudo apt install openjdk-17-jdk
+java -version
+
+// Windows (PowerShell)
+choco install jdk17
+java -version
+</pre>
+          </div>
+        </section>
+
+        <!-- BASICS -->
+        <section id="basics" class="lesson">
+          <h2>Variables & Types</h2>
+          <p>Java is statically typed. Variables have types: int, double, boolean, String, etc. Let's see a short example and simulated output.</p>
+
+          <div class="code">
+            <div class="toolbar">
+              <button class="copy-btn" onclick="copyText('basicCode')">Copy</button>
+              <button class="btn" onclick="simulate('basic')">Run Example</button>
+            </div>
+<pre id="basicCode">// Basic.java
+public class Basic {
+  public static void main(String[] args) {
+    int a = 7;
+    double b = 3.14;
+    boolean ok = true;
+    String msg = "Hello Java";
+    System.out.println(msg + " — a=" + a + " b=" + b + " ok=" + ok);
+  }
+}
+</pre>
+            <div class="output" id="basicOut" style="display:none"></div>
+          </div>
+
+          <p class="muted">Explanation: `System.out.println` prints to console. Java concatenates strings with `+`.</p>
+        </section>
+
+        <!-- CONTROL FLOW -->
+        <section id="control" class="lesson">
+          <h2>Control Flow: if, loops</h2>
+          <p>Conditional statements and loops are core. Practice writing `for`, `while` and enhanced `for` loops.</p>
+
+          <div class="code">
+            <div class="toolbar">
+              <button class="copy-btn" onclick="copyText('loopCode')">Copy</button>
+              <button class="btn" onclick="simulate('loop')">Run Example</button>
+            </div>
+<pre id="loopCode">// LoopExample.java
+public class LoopExample {
+  public static void main(String[] args) {
+    for (int i = 1; i <= 5; i++) {
+      System.out.println("i=" + i);
+    }
+  }
+}
+</pre>
+            <div class="output" id="loopOut" style="display:none"></div>
+          </div>
+        </section>
+
+        <!-- ARRAYS -->
+        <section id="arrays" class="lesson">
+          <h2>Arrays & Collections</h2>
+          <p>Arrays store fixed-size lists. Use ArrayList for dynamic lists. Collections are powerful for practical tasks.</p>
+
+          <div class="code">
+            <div class="toolbar">
+              <button class="copy-btn" onclick="copyText('arrayCode')">Copy</button>
+              <button class="btn" onclick="simulate('array')">Run Example</button>
+            </div>
+<pre id="arrayCode">// ArrayListExample.java
+import java.util.ArrayList;
+public class ArrayListExample {
+  public static void main(String[] args) {
+    ArrayList<String> names = new ArrayList<>();
+    names.add("Dawens");
+    names.add("Anna");
+    names.add("Rex");
+    for (String s : names) {
+      System.out.println(s);
+    }
+  }
+}
+</pre>
+            <div class="output" id="arrayOut" style="display:none"></div>
+          </div>
+        </section>
+
+        <!-- OOP -->
+        <section id="oop" class="lesson">
+          <h2>OOP: Classes, Objects & Methods</h2>
+          <p>Object-oriented programming (OOP) is central in Java. Define classes, constructors, methods, and encapsulate behavior.</p>
+
+          <div class="code">
+            <div class="toolbar">
+              <button class="copy-btn" onclick="copyText('oopCode')">Copy</button>
+              <button class="btn" onclick="simulate('oop')">Run Example</button>
+            </div>
+<pre id="oopCode">// Person.java
+public class Person {
+  private String name;
+  public Person(String name) { this.name = name; }
+  public void greet() { System.out.println("Hello, I'm " + name); }
+  public static void main(String[] args) {
+    Person p = new Person("Dawens");
+    p.greet();
+  }
+}
+</pre>
+            <div class="output" id="oopOut" style="display:none"></div>
+          </div>
+
+          <p class="muted">Exercises: create classes for `Book`, `Student`, `Course` with simple interactions.</p>
+        </section>
+
+        <!-- EXCEPTIONS -->
+        <section id="exceptions" class="lesson">
+          <h2>Exceptions & Error handling</h2>
+          <p>Use try/catch to handle recoverable errors. Always clean up resources in `finally` or use try-with-resources.</p>
+
+          <div class="code">
+            <div class="toolbar">
+              <button class="copy-btn" onclick="copyText('exCode')">Copy</button>
+            </div>
+<pre id="exCode">// ExceptionExample.java
+public class ExceptionExample {
+  public static void main(String[] args) {
+    try {
+      int x = 5 / 0;
+    } catch (ArithmeticException e) {
+      System.out.println("Math error: " + e.getMessage());
+    } finally {
+      System.out.println("Cleaning up");
+    }
+  }
+}
+</pre>
+          </div>
+        </section>
+
+        <!-- STREAMS -->
+        <section id="streams" class="lesson">
+          <h2>Streams & Lambda (Intro)</h2>
+          <p>Java Streams provide powerful data operations. Lambda expressions make code concise for transformations and filtering.</p>
+
+          <div class="code">
+            <div class="toolbar">
+              <button class="copy-btn" onclick="copyText('streamCode')">Copy</button>
+            </div>
+<pre id="streamCode">// StreamsExample.java
+import java.util.Arrays;
+public class StreamsExample {
+  public static void main(String[] args) {
+    int[] nums = {1,2,3,4,5};
+    Arrays.stream(nums).map(n -> n * 2).forEach(System.out::println);
+  }
+}
+</pre>
+          </div>
+        </section>
+
+        <!-- CONCURRENCY -->
+        <section id="concurrency" class="lesson">
+          <h2>Concurrency (Intro)</h2>
+          <p>Threads and concurrency basics. Use `ExecutorService` for thread pools. Avoid race conditions using synchronization.</p>
+
+          <div class="code">
+            <div class="toolbar">
+              <button class="copy-btn" onclick="copyText('threadCode')">Copy</button>
+            </div>
+<pre id="threadCode">// ThreadExample.java
+public class ThreadExample {
+  public static void main(String[] args) {
+    Thread t = new Thread(() -> {
+      for(int i=0;i<5;i++) System.out.println("worker:"+i);
+    });
+    t.start();
+    System.out.println("main finished");
+  }
+}
+</pre>
+          </div>
+        </section>
+
+        <!-- MINI PROJECT -->
+        <section id="project" class="lesson">
+          <h2>Mini Project: CLI To-Do App</h2>
+          <p>Build a simple command-line To-Do list using ArrayList, serialization to file, and simple commands add/list/done.</p>
+
+          <div class="code">
+<pre>// Project idea (high-level)
+// - Create Todo class with id, text, completed
+// - Use ArrayList<Todo> and save to file with serialization or JSON lib
+// - Provide CLI to add/list/complete tasks
+</pre>
+          </div>
+
+          <div style="margin-top:10px;">
+            <a class="btn" href="#" onclick="alert('Starter repo placeholder — upload your starter zip and replace this link')">Download Starter Code</a>
+            <a class="btn ghost" href="#" onclick="markLessonDone('project')">Mark Done</a>
+          </div>
+        </section>
+
+        <!-- QUIZ -->
+        <section id="quiz" class="lesson quiz" aria-labelledby="quiz-title">
+          <h2 id="quiz-title">Quiz — 15 Questions (Auto-correction)</h2>
+          <p class="muted">Answer the multiple-choice questions below. Click "Submit Quiz" to see your score and auto-corrected answers.</p>
+
+          <div id="quizContainer">
+            <!-- Questions inserted via JS -->
+          </div>
+
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <button class="btn" onclick="submitQuiz()">Submit Quiz</button>
+            <button class="btn ghost" onclick="clearQuiz()">Clear Answers</button>
+            <div id="quizResult" style="margin-left:auto;color:var(--muted);font-weight:700"></div>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- RIGHT COLUMN: Resources -->
+      <aside class="resources" aria-label="Resources">
+        <h4>Resources & Notes</h4>
+        <div class="resource">
+          <div style="font-size:20px">📁</div>
+          <div>
+            <div><strong>Starter Code Folder</strong></div>
+            <div class="label">Locate your starter code in <code>/code/java/</code></div>
+          </div>
+        </div>
+
+        <div class="resource">
+          <div style="font-size:20px">🔧</div>
+          <div>
+            <div><strong>Tools</strong></div>
+            <div class="label">JDK 17+, VSCode / IntelliJ, Git</div>
+          </div>
+        </div>
+
+        <div class="resource">
+          <div style="font-size:20px">🎓</div>
+          <div>
+            <div><strong>Learning Path</strong></div>
+            <div class="label">Basics → OOP → Streams → Concurrency → Project</div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <a class="btn" href="https://github.com/DAWENS-BOY904" target="_blank">View on GitHub</a>
+          <a class="btn ghost" href="#" style="display:block;margin-top:8px" onclick="markLessonDone('all')">Mark All Lessons Done</a>
+        </div>
+      </aside>
+
+    </div> <!-- end layout -->
+  </div> <!-- end container -->
+
+  <footer>
+    © 2025 Dawens School — Java Course • Use the table of contents on the left to navigate. Progress saved in local browser storage.
+  </footer>
+
+  <!-- ===========================
+       JavaScript: interactions
+       - theme toggle
+       - code copy & simulate (fake output)
+       - progress tracker
+       - quiz engine with 15 questions
+     ============================ -->
+  <script>
+    /*********************
+     * Theme toggle
+     *********************/
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    // init from localStorage
+    if (localStorage.getItem('dawens-theme') === 'light') {
+      body.classList.add('light');
+      themeToggle.textContent = 'Toggle Dark';
+      themeToggle.setAttribute('aria-pressed','true');
+    } else {
+      body.classList.remove('light');
+      themeToggle.textContent = 'Toggle Light';
+      themeToggle.setAttribute('aria-pressed','false');
+    }
+    themeToggle.addEventListener('click', () => {
+      if (body.classList.contains('light')) {
+        body.classList.remove('light');
+        localStorage.setItem('dawens-theme','dark');
+        themeToggle.textContent = 'Toggle Light';
+        themeToggle.setAttribute('aria-pressed','false');
+      } else {
+        body.classList.add('light');
+        localStorage.setItem('dawens-theme','light');
+        themeToggle.textContent = 'Toggle Dark';
+        themeToggle.setAttribute('aria-pressed','true');
+      }
+    });
+
+    /*********************
+     * Copy helper
+     *********************/
+    function copyText(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const text = el.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copied to clipboard');
+      }).catch(()=>{ alert('Copy failed — please copy manually') });
+    }
+
+    /*********************
+     * Simulate run (fake output)
+     * We can't run Java in browser; we show expected output.
+     *********************/
+    function simulate(key) {
+      const outputs = {
+        basic: "Hello Java — a=7 b=3.14 ok=true",
+        loop: "i=1\ni=2\ni=3\ni=4\ni=5",
+        array: "Dawens\nAnna\nRex",
+        oop: "Hello, I'm Dawens",
+      };
+      const outId = {
+        basic: 'basicOut',
+        loop: 'loopOut',
+        array: 'arrayOut',
+        oop: 'oopOut'
+      }[key];
+      if (!outId) return;
+      const outEl = document.getElementById(outId);
+      outEl.style.display = 'block';
+      outEl.textContent = outputs[key] || 'Output simulated';
+      outEl.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+
+    /*********************
+     * Progress tracker
+     *********************/
+    // lessons ids to track
+    const lessons = ['intro','setup','basics','control','arrays','oop','exceptions','streams','concurrency','project'];
+    function loadProgress() {
+      const data = JSON.parse(localStorage.getItem('dawens-progress') || '{}');
+      const done = data.done || [];
+      updateProgressUI(done);
+    }
+    function updateProgressUI(done) {
+      const count = done.length;
+      const pct = Math.round((count / lessons.length) * 100);
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressText').textContent = pct + '% complete';
+      document.getElementById('completedLessons').textContent = `${count}/${lessons.length}`;
+    }
+    function markLessonDone(id) {
+      const data = JSON.parse(localStorage.getItem('dawens-progress') || '{}');
+      data.done = data.done || [];
+      if (id === 'all') {
+        data.done = lessons.slice();
+      } else {
+        if (!data.done.includes(id)) data.done.push(id);
+      }
+      localStorage.setItem('dawens-progress', JSON.stringify(data));
+      loadProgress();
+      alert('Marked as completed: ' + id);
+    }
+    function resetProgress() {
+      localStorage.removeItem('dawens-progress');
+      loadProgress();
+      alert('Progress reset');
+    }
+    function downloadAll() {
+      alert('This is a placeholder. Upload your starter zip to your server and link it here.');
+    }
+    // init
+    loadProgress();
+
+    /*********************
+     * Quiz engine
+     *********************/
+    // 15 multiple choice questions
+    const quizQuestions = [
+      {
+        q: "1) Which keyword is used to define a class in Java?",
+        choices: ["class", "struct", "module", "define"],
+        a: 0
+      },
+      {
+        q: "2) What is the size of int in Java (bits)?",
+        choices: ["16", "32", "64", "8"],
+        a: 1
+      },
+      {
+        q: "3) Which method is the entry point of a Java application?",
+        choices: ["start()", "main()", "run()", "init()"],
+        a: 1
+      },
+      {
+        q: "4) Which collection allows duplicate elements?",
+        choices: ["Set", "Map", "List", "None"],
+        a: 2
+      },
+      {
+        q: "5) Which exception is thrown on division by zero (integer)?",
+        choices: ["NullPointerException", "ArithmeticException", "ArrayIndexOutOfBoundsException", "IOException"],
+        a: 1
+      },
+      {
+        q: "6) What does JVM stand for?",
+        choices: ["Java Variable Machine", "Java Virtual Machine", "JSON Virtual Machine", "Java Version Manager"],
+        a: 1
+      },
+      {
+        q: "7) Which keyword is used for inheritance?",
+        choices: ["implements", "extends", "inherits", "derives"],
+        a: 1
+      },
+      {
+        q: "8) Which is NOT a Java primitive type?",
+        choices: ["int", "float", "String", "boolean"],
+        a: 2
+      },
+      {
+        q: "9) What will `System.out.println(2+\"3\")` print?",
+        choices: ["5", "23", "2 3", "Error"],
+        a: 1
+      },
+      {
+        q: "10) Which package contains List and Map interfaces?",
+        choices: ["java.io", "java.util", "java.net", "java.lang"],
+        a: 1
+      },
+      {
+        q: "11) What is the purpose of the `final` modifier?",
+        choices: ["Make variable mutable", "Prevent reassignment/overriding", "Make method abstract", "Expose to JVM"],
+        a: 1
+      },
+      {
+        q: "12) Which loop is guaranteed to run at least once?",
+        choices: ["for", "while", "do-while", "enhanced for"],
+        a: 2
+      },
+      {
+        q: "13) How do you declare an array of ints?",
+        choices: ["int arr[];", "int[] arr;", "Both A and B", "array<int> arr;"],
+        a: 2
+      },
+      {
+        q: "14) What is autoboxing in Java?",
+        choices: ["Converting primitives to objects", "Automatic garbage collection", "Automatic threading", "None"],
+        a: 0
+      },
+      {
+        q: "15) Which statement about Java is true?",
+        choices: ["Java is interpreted only", "Java is platform independent (via JVM)", "Java doesn't support OOP", "Java is only for web"],
+        a: 1
+      }
+    ];
+
+    // render quiz
+    const quizContainer = document.getElementById('quizContainer');
+    const userAnswers = {}; // index->choiceIndex
+    function renderQuiz() {
+      quizContainer.innerHTML = '';
+      quizQuestions.forEach((item, idx) => {
+        const qDiv = document.createElement('div');
+        qDiv.className = 'question';
+        const qTitle = document.createElement('h4');
+        qTitle.textContent = item.q;
+        qDiv.appendChild(qTitle);
+
+        const choicesDiv = document.createElement('div');
+        choicesDiv.className = 'choices';
+        item.choices.forEach((c, ci) => {
+          const ch = document.createElement('div');
+          ch.className = 'choice';
+          ch.setAttribute('data-q', idx);
+          ch.setAttribute('data-choice', ci);
+          ch.textContent = c;
+          ch.addEventListener('click', () => {
+            // mark selection
+            userAnswers[idx] = ci;
+            // visually mark
+            choicesDiv.querySelectorAll('.choice').forEach(el => el.classList.remove('selected'));
+            ch.classList.add('selected');
+          });
+          choicesDiv.appendChild(ch);
+        });
+        qDiv.appendChild(choicesDiv);
+        quizContainer.appendChild(qDiv);
+      });
+    }
+    renderQuiz();
+
+    // submit quiz
+    function submitQuiz() {
+      let correct = 0;
+      const total = quizQuestions.length;
+      // disable future changes by adding readonly attribute? We'll mark answers and show correction.
+      quizContainer.querySelectorAll('.question').forEach((qEl, idx) => {
+        const selected = userAnswers[idx];
+        const correctIndex = quizQuestions[idx].a;
+        // mark all choices
+        qEl.querySelectorAll('.choice').forEach(ch => {
+          ch.classList.remove('selected');
+          const ci = Number(ch.getAttribute('data-choice'));
+          if (ci === correctIndex) {
+            // correct answer highlight
+            ch.style.border = '2px solid var(--success)';
+            ch.style.background = 'rgba(45,212,191,0.08)';
+            ch.style.color = 'var(--success)';
+          }
+          if (selected === ci) {
+            // user's choice
+            if (selected === correctIndex) {
+              correct++;
+            } else {
+              // mark as wrong
+              ch.style.border = '2px solid var(--danger)';
+              ch.style.background = 'rgba(255,107,107,0.06)';
+              ch.style.color = 'var(--danger)';
+            }
+          }
+        });
+      });
+      const score = Math.round((correct / total) * 100);
+      const quizResult = document.getElementById('quizResult');
+      quizResult.textContent = `Score: ${score}% (${correct}/${total})`;
+      // Update progress: consider quiz as a lesson completion if score >= 60
+      if (score >= 60) {
+        const data = JSON.parse(localStorage.getItem('dawens-progress') || '{}');
+        data.done = data.done || [];
+        if (!data.done.includes('quiz')) data.done.push('quiz');
+        localStorage.setItem('dawens-progress', JSON.stringify(data));
+        loadProgress();
+        alert('Quiz passed! Marked quiz as completed.');
+      } else {
+        alert('Quiz scored less than 60%. Review lessons and try again.');
+      }
+    }
+
+    function clearQuiz() {
+      // reset styles & selections
+      document.querySelectorAll('.choice').forEach(ch => {
+        ch.classList.remove('selected');
+        ch.style.border = '';
+        ch.style.background = '';
+        ch.style.color = '';
+      });
+      for (let k in userAnswers) delete userAnswers[k];
+      document.getElementById('quizResult').textContent = '';
+      alert('Answers cleared');
+    }
+
+    /*********************
+     * Lesson completion via anchor navigation
+     *********************/
+    // When user clicks a TOC link, mark lesson as done after they visit it
+    document.querySelectorAll('.toc a').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        const id = href && href.startsWith('#') ? href.slice(1) : null;
+        if (id) {
+          // small timeout to simulate reading then mark
+          setTimeout(() => {
+            markLessonDone(id);
+          }, 1200); // 1.2s
+        }
+      });
+    });
+
+    /*********************
+     * Initialize progress from storage
+     *********************/
+    // ensure quiz lesson counted in lessons array
+    const existing = JSON.parse(localStorage.getItem('dawens-progress') || '{}');
+    if (existing.done && !existing.done.includes('project')) {
+      // nothing
+    }
+    // extend the lessons tracked with 'quiz' for progress counting
+    // We'll override updateProgressUI to reflect lessons + quiz
+    const baseLessons = ['intro','setup','basics','control','arrays','oop','exceptions','streams','concurrency','project','quiz'];
+    function updateProgressUI(done) {
+      const count = done ? done.filter(d => baseLessons.includes(d)).length : 0;
+      const pct = Math.round((count / baseLessons.length) * 100);
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressText').textContent = pct + '% complete';
+      document.getElementById('completedLessons').textContent = `${count}/${baseLessons.length}`;
+    }
+    function loadProgress() {
+      const data = JSON.parse(localStorage.getItem('dawens-progress') || '{}');
+      const done = data.done || [];
+      updateProgressUI(done);
+    }
+    // run initial load
+    loadProgress();
+
+    /*********************
+     * Utility: mark all lessons done (button)
+     *********************/
+    // implemented earlier: markLessonDone('all') will mark lessons (but earlier code used lessons array; ensure it maps)
+    function markLessonDone(id) {
+      const data = JSON.parse(localStorage.getItem('dawens-progress') || '{}');
+      data.done = data.done || [];
+      if (id === 'all') {
+        data.done = baseLessons.slice();
+      } else {
+        if (!data.done.includes(id)) data.done.push(id);
+      }
+      localStorage.setItem('dawens-progress', JSON.stringify(data));
+      loadProgress();
+      // show subtle toast
+      const msg = id === 'all' ? 'All lessons marked complete' : `Marked ${id} as complete`;
+      console.log(msg);
+    }
+
+    /*********************
+     * Accessibility: focus outlines for keyboard users
+     *********************/
+    document.addEventListener('keyup', (e) => {
+      if (e.key === 'Tab') document.body.classList.add('show-focus');
+    });
+
+    /*********************
+     * Optional: Save quiz answers periodically
+     *********************/
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('dawens-quiz-answers', JSON.stringify(userAnswers));
+    });
+    // load saved answers
+    const savedAnswers = JSON.parse(localStorage.getItem('dawens-quiz-answers') || '{}');
+    for (let k in savedAnswers) userAnswers[k] = savedAnswers[k];
+    // apply UI to selections if present
+    setTimeout(()=> {
+      for (let q in userAnswers) {
+        const sel = userAnswers[q];
+        const el = document.querySelector('.choice[data-q="'+q+'"][data-choice="'+sel+'"]');
+        if (el) el.classList.add('selected');
+      }
+    }, 500);
+
+  </script>
+</body>
+</html>

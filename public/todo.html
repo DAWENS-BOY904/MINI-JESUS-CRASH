@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dawens School | To-Do App</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top left, #020024, #090979, #00d4ff);
+      color: white;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    header {
+      text-align: center;
+      padding: 40px 10px;
+    }
+    header h1 {
+      font-size: 2em;
+      background: linear-gradient(90deg, #00ffe7, #00ff87);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    #language {
+      background: #111;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,255,255,0.4);
+    }
+    input {
+      width: 70%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      margin-right: 10px;
+      outline: none;
+    }
+    button {
+      background: #00ffb3;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      cursor: pointer;
+      color: black;
+      font-weight: bold;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: rgba(255,255,255,0.1);
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    li.done {
+      text-decoration: line-through;
+      color: #aaa;
+    }
+    .lang-desc {
+      text-align: center;
+      font-size: 0.9em;
+      margin-top: 20px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="title">🧠 Dawens To-Do Learning Project</h1>
+    <select id="language">
+      <option value="en">English</option>
+      <option value="ht">Kreyòl</option>
+      <option value="fr">Français</option>
+    </select>
+  </header>
+  
+  <div class="container">
+    <input type="text" id="taskInput" placeholder="Add a new task">
+    <button onclick="addTask()">Add</button>
+    <ul id="taskList"></ul>
+  </div>
+
+  <p class="lang-desc" id="desc">Learn how to manage simple data and events using JavaScript.</p>
+
+  <script>
+    const texts = {
+      en: {
+        title: "🧠 Dawens To-Do Learning Project",
+        desc: "Learn how to manage simple data and events using JavaScript.",
+        placeholder: "Add a new task"
+      },
+      ht: {
+        title: "🧠 Pwojè Aprantisaj Dawens To-Do",
+        desc: "Aprann kijan pou jere done ak evènman senp ak JavaScript.",
+        placeholder: "Ajoute nouvo travay"
+      },
+      fr: {
+        title: "🧠 Projet To-Do Dawens d’apprentissage",
+        desc: "Apprenez à gérer des données et des événements simples avec JavaScript.",
+        placeholder: "Ajouter une nouvelle tâche"
+      }
+    };
+
+    const input = document.getElementById("taskInput");
+    const list = document.getElementById("taskList");
+    const select = document.getElementById("language");
+
+    function addTask() {
+      if (input.value.trim() === "") return;
+      const li = document.createElement("li");
+      li.textContent = input.value;
+      li.onclick = () => li.classList.toggle("done");
+      list.appendChild(li);
+      input.value = "";
+    }
+
+    select.onchange = () => {
+      const t = texts[select.value];
+      document.getElementById("title").textContent = t.title;
+      document.getElementById("desc").textContent = t.desc;
+      input.placeholder = t.placeholder;
+    };
+  </script>
+</body>
+</html>

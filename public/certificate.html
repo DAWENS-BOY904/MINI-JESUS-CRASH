@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dawens School | Certificate</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    body {
+      background: radial-gradient(circle at top left, #010024, #001f5e, #0075ff);
+      color: white;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 40px;
+    }
+    h1 {
+      background: linear-gradient(90deg, #00ffcc, #00aaff);
+      -webkit-background-clip: text;
+      color: transparent;
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    select, input, button {
+      margin: 5px;
+      border-radius: 10px;
+      border: none;
+      padding: 10px 15px;
+      font-size: 1em;
+    }
+    select, input {
+      width: 250px;
+      outline: none;
+    }
+    button {
+      background: linear-gradient(90deg, #00ffe7, #00ff87);
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #00ff87, #00ffe7);
+      transform: scale(1.05);
+    }
+
+    /* ===== CERTIFICATE DESIGN ===== */
+    .certificate {
+      margin-top: 40px;
+      width: 90%;
+      max-width: 800px;
+      background: #fff;
+      color: #000;
+      border-radius: 20px;
+      padding: 50px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+      display: none;
+      position: relative;
+      background-image: radial-gradient(circle at top left, #f7faff, #eaf6ff);
+    }
+    .cert-header img {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+    .cert-header h2 {
+      color: #001f5e;
+      margin: 5px 0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .cert-body {
+      margin-top: 20px;
+    }
+    .cert-body p {
+      font-size: 1.1em;
+      color: #333;
+    }
+    .cert-body .name {
+      font-size: 2em;
+      color: #0075ff;
+      font-weight: 700;
+      margin: 10px 0;
+    }
+    .cert-footer {
+      margin-top: 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+    }
+    .cert-footer img {
+      width: 100px;
+      opacity: 0.8;
+    }
+    .signature {
+      text-align: right;
+      font-style: italic;
+      font-weight: bold;
+      color: #001f5e;
+    }
+    .download-btn {
+      margin-top: 15px;
+      background: #0075ff;
+      color: white;
+      border-radius: 8px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    footer {
+      margin-top: 60px;
+      opacity: 0.7;
+      text-align: center;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">🎓 Dawens School Certificate</h1>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+
+  <div class="form">
+    <select id="lang">
+      <option value="en">English</option>
+      <option value="ht">Kreyòl</option>
+      <option value="fr">Français</option>
+    </select><br />
+    <input type="text" id="name" placeholder="Enter your full name" />
+    <input type="number" id="age" placeholder="Enter your age" />
+    <button onclick="generateCertificate()">Generate Certificate</button>
+  </div>
+
+  <div class="certificate" id="certificate">
+    <div class="cert-header">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Circle-icons-code.svg" alt="Logo" />
+      <h2 id="certTitle">Certificate of Completion</h2>
+    </div>
+
+    <div class="cert-body">
+      <p id="certText">This certifies that</p>
+      <div class="name" id="certName"></div>
+      <p class="age" id="certAge"></p>
+      <p id="certMsg">
+        has successfully completed the Dawens School coding program.
+      </p>
+      <p id="certDate"></p>
+    </div>
+
+    <div class="cert-footer">
+      <div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Seal_of_approval.svg" alt="Seal" />
+      </div>
+      <div class="signature">
+        <p>Approved by</p>
+        <p><strong>Dawens Developer</strong></p>
+      </div>
+    </div>
+
+    <button class="download-btn" onclick="downloadCert()">📥 Download PDF</button>
+  </div>
+
+  <footer>Powered by Dawens School of Code © 2025</footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    const langData = {
+      en: {
+        title: "🎓 Dawens School Certificate",
+        certTitle: "Certificate of Completion",
+        certText: "This certifies that",
+        certMsg: "has successfully completed the Dawens School coding program.",
+        placeholderName: "Enter your full name",
+        placeholderAge: "Enter your age",
+        generate: "Generate Certificate"
+      },
+      ht: {
+        title: "🎓 Sètifika Lekòl Dawens",
+        certTitle: "Sètifika Fòmasyon",
+        certText: "Sa sètifye ke",
+        certMsg: "fini avèk siksè pwogram kòd Dawens School la.",
+        placeholderName: "Antre non ou konplè",
+        placeholderAge: "Antre laj ou",
+        generate: "Jenere Sètifika"
+      },
+      fr: {
+        title: "🎓 Certificat École Dawens",
+        certTitle: "Certificat d’Achèvement",
+        certText: "Ceci certifie que",
+        certMsg: "a complété avec succès le programme de codage de Dawens School.",
+        placeholderName: "Entrez votre nom complet",
+        placeholderAge: "Entrez votre âge",
+        generate: "Générer le certificat"
+      }
+    };
+
+    const lang = document.getElementById("lang");
+    const nameInput = document.getElementById("name");
+    const ageInput = document.getElementById("age");
+    const title = document.getElementById("title");
+
+    lang.onchange = () => {
+      const d = langData[lang.value];
+      title.textContent = d.title;
+      document.getElementById("certTitle").textContent = d.certTitle;
+      document.getElementById("certText").textContent = d.certText;
+      document.getElementById("certMsg").textContent = d.certMsg;
+      nameInput.placeholder = d.placeholderName;
+      ageInput.placeholder = d.placeholderAge;
+      document.querySelector("button").textContent = d.generate;
+    };
+
+    function generateCertificate() {
+      const name = nameInput.value.trim();
+      const age = ageInput.value.trim();
+      if (!name || !age) return alert("Please fill in all fields!");
+
+      const cert = document.getElementById("certificate");
+      cert.style.display = "block";
+      document.getElementById("certName").textContent = name;
+      document.getElementById("certAge").textContent = "Age: " + age;
+      document.getElementById("certDate").textContent =
+        "Date: " + new Date().toLocaleDateString();
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }
+
+    async function downloadCert() {
+      const cert = document.getElementById("certificate");
+      const canvas = await html2canvas(cert, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF("landscape", "pt", [canvas.width, canvas.height]);
+      pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+      pdf.save("Dawens_Certificate.pdf");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1067 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dawens School — SQL Module</title>
+  <meta name="description" content="Complete SQL course: basics to advanced, exercises, projects, tips. Dawens School - code/sql.html" />
+  <style>
+    /* ======================================================
+       SQL Module — Dawens School
+       - Inline CSS for single-file GitHub hosting
+       - Modern dark UI, neon accents, pro buttons
+       ====================================================== */
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap');
+
+:root{
+  --bg: #05060a;
+  --panel: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  --glass: rgba(255,255,255,0.025);
+  --muted: #adb6c3;
+  --neon1: #00ffb3;
+  --neon2: #00d1ff;
+  --accent: #00eaff;
+  --success: #2dd4bf;
+  --danger: #ff5874;
+  --card-radius: 18px;
+  --max-width: 1300px;
+  --container-padding: 24px;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body{
+  margin: 0;
+  font-family: 'Poppins', system-ui, Segoe UI, Roboto, Arial;
+  background: radial-gradient(circle at 10% 0%, #071026 0%, #02030a 30%, #000 100%);
+  color: #e6eef6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  padding-bottom: 80px;
+}
+
+/* ---------- header ---------- */
+header{
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.02);
+}
+
+.top{
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px var(--container-padding);
+}
+
+.brand{
+  display: flex;
+  flex-direction: column;
+}
+.brand .title{
+  font-weight: 700;
+  color: var(--neon1);
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+.brand .sub{
+  font-size: 13px;
+  color: var(--muted);
+}
+
+nav.toplinks{
+  margin-left: auto;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+nav.toplinks a{
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 9px 14px;
+  border-radius: 12px;
+  transition: all .16s ease;
+}
+nav.toplinks a:hover{
+  color: #fff;
+  transform: translateY(-3px);
+  text-shadow: 0 0 10px rgba(0,209,255,0.06);
+}
+nav.toplinks a.active{
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  color: #001019;
+  box-shadow: 0 12px 28px rgba(0,209,255,0.08);
+}
+
+/* ---------- container & layout ---------- */
+.container{
+  max-width: var(--max-width);
+  margin: 20px auto;
+  padding: 0 var(--container-padding);
+}
+
+.grid{
+  display: grid;
+  grid-template-columns: 350px 1fr 350px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ---------- sidebar left ---------- */
+aside.left{
+  position: relative;
+  padding: 20px;
+  border-radius: var(--card-radius);
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.02);
+  backdrop-filter: blur(16px);
+  height: calc(100vh - 140px);
+  overflow: auto;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
+.toc h4{
+  margin: 0 0 12px 0;
+  color: var(--neon2);
+  font-weight: 700;
+}
+.toc a{
+  display: block;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.toc a:hover{
+  background: rgba(0,209,255,0.03);
+  color: #fff;
+}
+.badge{
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.02);
+  color: var(--neon1);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* ---------- main content ---------- */
+main.content{
+  padding: 22px;
+  border-radius: var(--card-radius);
+  background: var(--panel);
+  border: 1px solid rgba(255,255,255,0.02);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  min-height: 80vh;
+}
+
+.hero{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.hero .left{
+  max-width: 72%;
+}
+.hero h1{
+  margin: 0;
+  color: var(--neon2);
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  text-shadow: 0 0 20px rgba(0,209,255,0.14);
+}
+.hero p{
+  margin: 10px 0 0 0;
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* ---------- buttons ---------- */
+.btn{
+  display: inline-block;
+  text-decoration: none;
+  color: #001018;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 16px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #00ffa8 0%, #00d1ff 50%, #6f00ff 100%);
+  box-shadow: 0 8px 28px rgba(0,209,255,0.2);
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+  border: none;
+  font-size: 15px;
+}
+.btn:hover{
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(0,209,255,0.35);
+  filter: brightness(1.03);
+}
+.btn.ghost{
+  background: transparent;
+  color: var(--muted);
+  box-shadow: none;
+  border: 1px solid rgba(255,255,255,0.03);
+  font-weight: 700;
+}
+
+/* helper row */
+.row{
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ---------- lesson block ---------- */
+.lesson{
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: var(--card-radius);
+  background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.005));
+  border: 1px solid rgba(255,255,255,0.02);
+  box-shadow: 0 8px 30px rgba(0,209,255,0.1);
+}
+.lesson h2{
+  margin: 0 0 10px 0;
+  color: var(--neon1);
+}
+.lesson .lead{
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+/* ---------- code block ---------- */
+.code{
+  background: #071428;
+  border-radius: 12px;
+  padding: 16px;
+  font-family: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 14px;
+  color: #cfeff3;
+  border: 1px solid rgba(255,255,255,0.03);
+  overflow: auto;
+  box-shadow: inset 0 -6px 20px rgba(0,0,0,0.5);
+  margin: 14px 0;
+  line-height: 1.5;
+  max-height: 380px;
+}
+pre{ margin: 0; white-space: pre; }
+
+/* ---------- examples list ---------- */
+.examples{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+.ex-card{
+  background: rgba(255,255,255,0.02);
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.02);
+}
+.ex-card h4{
+  margin: 0 0 10px 0;
+  color: var(--neon2);
+}
+.muted-small{
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ---------- quiz / exercises ---------- */
+.exercise{
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+/* ---------- right resources ---------- */
+aside.right{
+  padding: 20px;
+  border-radius: var(--card-radius);
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.02);
+  height: calc(100vh - 140px);
+  overflow: auto;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
+.meta h4{
+  margin: 0 0 10px 0;
+  color: var(--neon1);
+}
+.chip{
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.02);
+  margin: 6px 6px 6px 0;
+  color: var(--neon2);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* ---------- footer ---------- */
+footer.page-foot{
+  max-width: var(--max-width);
+  margin: 30px auto;
+  padding: 0 var(--container-padding);
+  color: var(--muted);
+}
+
+/* responsive */
+@media (max-width: 1100px){
+  .grid{
+    grid-template-columns: 1fr;
+  }
+  aside.left, aside.right{
+    height: auto;
+    position: relative;
+  }
+  .hero .left{
+    max-width: 100%;
+  }
+}
+
+/* micro animations */
+@keyframes neonPulse {
+  0% { text-shadow: 0 0 10px rgba(0,255,179,0.08); }
+  50% { text-shadow: 0 0 30px rgba(0,209,255,0.2); }
+  100% { text-shadow: 0 0 10px rgba(0,255,179,0.08); }
+}
+
+.neon{
+  animation: neonPulse 3s infinite;
+  color: var(--neon2);
+}
+  </style>
+</head>
+<body>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+
+  <!-- HEADER -->
+  <header>
+    <div class="top">
+      <div class="brand">
+        <div class="title">Dawens School — SQL Module</div>
+        <div class="sub">Practical SQL: from basics to production — code/sql.html</div>
+      </div>
+
+      <nav class="toplinks" aria-label="Top links">
+        <a href="../dawens.html">School</a>
+        <a href="../script.html">Tools</a>
+        <a href="../api.html">API</a>
+        <a class="active" href="#">SQL</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <div class="container">
+    <div class="grid">
+
+      <!-- LEFT: TOC -->
+      <aside class="left" aria-label="Table of contents">
+        <div class="toc">
+          <h4>Module Contents</h4>
+          <a href="#intro">Intro & Goals <span class="badge">Start</span></a>
+          <a href="#basics">Basics (CRUD)</a>
+          <a href="#schema">Schema Design</a>
+          <a href="#joins">Joins & Set Ops</a>
+          <a href="#agg">Aggregation & Grouping</a>
+          <a href="#indexing">Indexing & Perf</a>
+          <a href="#sql-advanced">Advanced SQL</a>
+          <a href="#security">Security & Best Practices</a>
+          <a href="#projects">Mini Project</a>
+          <a href="#exercises">Exercises & Quiz</a>
+          <a href="#cheatsheet">Cheat Sheet</a>
+          <a href="#resources">Resources</a>
+        </div>
+
+        <div style="margin-top:16px">
+          <h4>Progress</h4>
+          <div class="muted-small">Complete sections to reach 60% in 2 days</div>
+          <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+            <div class="chip">Basics</div>
+            <div class="chip">Joins</div>
+            <div class="chip">Indexes</div>
+            <div class="chip">Procedures</div>
+          </div>
+        </div>
+
+        <div style="margin-top:18px">
+          <h4>Quick Links</h4>
+          <a class="badge" href="https://github.com/your-repo" target="_blank">Fork on GitHub</a>
+          <div style="margin-top:10px">
+            <a class="badge" href="#projects">Start Project</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CENTER: LESSONS -->
+      <main class="content">
+
+        <!-- Intro -->
+        <section id="intro" class="lesson" aria-labelledby="intro-title">
+          <div class="hero">
+            <div class="left">
+              <h1 id="intro-title" class="neon">SQL — Practical Course</h1>
+              <p class="lead">Goal: Learn enough SQL to be productive — build queries, design schemas, optimize performance and deploy safe database code. Follow this module, practice exercises, complete the mini project and you'll be ~60% confident in SQL within 48 hours of focused practice.</p>
+            </div>
+
+            <div style="text-align:right">
+              <div class="row">
+                <button class="btn" onclick="window.location.hash='#exercises'">Start Exercises</button>
+                <a class="btn ghost" href="https://github.com/your-repo" target="_blank">Open on GitHub</a>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px; color:var(--muted)">
+            How to use this module: Read a lesson → open examples → run sample queries in your preferred RDBMS (Postgres, MySQL, SQLite) → complete exercises → check answers. Create a `code/sql-exercises/` folder and save your scripts.
+          </div>
+        </section>
+
+        <!-- BASICS -->
+        <section id="basics" class="lesson" aria-labelledby="basics-title">
+          <h2 id="basics-title">Basics — CREATE, READ, UPDATE, DELETE (CRUD)</h2>
+          <p class="lead">These are the four building blocks. We'll use a sample database: <code>shop</code> with tables <code>users</code>, <code>products</code>, <code>orders</code>, <code>order_items</code>.</p>
+
+          <div class="ex-card">
+            <h4>Schema (DDL)</h4>
+            <div class="code">
+<pre>
+-- Create tables (Postgres syntax)
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE products (
+  id SERIAL PRIMARY KEY,
+  sku VARCHAR(50) NOT NULL UNIQUE,
+  name TEXT NOT NULL,
+  price NUMERIC(10,2) NOT NULL,
+  stock INT DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL REFERENCES users(id),
+  total NUMERIC(10,2) NOT NULL,
+  status VARCHAR(30) DEFAULT 'pending',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE order_items (
+  id SERIAL PRIMARY KEY,
+  order_id INT NOT NULL REFERENCES orders(id),
+  product_id INT NOT NULL REFERENCES products(id),
+  qty INT NOT NULL,
+  price NUMERIC(10,2) NOT NULL
+);
+</pre>
+            </div>
+            <div class="muted-small">Notes: Use <code>SERIAL</code> in Postgres or <code>AUTO_INCREMENT</code> for MySQL. Use types suited for your DB.</div>
+          </div>
+
+          <div class="ex-card">
+            <h4>Basic INSERT / SELECT / UPDATE / DELETE</h4>
+            <div class="code">
+<pre>
+-- Insert sample users
+INSERT INTO users (username, email) VALUES ('alice', 'alice@example.com'), ('bob', 'bob@example.com');
+
+-- Insert a product
+INSERT INTO products (sku, name, price, stock) VALUES ('SKU-001', 'T-Shirt', 12.99, 150);
+
+-- Create an order
+INSERT INTO orders (user_id, total)
+VALUES (1, 25.98);
+
+-- Read data
+SELECT id, username, email FROM users WHERE username = 'alice';
+
+-- Update
+UPDATE products SET price = price * 0.9 WHERE sku = 'SKU-001';
+
+-- Delete
+DELETE FROM orders WHERE id = 999;
+</pre>
+            </div>
+            <div class="muted-small">Tip: Always test <code>SELECT</code> queries before running destructive operations. Use transactions.</div>
+          </div>
+
+          <div style="margin-top:12px">
+            <h4>Transactions (ACID)</h4>
+            <div class="code">
+<pre>
+BEGIN;
+
+-- Step 1: create order
+INSERT INTO orders (user_id, total) VALUES (1, 100) RETURNING id;
+-- Step 2: insert items
+INSERT INTO order_items (order_id, product_id, qty, price) VALUES (123, 1, 2, 50);
+-- Step 3: adjust stock
+UPDATE products SET stock = stock - 2 WHERE id = 1;
+
+COMMIT;
+-- On error: ROLLBACK;
+</pre>
+            </div>
+            <div class="muted-small">Always use transactions when multiple related changes must succeed together.</div>
+          </div>
+        </section>
+
+        <!-- SCHEMA DESIGN -->
+        <section id="schema" class="lesson" aria-labelledby="schema-title">
+          <h2 id="schema-title">Schema Design & Normalization</h2>
+          <p class="lead">Good schema design prevents redundancy and eases maintenance. We'll cover normalization (1NF, 2NF, 3NF) and practical denormalization trade-offs.</p>
+
+          <div class="ex-card">
+            <h4>Normalization rules (practical)</h4>
+            <ul class="muted-small">
+              <li><strong>1NF:</strong> Atomic values, no repeating groups.</li>
+              <li><strong>2NF:</strong> No partial dependency on a composite key.</li>
+              <li><strong>3NF:</strong> No transitive dependency.</li>
+            </ul>
+          </div>
+
+          <div class="ex-card">
+            <h4>Example: Customers & Addresses</h4>
+            <div class="code">
+<pre>
+-- Bad: addresses embedded as CSV
+customers(id, name, addresses_csv)
+
+-- Good: separate table
+customers(id, name)
+addresses(id, customer_id, street, city, zip)
+</pre>
+            </div>
+            <div class="muted-small">Design for queries you need most. Denormalize when read speed matters more than write simplicity.</div>
+          </div>
+
+          <div style="margin-top:12px">
+            <h4>Keys & Constraints</h4>
+            <div class="code">
+<pre>
+-- Primary keys and foreign keys
+ALTER TABLE orders ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
+
+-- Unique constraint
+ALTER TABLE products ADD CONSTRAINT unique_sku UNIQUE (sku);
+
+-- Check constraint
+ALTER TABLE products ADD CONSTRAINT price_positive CHECK (price >= 0);
+</pre>
+            </div>
+            <div class="muted-small">Use constraints to enforce data integrity at the DB level.</div>
+          </div>
+        </section>
+
+        <!-- JOINS -->
+        <section id="joins" class="lesson" aria-labelledby="joins-title">
+          <h2 id="joins-title">Joins & Set Operations</h2>
+          <p class="lead">Joins are how we combine rows from multiple tables. Practice INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN (if supported), CROSS JOIN and set operations (UNION, INTERSECT).</p>
+
+          <div class="ex-card">
+            <h4>INNER JOIN — only matching rows</h4>
+            <div class="code">
+<pre>
+SELECT o.id AS order_id, u.username, o.total
+FROM orders o
+INNER JOIN users u ON u.id = o.user_id
+WHERE o.created_at > now() - interval '7 days';
+</pre>
+            </div>
+          </div>
+
+          <div class="ex-card">
+            <h4>LEFT JOIN — all rows from left</h4>
+            <div class="code">
+<pre>
+SELECT p.*, oi.qty, oi.price
+FROM products p
+LEFT JOIN order_items oi ON oi.product_id = p.id
+WHERE p.stock > 0;
+</pre>
+            </div>
+          </div>
+
+          <div class="ex-card">
+            <h4>Aggregates with joins</h4>
+            <div class="code">
+<pre>
+-- total sold per product
+SELECT p.id, p.name, SUM(oi.qty) AS total_sold
+FROM products p
+LEFT JOIN order_items oi ON oi.product_id = p.id
+GROUP BY p.id, p.name
+ORDER BY total_sold DESC;
+</pre>
+            </div>
+          </div>
+
+          <div style="margin-top:12px" class="muted-small">
+            Exercise: Write a query to find users who never placed an order.
+            <div class="exercise">
+<pre>
+-- Your answer here
+SELECT u.* FROM users u
+LEFT JOIN orders o ON o.user_id = u.id
+WHERE o.id IS NULL;
+</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- AGGREGATION -->
+        <section id="agg" class="lesson" aria-labelledby="agg-title">
+          <h2 id="agg-title">Aggregation, GROUP BY & Window Functions</h2>
+          <p class="lead">Group data, compute aggregates, and use window functions for advanced analytics.</p>
+
+          <div class="ex-card">
+            <h4>Group By & HAVING</h4>
+            <div class="code">
+<pre>
+SELECT u.id, u.username, COUNT(o.id) AS orders_count, SUM(o.total) AS spent
+FROM users u
+LEFT JOIN orders o ON o.user_id = u.id
+GROUP BY u.id, u.username
+HAVING COUNT(o.id) > 2
+ORDER BY spent DESC;
+</pre>
+            </div>
+          </div>
+
+          <div class="ex-card">
+            <h4>Window Functions (ROW_NUMBER, RANK, SUM OVER)</h4>
+            <div class="code">
+<pre>
+-- Top customer per month
+SELECT month, user_id, username, total_spent,
+       RANK() OVER (PARTITION BY month ORDER BY total_spent DESC) as rank
+FROM (
+  SELECT date_trunc('month', o.created_at) AS month, u.id AS user_id, u.username,
+         SUM(o.total) AS total_spent
+  FROM orders o
+  JOIN users u ON u.id = o.user_id
+  GROUP BY month, user_id, u.username
+) t
+WHERE rank = 1;
+</pre>
+            </div>
+            <div class="muted-small">Window functions let you compute running totals, rankings, and partitions without GROUP BY collapsing rows.</div>
+          </div>
+        </section>
+
+        <!-- INDEXING & PERF -->
+        <section id="indexing" class="lesson" aria-labelledby="indexing-title">
+          <h2 id="indexing-title">Indexing & Performance</h2>
+          <p class="lead">Indexes speed up reads at the cost of slower writes. Understand selectivity, covering indexes, and how to use EXPLAIN/EXPLAIN ANALYZE.</p>
+
+          <div class="ex-card">
+            <h4>Types of Indexes</h4>
+            <ul class="muted-small">
+              <li>B-tree: default for equality and range queries.</li>
+              <li>Hash: equality only (Postgres-specific caveats).</li>
+              <li>GIN / GiST: for arrays, JSONB, full-text search.</li>
+              <li>Partial & expression indexes: index only subset or function result.</li>
+            </ul>
+          </div>
+
+          <div class="ex-card">
+            <h4>Examples</h4>
+            <div class="code">
+<pre>
+-- create index for users.email
+CREATE INDEX idx_users_email ON users (email);
+
+-- create index for order created_at for range queries
+CREATE INDEX idx_orders_created_at ON orders (created_at DESC);
+
+-- partial index: active products
+CREATE INDEX idx_products_instock ON products (id) WHERE stock > 0;
+
+-- expression index: lower(username) for case-insensitive search
+CREATE INDEX idx_users_lower_username ON users (lower(username));
+</pre>
+            </div>
+            <div class="muted-small">Use <code>EXPLAIN ANALYZE &lt;query&gt;</code> to see the execution plan and find slow parts.</div>
+          </div>
+
+          <div class="ex-card">
+            <h4>EXPLAIN example</h4>
+            <div class="code">
+<pre>
+EXPLAIN ANALYZE
+SELECT p.id, p.name
+FROM products p
+JOIN order_items oi ON oi.product_id = p.id
+WHERE p.stock &gt; 0;
+</pre>
+            </div>
+            <div class="muted-small">Look for seq scan vs idx scan, estimated rows, and highest cost nodes.</div>
+          </div>
+
+          <div style="margin-top:12px" class="muted-small">
+            Tip: avoid SELECT * in production; fetch only needed columns. Use LIMIT for sampling.
+          </div>
+        </section>
+
+        <!-- ADVANCED SQL -->
+        <section id="sql-advanced" class="lesson" aria-labelledby="adv-title">
+          <h2 id="adv-title">Advanced SQL: Views, Materialized Views, Stored Procedures & Triggers</h2>
+          <p class="lead">We'll cover tools to encapsulate logic inside the DB and automation techniques.</p>
+
+          <div class="ex-card">
+            <h4>Views</h4>
+            <div class="code">
+<pre>
+-- Create a view for monthly sales summary
+CREATE VIEW monthly_sales AS
+SELECT date_trunc('month', o.created_at) AS month,
+       SUM(o.total) AS revenue,
+       COUNT(DISTINCT o.user_id) AS customers
+FROM orders o
+GROUP BY month;
+</pre>
+            </div>
+            <div class="muted-small">Views are convenient for reusing complex selects. Materialized views cache results for heavy aggregations.</div>
+          </div>
+
+          <div class="ex-card">
+            <h4>Materialized View (Postgres)</h4>
+            <div class="code">
+<pre>
+CREATE MATERIALIZED VIEW mv_top_products AS
+SELECT p.id, p.name, SUM(oi.qty) AS total_sold
+FROM products p
+JOIN order_items oi ON oi.product_id = p.id
+GROUP BY p.id, p.name
+WITH NO DATA;
+
+-- populate
+REFRESH MATERIALIZED VIEW CONCURRENTLY mv_top_products;
+</pre>
+            </div>
+          </div>
+
+          <div class="ex-card">
+            <h4>Stored Procedures & Functions</h4>
+            <div class="code">
+<pre>
+-- Postgres function: add_order
+CREATE OR REPLACE FUNCTION add_order(user_id INT, items JSONB)
+RETURNS INT AS $$
+DECLARE
+  order_id INT;
+BEGIN
+  INSERT INTO orders (user_id, total) VALUES (user_id, 0) RETURNING id INTO order_id;
+  -- iterate jsonb items (example)
+  PERFORM jsonb_array_elements(items);
+  -- more logic: insert order_items, update total, update stock
+  RETURN order_id;
+END;
+$$ LANGUAGE plpgsql;
+</pre>
+            </div>
+            <div class="muted-small">Use functions to centralize logic and enforce business rules at DB level.</div>
+          </div>
+
+          <div class="ex-card">
+            <h4>Triggers</h4>
+            <div class="code">
+<pre>
+-- create trigger to update product stock on insert into order_items (simplified)
+CREATE OR REPLACE FUNCTION decrease_stock() RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE products SET stock = stock - NEW.qty WHERE id = NEW.product_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_decrease_stock AFTER INSERT ON order_items
+FOR EACH ROW EXECUTE FUNCTION decrease_stock();
+</pre>
+            </div>
+            <div class="muted-small">Careful: triggers add complexity. Use only when necessary and document behavior.</div>
+          </div>
+        </section>
+
+        <!-- SECURITY & BEST PRACTICES -->
+        <section id="security" class="lesson" aria-labelledby="sec-title">
+          <h2 id="sec-title">Security & Production Best Practices</h2>
+          <p class="lead">Make your DB safe: prevent SQL injection, manage credentials, backups, and monitoring.</p>
+
+          <div class="ex-card">
+            <h4>Prevent SQL Injection</h4>
+            <div class="code">
+<pre>
+-- Always use parameterized queries (example in Node.js / pg)
+const text = 'SELECT * FROM users WHERE email = $1';
+const values = [email];
+const res = await client.query(text, values);
+</pre>
+            </div>
+            <div class="muted-small">Never interpolate user inputs into SQL strings.</div>
+          </div>
+
+          <div class="ex-card">
+            <h4>Backups & Disaster Recovery</h4>
+            <div class="muted-small">
+              - Schedule regular backups (pg_dump / mysqldump / filesystem snapshots).<br>
+              - Test restore process periodically. Keep offsite copies and retention policy.
+            </div>
+          </div>
+
+          <div class="ex-card">
+            <h4>Monitoring & Alerts</h4>
+            <div class="muted-small">
+              - Monitor slow queries, replication lag, connection counts, and disk usage.<br>
+              - Use APM tools or database metrics exporters (Prometheus + Grafana).
+            </div>
+          </div>
+        </section>
+
+        <!-- MINI PROJECT -->
+        <section id="projects" class="lesson" aria-labelledby="project-title">
+          <h2 id="project-title">Mini Project — Simple E-commerce Analytics</h2>
+          <p class="lead">Goal: Build reports to show top products, monthly revenue, and customer lifetime value. Deliverables: SQL scripts, a README, and optionally a CSV export.</p>
+
+          <div style="margin-top:10px">
+            <h4>Tasks</h4>
+            <ol class="muted-small">
+              <li>Create/seed sample data (users, products, orders, order_items).</li>
+              <li>Write queries: top 10 products by revenue, monthly revenue time series, repeat customers percentage, average order value.</li>
+              <li>Create a materialized view for top products and schedule refresh (if possible).</li>
+              <li>Document steps in README and push to GitHub.</li>
+            </ol>
+
+            <div class="code" style="margin-top:12px">
+<pre>
+-- Example: Top 10 products by revenue
+SELECT p.id, p.name, SUM(oi.qty * oi.price) AS revenue
+FROM products p
+JOIN order_items oi ON oi.product_id = p.id
+GROUP BY p.id, p.name
+ORDER BY revenue DESC
+LIMIT 10;
+</pre>
+            </div>
+          </div>
+
+          <div style="margin-top:12px" class="muted-small">
+            Tips: commit SQL files under <code>code/sql-project/</code>. Include sample data insertion script and queries results.
+          </div>
+        </section>
+
+        <!-- EXERCISES & QUIZ -->
+        <section id="exercises" class="lesson" aria-labelledby="ex-title">
+          <h2 id="ex-title">Exercises & Quick Quiz</h2>
+          <p class="lead">Practice problems with answers after each section (try first!).</p>
+
+          <div class="exercise">
+            <h4>Exercise 1 — Basic SELECT</h4>
+            <p class="muted-small">Return usernames and emails for users who registered in the last 30 days.</p>
+            <div class="code">
+<pre>
+-- Answer
+SELECT username, email
+FROM users
+WHERE created_at &gt; now() - interval '30 days';
+</pre>
+            </div>
+          </div>
+
+          <div class="exercise">
+            <h4>Exercise 2 — Join & Aggregate</h4>
+            <p class="muted-small">For each user, return username and total amount spent (users with zero orders should also appear).</p>
+            <div class="code">
+<pre>
+-- Answer
+SELECT u.username, COALESCE(SUM(o.total),0) AS spent
+FROM users u
+LEFT JOIN orders o ON o.user_id = u.id
+GROUP BY u.username;
+</pre>
+            </div>
+          </div>
+
+          <div class="exercise">
+            <h4>Exercise 3 — Indexing</h4>
+            <p class="muted-small">You frequently query <code>orders(created_at)</code> with range filters. What index would you create?</p>
+            <div class="code">
+<pre>
+-- Answer
+CREATE INDEX idx_orders_created_at ON orders (created_at DESC);
+</pre>
+            </div>
+          </div>
+
+          <div style="margin-top:10px" class="muted-small">
+            Mini-quiz (write your answers):<br>
+            1) What is the difference between HAVING and WHERE?<br>
+            2) When should you denormalize?<br>
+            3) What is a covering index?
+          </div>
+        </section>
+
+        <!-- CHEAT SHEET -->
+        <section id="cheatsheet" class="lesson" aria-labelledby="cheat-title">
+          <h2 id="cheat-title">Cheat Sheet & Quick Reference</h2>
+          <div class="ex-card">
+            <h4>Common Patterns</h4>
+            <div class="code">
+<pre>
+-- Pagination (keyset)
+SELECT id, name FROM products WHERE id &gt; :last_id ORDER BY id ASC LIMIT 20;
+
+-- Safe update with WHERE
+UPDATE products SET stock = stock - 1 WHERE id = 123 AND stock &gt; 0;
+
+-- Upsert (Postgres)
+INSERT INTO products (sku, name, price) VALUES ('SKU-1','X',10)
+ON CONFLICT (sku) DO UPDATE SET price = EXCLUDED.price;
+</pre>
+            </div>
+          </div>
+
+          <div style="margin-top:12px" class="muted-small">
+            Keep this sheet handy while building queries. Save frequently used snippets into <code>snippets.sql</code>.
+          </div>
+        </section>
+
+        <!-- RESOURCES -->
+        <section id="resources" class="lesson" aria-labelledby="res-title">
+          <h2 id="res-title">Resources & Next Steps</h2>
+          <ul class="muted-small">
+            <li><strong>Books:</strong> SQL Antipatterns, High Performance MySQL</li>
+            <li><strong>Online:</strong> official Postgres docs, modernsql.com, use the RDBMS's EXPLAIN docs</li>
+            <li><strong>Tools:</strong> pgAdmin, DBeaver, DataGrip, pgcli</li>
+            <li><strong>Practice:</strong> LeetCode DB problems, HackerRank SQL tracks</li>
+          </ul>
+
+          <div style="margin-top:12px">
+            <a class="btn" href="#" onclick="downloadAll()">Download All SQL Examples (zip)</a>
+            <a class="btn ghost" href="https://github.com/DAWENS-BOY904" target="_blank">Open repo on GitHub</a>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- RIGHT: RESOURCES / NOTES -->
+      <aside class="right" aria-label="Resources">
+        <div class="meta">
+          <h4>Module Summary</h4>
+          <p class="muted-small">Estimated time: 6-12 hours to cover basics. Practice 2-4 hours more for joins & indexing to get practical fluency.</p>
+        </div>
+
+        <div style="margin-top:14px">
+          <h4>Quick Notes</h4>
+          <div class="muted-small">
+            - Use transactions for safety.<br>
+            - Prefer parameterized queries.<br>
+            - Test indexes, they can hurt writes.<br>
+            - Document stored procedures well.
+          </div>
+        </div>
+
+        <div style="margin-top:14px">
+          <h4>Shortcuts</h4>
+          <div style="display:flex;flex-wrap:wrap; gap:8px; margin-top:8px">
+            <div class="chip">DDL</div>
+            <div class="chip">DML</div>
+            <div class="chip">Transactions</div>
+            <div class="chip">Indexes</div>
+            <div class="chip">EXPLAIN</div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px">
+          <h4>Contact Instructor</h4>
+          <div style="margin-top:8px; display:flex; gap:8px">
+            <a class="btn" href="https://t.me/Mr_Da5" target="_blank">Telegram</a>
+            <a class="btn ghost" href="mailto:berryxoe@gmail.com">Email</a>
+          </div>
+        </div>
+
+      </aside>
+
+    </div> <!-- grid -->
+  </div> <!-- container -->
+
+  <!-- footer -->
+  <footer class="page-foot">
+    <div style="max-width:var(--max-width); margin:0 auto; padding:18px 20px; color:var(--muted); display:flex; justify-content:space-between; align-items:center;">
+      <div>© 2025 Dawens School — SQL Module</div>
+      <div>Tip: Save your work to GitHub & share link for review.</div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS: basic interactive behaviors -->
+  <script>
+    // Download placeholder (replace with real URL)
+    function downloadAll(){
+      alert('Download will start (replace link in downloadAll() with real zip on your server).');
+      // Example: window.location.href = '/assets/sql-examples.zip';
+    }
+
+    // Smooth scroll for TOC links
+    document.querySelectorAll('aside.left a').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const href = a.getAttribute('href');
+        if(href && href.startsWith('#')){
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+    });
+
+    // Provide answers or helpful hints toggles — minimal
+    document.querySelectorAll('.exercise .code pre').forEach(pre=>{
+      // add a small toggle (if needed later)
+    });
+
+    // Accessibility improvements
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 's' && (e.ctrlKey || e.metaKey)){
+        e.preventDefault();
+        alert('Quick save: commit your changes to GitHub (manual).');
+      }
+    });
+
+    // Make sure deep links open and scroll
+    (function(){
+      if(location.hash){
+        const el = document.querySelector(location.hash);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    })();
+  </script>
+
+</body>
+</html>

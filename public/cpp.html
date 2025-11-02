@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>JESUS TECH ACADEMY — C++ Course</title>
+  <meta name="description" content="C++ full course — lessons, examples, exercises. Bilingual EN/AR. Try code on Replit."/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== LIGHT THEME STYLES (professional) ===== */
+    :root{
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --accent: #0ea5a4; /* teal */
+      --accent-2: #0369a1; /* blue */
+      --text: #0b1220;
+      --glass: rgba(10,20,30,0.03);
+      --shadow: 0 6px 22px rgba(8,12,20,0.08);
+      --mono: "SFMono-Regular", Menlo, Monaco, "Roboto Mono", monospace;
+      --maxw: 1100px;
+    }
+    html,body{height:100%}
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background: linear-gradient(180deg,#f7fbff,#eef6fa 60%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+
+    /* Header */
+    header.site{
+      position:sticky; top:0; z-index:120;
+      background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.92));
+      border-bottom:1px solid rgba(10,20,30,0.04);
+      backdrop-filter: blur(6px);
+    }
+    .site-inner{max-width:var(--maxw); margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:12px;}
+    .brand{display:flex; flex-direction:column;}
+    .brand .title{font-weight:700; color:var(--accent-2); font-size:18px; letter-spacing:0.6px;}
+    .brand .sub{font-size:12px; color:var(--muted)}
+    nav.top{margin-left:auto; display:flex; gap:10px; align-items:center;}
+    nav.top a{text-decoration:none; color:var(--muted); padding:8px 10px; border-radius:8px; font-weight:600;}
+    nav.top a:hover{background:var(--glass); color:var(--text); transform:translateY(-2px)}
+    .lang-switch{display:flex; gap:8px; align-items:center;}
+    .lang-btn{background:transparent; border:1px solid rgba(10,20,30,0.06); padding:6px 8px; border-radius:6px; cursor:pointer; font-weight:700}
+    .lang-btn.active{background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:white; border:none}
+
+    /* Layout */
+    .container{max-width:var(--maxw); margin:28px auto; padding:0 20px;}
+    .top-hero{display:flex; gap:20px; align-items:flex-start;}
+    .hero-left{flex:1}
+    .hero-right{width:320px; position:sticky; top:92px;}
+
+    .course-title{font-size:28px; margin:0 0 8px; color:var(--accent-2)}
+    .course-sub{color:var(--muted); margin:0 0 18px}
+
+    .toc{background:var(--card); border-radius:12px; padding:12px; box-shadow:var(--shadow); border:1px solid rgba(10,20,30,0.03)}
+    .toc h4{margin:0 0 8px; color:var(--accent)}
+    .toc a{display:block; padding:8px 10px; color:var(--muted); text-decoration:none; border-radius:8px; margin-bottom:6px}
+    .toc a:hover{background:var(--glass); color:var(--text)}
+
+    /* content panels */
+    .panel{background:var(--card); border-radius:12px; padding:18px; box-shadow:var(--shadow); border:1px solid rgba(10,20,30,0.04); margin-bottom:16px}
+    .panel h2{margin:0 0 8px; color:var(--accent-2)}
+    .panel p{color:var(--muted)}
+
+    /* code blocks */
+    .code{
+      background:#0b1220; color:#e6eef6; padding:14px; border-radius:8px; font-family:var(--mono); font-size:13px; overflow:auto;
+      border:1px solid rgba(255,255,255,0.03); line-height:1.45;
+    }
+    .code pre{margin:0; white-space:pre; tab-size:2}
+
+    .btn{
+      display:inline-block; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:700;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:white; box-shadow:0 8px 30px rgba(3,105,161,0.12);
+    }
+    .btn.ghost{background:transparent; color:var(--accent-2); border:1px solid rgba(3,105,161,0.06)}
+
+    /* lessons list */
+    .lesson{
+      border-left:4px solid rgba(3,105,161,0.06); padding:12px; margin-bottom:12px; border-radius:8px;
+    }
+    .lesson h3{margin:0 0 8px; color:var(--accent)}
+    .lesson p{margin:0 0 12px; color:var(--muted)}
+
+    .exercise{background:linear-gradient(180deg,#fff,#f7fbff); padding:12px; border-radius:8px; border:1px dashed rgba(3,105,161,0.06)}
+    .solution{background:#0b1220; color:#e6eef6; padding:12px; border-radius:8px; font-family:var(--mono); margin-top:8px;}
+
+    /* responsive */
+    @media (max-width:980px){
+      .top-hero{flex-direction:column}
+      .hero-right{position:relative;width:100%;top:auto}
+    }
+
+    /* small helpers */
+    .muted{color:var(--muted)}
+    .kbd{background:#f1f5f9;border-radius:6px;padding:4px 8px;font-family:var(--mono);font-size:13px}
+    .note{background:#fff8e6;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.03);color:#6b4e00}
+
+    /* Arabic support (right-to-left) */
+    .rtl{direction:rtl; font-family: 'Poppins', sans-serif}
+    .arabic {font-weight:600; color:var(--accent-2); margin-right:8px}
+  </style>
+</head>
+<body>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+
+  <!-- HEADER -->
+  <header class="site" role="banner">
+    <div class="site-inner">
+      <div class="brand">
+        <div class="title">JESUS TECH ACADEMY — C++ Course</div>
+        <div class="sub">Learn C++: From Basics to Production • دورات بالعربية و الإنجليزية</div>
+      </div>
+
+      <nav class="top" aria-label="top navigation">
+        <a href="dawens.html">School</a>
+        <a href="script.html">Tools</a>
+        <a href="api.html">API</a>
+        <a href="contact.html">Contact</a>
+        <div class="lang-switch" role="group" aria-label="Language switch">
+          <button class="lang-btn active" id="lang-en">EN</button>
+          <button class="lang-btn" id="lang-ar">AR</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+    <section class="top-hero">
+      <div class="hero-left">
+        <h1 class="course-title">C++ Complete Track — Intensive School</h1>
+        <p class="course-sub">A practical C++ curriculum designed to take you from zero to productive developer. (If you follow intensely, targeted objectives can be reached quickly.) — الدورة متاحة باللغة العربية والإنجليزية.</p>
+
+        <!-- quick actions -->
+        <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+          <a class="btn" href="#" id="try-btn" target="_blank" rel="noopener noreferrer">Try Code (Replit)</a>
+          <a class="btn ghost" href="#syllabus">Syllabus</a>
+          <a class="btn ghost" href="code/cpp.html" download>Download Starter (ZIP)</a>
+        </div>
+
+        <!-- Course overview -->
+        <div class="panel" id="overview">
+          <h2>Course Overview — نظرة عامة على الدورة</h2>
+          <p class="muted">This course covers C++ fundamentals, modern practices (C++11-20), object oriented design, memory management, standard library, templates, concurrency, and real projects. — هذه الدورة تغطي الأساسيات والممارسات الحديثة في C++.</p>
+          <ul class="muted">
+            <li><strong>Target:</strong> beginner → intermediate → production-ready modules</li>
+            <li><strong>Duration:</strong> self-paced (recommended 8-12 weeks); intensive fast-track available</li>
+            <li><strong>Outcome:</strong> real projects, portfolio pieces, and confidence to read & write C++ code</li>
+          </ul>
+        </div>
+
+        <!-- Table of contents & syllabus -->
+        <div class="panel" id="syllabus">
+          <h2>Syllabus — المنهاج</h2>
+          <ol class="muted">
+            <li>Environment & Tooling — الإعداد والأدوات</li>
+            <li>Language Basics — المتغيرات، أنواع البيانات</li>
+            <li>Control Flow — الشروط والحلقات</li>
+            <li>Functions & Modules — الدوال والوحدات</li>
+            <li>OOP: Classes & Inheritance — البرمجة كائنية التوجه</li>
+            <li>Memory: Pointers, References — المؤشرات والذاكرة</li>
+            <li>STL: Vectors, Maps, Algorithms — مكتبة القوالب القياسية</li>
+            <li>File I/O & Serialization — قراءة وكتابة الملفات</li>
+            <li>Templates & Generic Programming — القوالب</li>
+            <li>Concurrency & Threading — البرمجة المتزامنة</li>
+            <li>Debugging, Testing, Best Practices — التصحيح، الاختبار</li>
+            <li>Capstone Projects & Deploy — المشاريع النهائية</li>
+          </ol>
+        </div>
+
+        <!-- LESSON: Environment -->
+        <div class="panel lesson" id="env">
+          <h3>Lesson 1 — Environment & Tooling — الإعداد</h3>
+          <p class="muted">Install a C++ compiler (GCC/Clang/MSVC). Recommended: GCC 11+ or Clang. Use an IDE (VSCode, CLion) or online repl (Replit) for quick testing. — ثبّت مترجم C++ واستخدم محرر مناسب.</p>
+          <div class="note">
+            Tip: On Windows install MSYS2 or use WSL (Ubuntu) for GCC. On Mac use Homebrew: <code class="kbd">brew install gcc</code>
+          </div>
+        </div>
+
+        <!-- LESSON: Basics -->
+        <div class="panel lesson" id="basics">
+          <h3>Lesson 2 — Basics: Hello, Variables, Types — الأساسيات</h3>
+          <p class="muted">C++ has primitive types (int, double, char, bool) and user-defined types. Let's start with a minimal program.</p>
+
+          <div class="code" aria-label="C++ hello example">
+<pre>
+// Hello world - C++
+#include &lt;iostream&gt;
+
+int main() {
+  std::cout << "Hello, JESUS TECH Academy!" << std::endl;
+  return 0;
+}
+</pre>
+          </div>
+
+          <p class="muted">Explanation: <code class="kbd">#include &lt;iostream&gt;</code> gives you input/output streams; <code>std::cout</code> prints to console.</p>
+
+          <h4>Types example — مثال أنواع</h4>
+          <div class="code">
+<pre>
+#include &lt;iostream&gt;
+int main(){
+  int a = 5;
+  double pi = 3.1415;
+  char ch = 'A';
+  bool ok = true;
+  std::cout << "a=" << a << ", pi=" << pi << ", ch=" << ch << "\\n";
+  return 0;
+}
+</pre>
+          </div>
+        </div>
+
+        <!-- LESSON: Control Flow -->
+        <div class="panel lesson" id="control">
+          <h3>Lesson 3 — Control Flow: if/else, loops — التحكم في التدفق</h3>
+          <p class="muted">Master conditions and loops; they form program logic.</p>
+
+          <div class="code">
+<pre>
+#include &lt;iostream&gt;
+int main(){
+  for(int i=1;i<=5;i++){
+    if(i % 2 == 0) std::cout << i << " is even\\n";
+    else std::cout << i << " is odd\\n";
+  }
+
+  int n = 5;
+  while(n--){
+    std::cout << "count: " << n << "\\n";
+  }
+  return 0;
+}
+</pre>
+          </div>
+
+          <p class="muted">Exercise: write a program that reads integers until 0 and prints their sum. (See exercises below.)</p>
+        </div>
+
+        <!-- LESSON: Functions -->
+        <div class="panel lesson" id="functions">
+          <h3>Lesson 4 — Functions & Modularity — الدوال</h3>
+          <p class="muted">Functions help structure code. Pass by value vs by reference is crucial.</p>
+
+          <div class="code">
+<pre>
+#include &lt;iostream&gt;
+
+// pass by value
+int add(int a, int b) {
+  return a + b;
+}
+
+// pass by reference (modify outside)
+void increment(int &x) {
+  x++;
+}
+
+int main(){
+  int x = 5;
+  std::cout << add(x,3) << "\\n"; // 8
+  increment(x); // x becomes 6
+  std::cout << "x=" << x << "\\n";
+  return 0;
+}
+</pre>
+          </div>
+
+          <p class="muted">Best practice: keep functions short, single-responsibility.</p>
+        </div>
+
+        <!-- LESSON: OOP -->
+        <div class="panel lesson" id="oop">
+          <h3>Lesson 5 — Object Oriented Programming — البرمجة كائنية التوجه</h3>
+          <p class="muted">Classes encapsulate state and behavior.</p>
+
+          <div class="code">
+<pre>
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Person {
+public:
+  std::string name;
+  int age;
+
+  Person(const std::string &n, int a) : name(n), age(a) {}
+
+  void greet() const {
+    std::cout << "Hello, I'm " << name << ", " << age << " years old\\n";
+  }
+};
+
+int main(){
+  Person p{"Dawens", 25};
+  p.greet();
+  return 0;
+}
+</pre>
+          </div>
+
+          <p class="muted">Topics: constructors, member functions, access control (public/private), inheritance, polymorphism (virtual functions).</p>
+        </div>
+
+        <!-- LESSON: Memory -->
+        <div class="panel lesson" id="memory">
+          <h3>Lesson 6 — Memory, Pointers & References — الذاكرة والمؤشرات</h3>
+          <p class="muted">Pointers are addresses; references are aliases. Understand lifetime and ownership.</p>
+
+          <div class="code">
+<pre>
+#include &lt;iostream&gt;
+int main(){
+  int a = 42;
+  int *p = &a;       // pointer to a
+  int &r = a;        // reference to a
+  std::cout << "a="<<a<<", *p="<<*p<<", r="<<r<<"\\n";
+  *p = 10;
+  std::cout << "a changed: a="<<a<<"\\n";
+  return 0;
+}
+</pre>
+          </div>
+
+          <p class="muted">Exercise: dynamic allocation with <code>new/delete</code>. In modern C++ use smart pointers (unique_ptr/shared_ptr).</p>
+
+          <div class="code">
+<pre>
+#include &lt;memory&gt;
+#include &lt;iostream&gt;
+
+int main(){
+  std::unique_ptr&lt;int&gt; up = std::make_unique&lt;int&gt;(42);
+  std::cout << *up << "\\n"; // 42
+  // no delete needed
+  return 0;
+}
+</pre>
+          </div>
+        </div>
+
+        <!-- LESSON: STL -->
+        <div class="panel lesson" id="stl">
+          <h3>Lesson 7 — STL: Vector, Map, Algorithms — مكتبة القوالب القياسية</h3>
+          <p class="muted">STL saves time. Learn containers, iterators, and algorithms.</p>
+
+          <div class="code">
+<pre>
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+int main(){
+  std::vector&lt;int&gt; v = {4,1,3,2};
+  std::sort(v.begin(), v.end());
+  for(auto x: v) std::cout << x << " ";
+  std::cout << "\\n";
+  return 0;
+}
+</pre>
+          </div>
+
+          <p class="muted">Practice: use <code>std::map</code> to count frequencies.</p>
+        </div>
+
+        <!-- LESSON: File I/O -->
+        <div class="panel lesson" id="fileio">
+          <h3>Lesson 8 — File I/O & Serialization — ملفات</h3>
+          <p class="muted">Read and write data; remember to check for errors.</p>
+
+          <div class="code">
+<pre>
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+
+int main(){
+  std::ofstream out("data.txt");
+  if(!out){ std::cerr<<"Cannot open file\\n"; return 1; }
+  out &lt;&lt; "Hello file\\n";
+  out.close();
+
+  std::ifstream in("data.txt");
+  std::string line;
+  while(std::getline(in, line)) std::cout &lt;&lt; line &lt;&lt; "\\n";
+  return 0;
+}
+</pre>
+          </div>
+        </div>
+
+        <!-- LESSON: Templates -->
+        <div class="panel lesson" id="templates">
+          <h3>Lesson 9 — Templates & Generic Programming — القوالب</h3>
+          <p class="muted">Templates enable generic data structures and algorithms.</p>
+
+          <div class="code">
+<pre>
+#include &lt;iostream&gt;
+
+template &lt;typename T&gt;
+T add(T a, T b){
+  return a + b;
+}
+
+int main(){
+  std::cout << add&lt;int&gt;(2,3) << "\\n";
+  std::cout << add&lt;double&gt;(2.5, 1.2) << "\\n";
+  return 0;
+}
+</pre>
+          </div>
+        </div>
+
+        <!-- LESSON: Concurrency -->
+        <div class="panel lesson" id="concurrency">
+          <h3>Lesson 10 — Concurrency & Threads — البرمجة المتزامنة</h3>
+          <p class="muted">Use <code>&lt;thread&gt;</code> with care. Synchronize with mutexes.</p>
+
+          <div class="code">
+<pre>
+#include &lt;iostream&gt;
+#include &lt;thread&gt;
+#include &lt;vector&gt;
+
+void worker(int id){
+  std::cout &lt;&lt; "worker " &lt;&lt; id &lt;&lt; " start\\n";
+  // simulate work
+  std::this_thread::sleep_for(std::chrono::milliseconds(200));
+  std::cout &lt;&lt; "worker " &lt;&lt; id &lt;&lt; " done\\n";
+}
+
+int main(){
+  std::vector&lt;std::thread&gt; pool;
+  for(int i=0;i&lt;4;i++) pool.emplace_back(worker, i);
+  for(auto &t: pool) t.join();
+  return 0;
+}
+</pre>
+          </div>
+
+          <p class="muted">Exercise: protect shared data with <code>std::mutex</code>.</p>
+        </div>
+
+        <!-- LESSON: Debugging -->
+        <div class="panel lesson" id="debug">
+          <h3>Lesson 11 — Debugging & Testing — التصحيح والاختبار</h3>
+          <p class="muted">Compile with debug symbols: <code class="kbd">-g</code>. Use valgrind for memory leaks, and unit tests for correctness.</p>
+        </div>
+
+        <!-- EXERCISES -->
+        <div class="panel" id="exercises">
+          <h2>Exercises — التمارين (Practice)</h2>
+
+          <div class="exercise">
+            <strong>Exercise 1:</strong> Sum of integers until zero. Read ints until 0 and print sum. (Beginner)
+            <div class="solution" id="sol-1" style="display:none">
+<pre>
+#include &lt;iostream&gt;
+int main(){
+  long long sum=0; int x;
+  while(std::cin>>x && x!=0) sum += x;
+  std::cout<<sum<<"\\n";
+  return 0;
+}
+</pre>
+            </div>
+            <div style="margin-top:8px"><button class="btn ghost" onclick="toggleSolution('sol-1')">Show solution</button></div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="exercise">
+            <strong>Exercise 2:</strong> FizzBuzz up to N (classic). (Beginner → practice)
+            <div class="solution" id="sol-2" style="display:none">
+<pre>
+#include &lt;iostream&gt;
+int main(){
+  int N; if(!(std::cin>>N)) return 0;
+  for(int i=1;i<=N;i++){
+    if(i%15==0) std::cout<<"FizzBuzz\\n";
+    else if(i%3==0) std::cout<<"Fizz\\n";
+    else if(i%5==0) std::cout<<"Buzz\\n";
+    else std::cout<<i<<"\\n";
+  }
+  return 0;
+}
+</pre>
+            </div>
+            <div style="margin-top:8px"><button class="btn ghost" onclick="toggleSolution('sol-2')">Show solution</button></div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="exercise">
+            <strong>Exercise 3:</strong> Implement a simple dynamic array wrapper (like vector). Provide push_back, size, operator[]. (Intermediate)
+            <div class="muted" style="margin-top:8px">Hint: manage capacity, realloc when needed.</div>
+            <div class="solution" id="sol-3" style="display:none">
+<pre>
+#include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
+
+template &lt;typename T&gt;
+class SimpleVector {
+  T *data;
+  size_t cap;
+  size_t len;
+public:
+  SimpleVector(): data(nullptr), cap(0), len(0){}
+  ~SimpleVector(){ delete[] data; }
+  void push_back(const T &v){
+    if(len == cap){
+      size_t newcap = cap ? cap*2 : 4;
+      T *nd = new T[newcap];
+      for(size_t i=0;i&lt;len;i++) nd[i] = std::move(data[i]);
+      delete[] data;
+      data = nd; cap = newcap;
+    }
+    data[len++] = v;
+  }
+  size_t size() const { return len; }
+  T &operator[](size_t i){ if(i>=len) throw std::out_of_range("idx"); return data[i]; }
+};
+int main(){
+  SimpleVector&lt;int&gt; v;
+  for(int i=0;i&lt;10;i++) v.push_back(i);
+  for(size_t i=0;i&lt;v.size();i++) std::cout<<v[i]<<" ";
+  std::cout<<"\\n";
+  return 0;
+}
+</pre>
+            </div>
+            <div style="margin-top:8px"><button class="btn ghost" onclick="toggleSolution('sol-3')">Show solution</button></div>
+          </div>
+
+          <!-- Add more exercises -->
+          <div style="height:18px"></div>
+
+          <div class="exercise">
+            <strong>Exercise 4:</strong> Count word frequency in input (use map). (Intermediate)
+            <div class="solution" id="sol-4" style="display:none">
+<pre>
+#include &lt;iiostream&gt;
+#include &lt;map&gt;
+#include &lt;string&gt;
+int main(){
+  std::map&lt;std::string,int&gt; cnt;
+  std::string w;
+  while(std::cin>>w) cnt[w]++;
+  for(auto &p: cnt) std::cout&lt;&lt;p.first&lt;&lt;\": \"&lt;&lt;p.second&lt;&lt;\"\\n\";
+  return 0;
+}
+</pre>
+            </div>
+            <div style="margin-top:8px"><button class="btn ghost" onclick="toggleSolution('sol-4')">Show solution</button></div>
+          </div>
+
+        </div>
+
+        <!-- Projects -->
+        <div class="panel" id="projects">
+          <h2>Capstone Projects — مشاريع نهائية</h2>
+          <ol class="muted">
+            <li><strong>Chat CLI</strong>: a simple command-line chat simulator with plugins (file logs, simple commands)</li>
+            <li><strong>Task Manager</strong>: persistent task manager with file storage and search</li>
+            <li><strong>Mini HTTP Server</strong>: basic HTTP server using sockets (advanced)</li>
+            <li><strong>Data Pipeline</strong>: CSV parser + aggregator</li>
+          </ol>
+          <p class="muted">Each project should include: README, build instructions, tests, and a short demo video (optional).</p>
+        </div>
+
+        <!-- Advanced topics -->
+        <div class="panel" id="advanced">
+          <h2>Advanced Topics & Notes</h2>
+          <ul class="muted">
+            <li>RAII, Rule of Five, move semantics (C++11+)</li>
+            <li>Smart pointers: <code>unique_ptr</code>, <code>shared_ptr</code></li>
+            <li>Design patterns: Singleton, Factory, Observer</li>
+            <li>Performance profiling: use <code>gprof</code>, <code>perf</code></li>
+          </ul>
+        </div>
+
+      </div> <!-- hero-left end -->
+
+      <!-- RIGHT COLUMN: quick TOC, resources -->
+      <aside class="hero-right">
+        <div class="toc panel">
+          <h4>Contents — المحتويات</h4>
+          <a href="#overview">Overview / نظرة عامة</a>
+          <a href="#env">Environment / الإعداد</a>
+          <a href="#basics">Basics / الأساسيات</a>
+          <a href="#control">Control Flow / التحكم</a>
+          <a href="#functions">Functions / الدوال</a>
+          <a href="#oop">OOP / الكائنات</a>
+          <a href="#memory">Memory / الذاكرة</a>
+          <a href="#stl">STL</a>
+          <a href="#concurrency">Concurrency</a>
+          <a href="#projects">Projects</a>
+        </div>
+
+        <div class="panel" style="margin-top:12px">
+          <h4>Quick resources</h4>
+          <p class="muted">Compiler flags:</p>
+          <ul class="muted">
+            <li><code>-std=c++17</code> or <code>-std=c++20</code></li>
+            <li><code>-O2</code> for release optimizations</li>
+            <li><code>-g</code> for debug symbols</li>
+          </ul>
+          <div style="margin-top:8px">
+            <a class="btn" href="https://replit.com/languages/cpp" target="_blank" rel="noopener noreferrer">Open Replit</a>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:12px">
+          <h4 class="arabic">ملاحظات سريعة</h4>
+          <p class="muted arabic rtl">ابدأ بالأساسيات، ثم انتقل إلى المؤشرات و OOP. التدرب العملي مهم جداً، حاول تنفيذ التمارين والمشاريع.</p>
+        </div>
+
+      </aside>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="max-width:var(--maxw); margin:30px auto 60px; padding:12px 20px; color:var(--muted)">
+    <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div>© 2025 JESUS TECH ACADEMY — C++ Track</div>
+      <div class="muted">Produced by DAWENS • Suggested path: Basics → OOP → Memory → STL → Project</div>
+    </div>
+  </footer>
+
+  <script>
+    // language toggle (EN/AR)
+    const btnEn = document.getElementById('lang-en');
+    const btnAr = document.getElementById('lang-ar');
+    btnEn.addEventListener('click', ()=> setLang('en'));
+    btnAr.addEventListener('click', ()=> setLang('ar'));
+
+    function setLang(lang){
+      if(lang === 'ar'){
+        document.documentElement.lang = 'ar';
+        btnAr.classList.add('active'); btnEn.classList.remove('active');
+        // add rtl class to main container for Arabic content display
+        document.querySelector('main').classList.add('rtl');
+        // translate some visible static strings (light)
+        document.querySelector('.course-title').textContent = 'مسار C++ — مدرسة شاملة';
+        document.querySelector('.course-sub').textContent = 'منهج عملي لتعلم C++ من الأساس إلى المشاريع.';
+        // adjust some anchors (optional - for demo we keep content bilingual)
+      } else {
+        document.documentElement.lang = 'en';
+        btnEn.classList.add('active'); btnAr.classList.remove('active');
+        document.querySelector('main').classList.remove('rtl');
+        document.querySelector('.course-title').textContent = 'C++ Complete Track — Intensive School';
+        document.querySelector('.course-sub').textContent = 'A practical C++ curriculum designed to take you from zero to productive developer.';
+      }
+    }
+
+    // try code button (open Replit)
+    document.getElementById('try-btn').addEventListener('click', function(e){
+      e.preventDefault();
+      // open Replit in new tab - users can paste code
+      window.open('https://replit.com/languages/cpp', '_blank', 'noopener');
+    });
+
+    // show/hide exercise solutions
+    function toggleSolution(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+      if(el.style.display === 'block') el.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+
+    // small accessibility improvements: focus outline
+    document.addEventListener('keyup', function(e){
+      if(e.key === 'Tab') document.body.classList.add('show-focus');
+    });
+
+    // deep-link scrolling
+    window.addEventListener('load', function(){
+      if(location.hash){
+        const id = location.hash.slice(1);
+        const target = document.getElementById(id);
+        if(target) target.scrollIntoView({behavior:'smooth'});
+      }
+    });
+
+  </script>
+</body>
+</html>

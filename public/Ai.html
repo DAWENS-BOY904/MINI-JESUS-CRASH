@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Da-ChatGPT</title>
+<style>
+/* ============================================
+   DA-CHATGPT — YUN PI PRO NEON UI
+   Author: Dawens Boy Tech
+   ============================================ */
+
+:root {
+  --bg: #050505;
+  --card-bg: rgba(15, 15, 15, 0.65);
+  --border: rgba(255, 255, 255, 0.08);
+  --accent: #6c63ff;
+  --neon1: #00ffff;
+  --neon2: #ff00ff;
+  --neon3: #ff4b2b;
+  --neon4: #39ff14;
+  --radius: 20px;
+  --blur: 25px;
+  --transition: all 0.35s ease;
+  --glow: 0 0 15px var(--accent), 0 0 40px var(--accent);
+  --pulse: 0 0 25px var(--accent), 0 0 55px var(--accent);
+}
+
+/* Reset */
+* {margin:0; padding:0; box-sizing:border-box;}
+html, body {
+  width:100%; height:100%;
+  font-family:"Poppins","Segoe UI",sans-serif;
+  background:var(--bg);
+  color:#fff;
+  overflow-x:hidden;
+  scroll-behavior:smooth;
+}
+
+/* Animated Background Layers */
+body::before, body::after {
+  content:"";
+  position:fixed; inset:0;
+  z-index:-2;
+  filter:blur(180px);
+  opacity:0.07;
+  animation:flow 20s ease-in-out infinite alternate;
+}
+body::before {
+  background:conic-gradient(from 0deg,
+    var(--neon1), var(--neon2), var(--neon3),
+    var(--neon4), var(--neon1));
+}
+body::after {
+  background:radial-gradient(circle at 30% 70%, #6c63ff40 0%, transparent 70%);
+}
+@keyframes flow {
+  0% {transform:rotate(0deg) scale(1);}
+  100% {transform:rotate(360deg) scale(1.1);}
+}
+
+/* Container */
+.container {
+  max-width:880px;
+  margin:90px auto;
+  padding:40px 32px;
+  background:var(--card-bg);
+  border-radius:var(--radius);
+  box-shadow:0 0 60px rgba(108,99,255,0.35), 0 0 25px rgba(108,99,255,0.15);
+  backdrop-filter:blur(var(--blur));
+  border:1px solid var(--border);
+  text-align:center;
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+.container:hover {
+  transform:translateY(-5px);
+  box-shadow:0 0 90px rgba(108,99,255,0.45), 0 0 30px rgba(108,99,255,0.2);
+}
+
+/* Header */
+.container h1 {
+  font-size:2.8rem;
+  font-weight:800;
+  background:linear-gradient(90deg, var(--neon1), var(--neon2), var(--neon3));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:shine 3s linear infinite;
+  margin-bottom:20px;
+}
+@keyframes shine {
+  0% {filter:hue-rotate(0deg);}
+  100% {filter:hue-rotate(360deg);}
+}
+
+/* Description */
+.container p {
+  font-size:1.15rem;
+  color:#bbb;
+  max-width:600px;
+  margin:0 auto 30px;
+  line-height:1.6;
+}
+
+/* Buttons */
+.button {
+  display:inline-block;
+  padding:14px 26px;
+  margin:8px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(90deg,var(--neon1),var(--accent));
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+  transition:var(--transition);
+  box-shadow:var(--glow);
+  position:relative;
+  overflow:hidden;
+}
+.button::before {
+  content:"";
+  position:absolute;
+  top:0; left:-75%;
+  width:50%; height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent);
+  transform:skewX(-25deg);
+}
+.button:hover::before { animation:slide 1.2s ease; }
+@keyframes slide {
+  100% { left:125%; }
+}
+.button:hover {
+  box-shadow:var(--pulse);
+  transform:translateY(-2px);
+}
+
+/* File Input */
+input[type="file"] {
+  padding:10px;
+  margin:10px 0;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.06);
+  color:#fff;
+  width:100%;
+  cursor:pointer;
+  transition:var(--transition);
+}
+input[type="file"]:hover {
+  border-color:var(--accent);
+  box-shadow:0 0 15px var(--accent);
+}
+
+/* Output */
+#aiOutput {
+  margin-top:28px;
+  padding:18px;
+  background:rgba(0,0,0,0.5);
+  border-radius:14px;
+  border:1px solid var(--border);
+  min-height:120px;
+  text-align:left;
+  font-family:monospace;
+  white-space:pre-wrap;
+  line-height:1.5;
+  box-shadow:inset 0 0 25px rgba(108,99,255,0.15);
+}
+
+/* Glow Pulse Animation */
+@keyframes glowPulse {
+  0%,100% {box-shadow:var(--glow);}
+  50% {box-shadow:var(--pulse);}
+}
+
+/* Responsive */
+@media (max-width:650px){
+  .container{padding:26px;margin:50px auto;}
+  .container h1{font-size:2rem;}
+  .button{padding:10px 18px;}
+}
+</style>
+<link rel="icon" href="https://files.catbox.moe/x16nfd.png">
+</head>
+<body>
+<div class="container">
+<h1>Da-ChatGPT</h1>
+<p>L'ultime AI assistant pour vos projets et automation. Upload a file or ask a question!</p>
+
+<!-- Upload Photo -->
+<input type="file" id="fileUpload" accept="image/*" />
+<button class="button" id="uploadBtn">Upload Photo</button>
+
+<!-- Ask AI -->
+<input type="text" id="promptInput" placeholder="Enter your question..." style="width:100%;padding:12px;margin-top:12px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,0.05);color:#fff;outline:none;">
+<button class="button" id="askBtn">Ask AI</button>
+
+<!-- Output -->
+<div id="aiOutput"></div>
+
+</div>
+<script>
+// ai.js
+const uploadBtn = document.getElementById("uploadBtn");
+const fileUpload = document.getElementById("fileUpload");
+const askBtn = document.getElementById("askBtn");
+const promptInput = document.getElementById("promptInput");
+const aiOutput = document.getElementById("aiOutput");
+
+let uploadedFile = null;
+
+// ========== UPLOAD PHOTO ==========
+fileUpload.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  uploadedFile = file;
+  aiOutput.textContent = `📎 File ready: ${file.name}`;
+});
+
+uploadBtn.addEventListener("click", () => {
+  if (!uploadedFile) {
+    aiOutput.textContent = "⚠️ No file selected!";
+    return;
+  }
+  aiOutput.textContent = `✅ Uploaded file: ${uploadedFile.name}`;
+  // Optionally, send file to server if needed
+});
+
+// ========== ASK AI ==========
+askBtn.addEventListener("click", async () => {
+  const prompt = promptInput.value.trim();
+  if (!prompt) {
+    aiOutput.textContent = "⚠️ Please enter a question or prompt.";
+    return;
+  }
+
+  aiOutput.textContent = "⏳ AI is thinking...";
+
+  try {
+    const res = await fetch("/api/ai", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ prompt })
+    });
+    const data = await res.json();
+
+    if (data.ok) {
+      aiOutput.textContent = `💬 AI Response:\n${data.response}`;
+    } else {
+      aiOutput.textContent = `❌ Error: ${data.error || "Unknown error"}`;
+    }
+  } catch (err) {
+    console.error(err);
+    aiOutput.textContent = "❌ Server or network error.";
+  }
+});
+</script>
+</body>
+</html>

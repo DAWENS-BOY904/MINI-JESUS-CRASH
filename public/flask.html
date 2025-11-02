@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dawens School | Flask Framework</title>
+  <style>
+    body {
+      background: radial-gradient(circle at center, #000428, #004e92);
+      color: #fff;
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      padding: 50px 20px;
+    }
+    header h1 {
+      font-size: 2.2em;
+      background: linear-gradient(90deg,#00ffcc,#00e6ff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    select {
+      background: #111;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 10px;
+      border: none;
+    }
+    .content {
+      max-width: 900px;
+      margin: 40px auto;
+      background: rgba(0,0,0,0.3);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(0,255,255,0.3);
+    }
+    pre {
+      background: rgba(0,0,0,0.6);
+      padding: 15px;
+      border-radius: 10px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="title">🐍 Flask Web Framework</h1>
+    <select id="lang">
+      <option value="en">English</option>
+      <option value="ht">Kreyòl</option>
+      <option value="fr">Français</option>
+    </select>
+  </header>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
+
+  <div class="content">
+    <h2 id="intro-title">Introduction</h2>
+    <p id="intro-text">Flask is a lightweight Python web framework that helps you build APIs and web apps quickly.</p>
+
+    <h3>📘 Example: Simple Flask App</h3>
+    <pre>
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Welcome to Dawens Flask Course!"
+
+if __name__ == '__main__':
+    app.run(debug=True)
+    </pre>
+
+    <p id="desc">This creates a web server that runs locally on port 5000. Visit http://127.0.0.1:5000/ to see your first Flask page.</p>
+  </div>
+
+  <script>
+    const langData = {
+      en: {
+        title: "🐍 Flask Web Framework",
+        introTitle: "Introduction",
+        introText: "Flask is a lightweight Python web framework that helps you build APIs and web apps quickly.",
+        desc: "This creates a web server that runs locally on port 5000. Visit http://127.0.0.1:5000/ to see your first Flask page."
+      },
+      ht: {
+        title: "🐍 Flask - Kad Web Python",
+        introTitle: "Entwodiksyon",
+        introText: "Flask se yon kad travay limyè nan Python ki ede w kreye API ak aplikasyon entènèt fasil.",
+        desc: "Sa a kreye yon sèvè lokal sou pò 5000. Ale sou http://127.0.0.1:5000/ pou w wè premye paj Flask ou."
+      },
+      fr: {
+        title: "🐍 Framework Web Flask",
+        introTitle: "Introduction",
+        introText: "Flask est un framework Python léger pour créer rapidement des API et des applications web.",
+        desc: "Cela crée un serveur local sur le port 5000. Visitez http://127.0.0.1:5000/ pour voir votre première page Flask."
+      }
+    };
+
+    const lang = document.getElementById("lang");
+    lang.onchange = () => {
+      const d = langData[lang.value];
+      document.getElementById("title").textContent = d.title;
+      document.getElementById("intro-title").textContent = d.introTitle;
+      document.getElementById("intro-text").textContent = d.introText;
+      document.getElementById("desc").textContent = d.desc;
+    };
+  </script>
+</body>
+</html>

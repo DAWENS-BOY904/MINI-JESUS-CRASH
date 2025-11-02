@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Success - Da-ChatGPT Plus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f7ff;
+      --text: #1a1a1a;
+      --accent: #0078ff;
+    }
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .details {
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      max-width: 400px;
+      width: 100%;
+      text-align: left;
+    }
+    .details p {
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg,#0078ff,#00aaff);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,120,255,0.3);
+    }
+  </style>
+</head>
+<body>
+
+<h1>✅ Payment Successful!</h1>
+
+<div class="details">
+  <p><strong>Order ID:</strong> <span id="orderId"></span></p>
+  <p><strong>Full Name:</strong> <span id="fullname"></span></p>
+  <p><strong>Plan Purchased:</strong> <span id="plan"></span></p>
+</div>
+
+<button onclick="goHome()">Back to Home</button>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+const orderId = params.get('orderId') || 'N/A';
+const fullname = params.get('fullname') || 'User Name';
+const plan = params.get('plan') || 'Pro Plan';
+const method = params.get('method') || 'Credit Card';
+
+document.getElementById("orderId").textContent = orderId;
+document.getElementById("fullname").textContent = fullname;
+document.getElementById("plan").textContent = plan;
+document.getElementById("method").textContent = method;
+
+function goHome() {
+  window.location.href = "ai.html";
+}
+</script>
+
+</body>
+</html>

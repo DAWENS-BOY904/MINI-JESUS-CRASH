@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À propos - MINI JESUS BOT</title>
+  <style>
+    /* ===== GLOBAL ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+    body {
+      background: radial-gradient(circle at center, #030414, #000);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      animation: bgShift 20s infinite linear;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: rgba(0,0,0,0.7);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      padding: 15px 0;
+      box-shadow: 0 0 15px rgba(0,255,255,0.3);
+      backdrop-filter: blur(6px);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 25px;
+    }
+
+    .logo {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #00eaff;
+      text-shadow: 0 0 10px #00eaff;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #00bfff;
+      text-shadow: 0 0 8px #00bfff;
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .about-section {
+      max-width: 650px;
+      margin: 140px auto 80px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .about-section h1 {
+      font-size: 2.2em;
+      text-transform: uppercase;
+      color: #00eaff;
+      margin-bottom: 5px;
+      text-shadow: 0 0 15px #00ffff;
+      animation: glowPulse 4s infinite ease-in-out;
+    }
+
+    .about-section h2 {
+      font-size: 1.2em;
+      color: #00bfff;
+      opacity: 0.85;
+      margin-bottom: 30px;
+    }
+
+    /* ===== CARD STYLE ===== */
+    .card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 0 20px rgba(0,191,255,0.1);
+      border: 1px solid rgba(0,191,255,0.2);
+      backdrop-filter: blur(8px);
+      animation: fadeIn 1s ease;
+      transition: all 0.4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(0,255,255,0.5);
+    }
+
+    .card h3 {
+      color: #00bfff;
+      margin-bottom: 12px;
+      font-size: 1.2em;
+      text-shadow: 0 0 10px #00bfff;
+    }
+
+    .card p {
+      margin: 8px 0;
+      color: #ccc;
+      line-height: 1.5em;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #00bfff, #0078ff);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9em;
+      margin-top: 10px;
+      box-shadow: 0 0 12px rgba(0,191,255,0.4);
+      transition: all 0.3s ease;
+      animation: colorShift 20s infinite linear;
+    }
+
+    .btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 25px #00ffff;
+    }
+
+    /* ===== RESPONSE TIME ===== */
+    .response-time {
+      background: rgba(255,255,255,0.04);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+      font-size: 0.95em;
+      line-height: 1.6em;
+      color: #ccc;
+      box-shadow: 0 0 10px rgba(0,255,255,0.2);
+    }
+
+    .response-time h4 {
+      color: #00eaff;
+      margin-bottom: 8px;
+      text-shadow: 0 0 8px #00ffff;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 0 0 10px #00ffff, 0 0 30px #00bfff; }
+      50% { text-shadow: 0 0 25px #00eaff, 0 0 50px #0078ff; }
+    }
+
+    @keyframes colorShift {
+      0% { background: linear-gradient(45deg, #ff0000, #ff7300); }
+      50% { background: linear-gradient(45deg, #00eaff, #0078ff); }
+      100% { background: linear-gradient(45deg, #7a00ff, #ff00c8); }
+    }
+
+    @keyframes bgShift {
+      0% { background: radial-gradient(circle at center, #00111a, #000); }
+      50% { background: radial-gradient(circle at center, #000820, #001a1a); }
+      100% { background: radial-gradient(circle at center, #00111a, #000); }
+    }
+
+    @media (max-width: 600px) {
+      .card { padding: 15px; }
+      .btn { width: auto; padding: 8px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Background music autoplay -->
+<audio src="https://files.catbox.moe/0eyudv.mp4" autoplay loop></audio>
+
+
+  <!-- HEADER -->
+  <header>
+    <nav>
+      <div class="logo">MINI JESUS</div>
+      <ul class="nav-links">
+        <li><a href="public/index.html">Accueil</a></li>
+        <li><a href="deploye.html">Mini Bot</a></li>
+        <li><a href="api.html">API</a></li>
+        <li><a href="about.html" style="color:#00eaff;">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ABOUT SECTION -->
+  <section class="about-section">
+    <h1>Contact MINI JESUS BOT</h1>
+    <h2>Team of Innovation & Automation</h2>
+
+    <div class="card">
+      <h3>Developer Information</h3>
+      <p><strong>Name:</strong> DAWENS BOY TECH</p>
+      <p><strong>Email:</strong> berryxoe@gmail.com</p>
+    </div>
+
+    <div class="card">
+      <h3>Telegram</h3>
+      <p>Contact us on Telegram</p>
+      <a href="https://t.me/Mr_DA5" class="btn">@mini_jesus_bot</a>
+    </div>
+
+    <div class="card">
+      <h3>WhatsApp</h3>
+      <p>Message us directly on WhatsApp</p>
+      <a href="https://wa.me/50942241547" class="btn">WhatsApp</a>
+    </div>
+
+    <div class="card">
+      <h3>Support Channel</h3>
+      <p>Join our official support channel for help and updates</p>
+      <a href="https://whatsapp.com/channel/0029Vb6tScFDzgTAcKNphY2i" class="btn">Support Channel</a>
+    </div>
+
+    <div class="response-time">
+      <h4>⏱ Response Time</h4>
+      <p>We typically respond within 24 hours for all inquiries.<br>
+         For urgent matters, please use <strong>WhatsApp</strong> or <strong>Telegram</strong>.
+      </p>
+    </div>
+  </section>
+
+</body>
+</html>
