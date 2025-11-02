@@ -20,6 +20,7 @@
     "@bochilteam/scraper": "4.0.22-alpha.0",
     "@google/generative-ai": "^0.24.0",
     "@hapi/boom": "^10.0.1",
+    "cookie-session": "^2.0.0",
     "@jkt48connect-corp/sdk": "^3.0.15",
     "@saipulanuar/jadianime-ts": "^2.0.0",
     "@whiskeysockets/baileys": "npm:baileys-mod@latest",
@@ -114,8 +115,7 @@
     "uuid": "^9.0.0",
     "node-fetch": "^3.3.2",
     "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7",
-    "cookie-session": "^2.0.0"
+    "sqlite3": "^5.1.7"
  },
   "devDependencies": {
     "nodemon": "^2.0.22"
