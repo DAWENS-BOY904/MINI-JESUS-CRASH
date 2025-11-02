@@ -34,7 +34,7 @@ const PORT = process.env.PORT || 3000;
 // ✅ CORRECT OpenAI initialization
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
-const GEMINI_KEY = "AIzaSyDOgIsixqP3R1hjn9r1Fa9zXmTPDG_A6hk"; // Kenbe kle la sou server sèlman
+const GEMINI_KEY = "AIzaSyDcu4quhYj-Jj-syquKknawsvP1lyEqI3A"; // Kenbe kle la sou server sèlman
 
 app.post("/api/chat", async (req, res) => {
   try {
