@@ -34,24 +34,40 @@ const PORT = process.env.PORT || 3000;
 // ✅ CORRECT OpenAI initialization
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
-const GEMINI_KEY = "AIzaSyDcu4quhYj-Jj-syquKknawsvP1lyEqI3A"; // Kenbe kle la sou server sèlman
+// ⛔️ Mete kle Gemini ou a nan .env
+const GEMINI_KEY = process.env.GEMINI_KEY;
 
 app.post("/api/chat", async (req, res) => {
   try {
-    const { message, image } = req.body;
+    const { message } = req.body;
 
-    // Rele API ekstèn avèk kle ou
+    // Voye demann lan bay Gemini API
     const apiRes = await axios.post(
-      "https://gemini-api.example.com/chat", // Mete URL API ou
-      { message, image },
-      { headers: { Authorization: `Bearer ${GEMINI_KEY}` } }
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+      {
+        contents: [
+          {
+            parts: [
+              { text: message }
+            ]
+          }
+        ]
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": GEMINI_KEY
+        }
+      }
     );
 
-    // Voye repons API a tounen nan frontend
-    res.json({ reply: apiRes.data.reply });
+    // Ranmase tèks la nan repons lan
+    const reply = apiRes.data?.candidates?.[0]?.content?.parts?.[0]?.text || "❌ No response";
+
+    res.json({ reply });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ reply: "⚠️ Error contacting AI API" });
+    console.error("❌ Gemini API error:", err.response?.data || err.message);
+    res.status(500).json({ reply: "⚠️ Error contacting Gemini API" });
   }
 });
 // ========== Middleware ==========
