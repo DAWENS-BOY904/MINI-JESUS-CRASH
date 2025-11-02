@@ -42,7 +42,7 @@ const PORT = process.env.PORT || 3000;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // ⛔️ Mete kle Gemini ou a nan .env
-const GEMINI_KEY = process.env.GEMINI_KEY;
+const GEMINI_KEY =AIzaSyDcu4quhYj-Jj-syquKknawsvP1lyEqI3A;
 
 app.post("/api/chat", async (req, res) => {
   try {
@@ -178,13 +178,13 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'signup.html'));
 });
 
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'login.html'));
+app.get('/index', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Route HTML principale - SERVIR pair.html
-app.get('/index', (req, res) => {
-    res.sendFile(path.join(__path, 'index.html'));
+app.get('/signup', (req, res) => {
+    res.sendFile(path.join(__path, 'signup.html'));
 });
 
 // ==================== API Routes pour configurations utilisateur ====================
