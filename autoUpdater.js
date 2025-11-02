@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // 📦 REPO CONFIG
-const repoUrl = "https://github.com/DAWENS-BOY904/MINI-JESUS.git"; // 🔁 Replace with your GitHub repo if needed
+const repoUrl = "https://github.com/DAWENS-BOY904/MINI-JESUS-CRASH.git"; // 🔁 Replace with your GitHub repo if needed
 const checkInterval = 5 * 60 * 1000; // 5 min
 const projectDir = __dirname;
 

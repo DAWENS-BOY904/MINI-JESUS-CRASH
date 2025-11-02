@@ -1,5 +1,6 @@
 // ==================== server.js ====================
 import { sessionGuard, loadMegaSession } from "./autoUpdater.js";
+import pairRouter from './pair.js';
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -32,6 +33,26 @@ const PORT = process.env.PORT || 3000;
 // ✅ CORRECT OpenAI initialization
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
+const GEMINI_KEY = "AIzaSyDOgIsixqP3R1hjn9r1Fa9zXmTPDG_A6hk"; // Kenbe kle la sou server sèlman
+
+app.post("/api/chat", async (req, res) => {
+  try {
+    const { message, image } = req.body;
+
+    // Rele API ekstèn avèk kle ou
+    const apiRes = await axios.post(
+      "https://gemini-api.example.com/chat", // Mete URL API ou
+      { message, image },
+      { headers: { Authorization: `Bearer ${GEMINI_KEY}` } }
+    );
+
+    // Voye repons API a tounen nan frontend
+    res.json({ reply: apiRes.data.reply });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ reply: "⚠️ Error contacting AI API" });
+  }
+});
 // ========== Middleware ==========
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -45,6 +66,8 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+const __path = process.cwd();
 // ==================== KEEP ALIVE SYSTEM ====================
 function startKeepAlive() {
   console.log('🫀 Initialisation du système Keep-Alive...');
@@ -84,7 +107,6 @@ function startKeepAlive() {
 
 function saveConfig(config) {
   try {
-    const configPath = path.join(__dirname, 'config.json');
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
     return true;
   } catch (error) {
@@ -93,10 +115,131 @@ function saveConfig(config) {
   }
 }
 
+// Fonction pour sauvegarder dans les fichiers JSON utilisateur
+function saveUserConfig(file, data) {
+  try {
+    const filePath = path.join(databaseDir, file);
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    return true;
+  } catch (error) {
+    console.error(`❌ Erreur sauvegarde ${file}:`, error);
+    return false;
+  }
+}
+
+// Fonction pour charger les configurations utilisateur
+function loadUserConfig(file) {
+  try {
+    const filePath = path.join(databaseDir, file);
+    if (!fs.existsSync(filePath)) {
+      return {};
+    }
+    const data = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error(`❌ Erreur lecture ${file}:`, error);
+    return {};
+  }
+}
+
+// Fonction pour formater le numéro en JID
+function formatToJid(number) {
+  const cleanNumber = number.replace(/[^\d]/g, '');
+  return cleanNumber + '@s.whatsapp.net';
+}
+
 // ==================== Routes ====================
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'deploye.html'));
+    res.sendFile(path.join(__dirname, 'signup.html'));
+});
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'login.html'));
+});
+
+// Route HTML principale - SERVIR pair.html
+app.get('/index', (req, res) => {
+    res.sendFile(path.join(__path, 'index.html'));
+});
+
+// ==================== API Routes pour configurations utilisateur ====================
+
+// API pour sauvegarder owner
+app.post('/api/save-owner', (req, res) => {
+  try {
+    const { userJid, ownerNumber } = req.body;
+    const owners = loadUserConfig('owner.json');
+    owners[userJid] = ownerNumber;
+
+    if (saveUserConfig('owner.json', owners)) {
+      res.json({ success: true });
+    } else {
+      throw new Error('Erreur sauvegarde owner');
+    }
+  } catch (error) {
+    console.error('❌ Erreur sauvegarde owner:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// API pour sauvegarder prefix
+app.post('/api/save-prefix', (req, res) => {
+  try {
+    const { userJid, prefix } = req.body;
+    const prefixes = loadUserConfig('prefix.json');
+    prefixes[userJid] = prefix;
+
+    if (saveUserConfig('prefix.json', prefixes)) {
+      res.json({ success: true });
+    } else {
+      throw new Error('Erreur sauvegarde prefix');
+    }
+  } catch (error) {
+    console.error('❌ Erreur sauvegarde prefix:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// API pour sauvegarder mode
+app.post('/api/save-mode', (req, res) => {
+  try {
+    const { userJid, mode } = req.body;
+    const modes = loadUserConfig('mode.json');
+    modes[userJid] = mode;
+
+    if (saveUserConfig('mode.json', modes)) {
+      res.json({ success: true });
+    } else {
+      throw new Error('Erreur sauvegarde mode');
+    }
+  } catch (error) {
+    console.error('❌ Erreur sauvegarde mode:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// API pour sauvegarder sudo
+app.post('/api/save-sudo', (req, res) => {
+  try {
+    const { userJid, sudoNumbers } = req.body;
+    const sudo = loadUserConfig('sudo.json');
+
+    // Convertir les numéros en format JID
+    sudo[userJid] = sudoNumbers.map(num => {
+      const cleanNum = num.replace(/[^\d]/g, '');
+      return cleanNum + '@s.whatsapp.net';
+    });
+
+    if (saveUserConfig('sudo.json', sudo)) {
+      res.json({ success: true });
+    } else {
+      throw new Error('Erreur sauvegarde sudo');
+    }
+  } catch (error) {
+    console.error('❌ Erreur sauvegarde sudo:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 // ==================== API Routes ====================
@@ -545,13 +688,18 @@ app.get('/api/stats', (req, res) => {
 app.use((req, res) => {
     res.status(404).json({
         error: 'Page non trouvée',
-        message: 'Utilisez / pour déployer une session ASK CRASHER',
+        message: 'Utilisez / pour déployer une session MINI JESUS CRASG',
         availableEndpoints: [
             'GET  / - Page de déploiement',
+            'GET  /pair - Page de pairing WhatsApp',
             'GET  /api/config - Configuration',
             'GET  /api/ping - Keep-alive',
             'GET  /api/health - Santé du serveur',
             'POST /api/config - Sauvegarder configuration',
+            'POST /api/save-owner - Sauvegarder owner',
+            'POST /api/save-prefix - Sauvegarder prefix',
+            'POST /api/save-mode - Sauvegarder mode',
+            'POST /api/save-sudo - Sauvegarder sudo',
             'GET  /api/session/:name/status - Statut session',
             'GET  /api/session/:name/mega-status - Statut Mega',
             'GET  /api/session/:name/connection-status - Statut connexion complète',
@@ -571,9 +719,12 @@ app.use((error, req, res, next) => {
 });
     console.log(`=========================================`);
     console.log(`🚀 Déploiement: http://localhost:${PORT}`);
+   console.log(`📱 Pairing WhatsApp: http://localhost:${PORT}/pair`);
     console.log(`🔧 API Config: http://localhost:${PORT}/api/config`);
     console.log(`📊 Sessions: http://localhost:${PORT}/api/sessions/active`);
     console.log(`❤️  Health: http://localhost:${PORT}/api/health`);
+    console.log(`🤖 API Pairing: http://localhost:${PORT}/api/pair`);
+    console.log(`👤 Multi-utilisateur: Système activé`);
     console.log(`🫀 Keep-alive: http://localhost:${PORT}/api/ping`);
     console.log(`📈 Stats: http://localhost:${PORT}/api/stats`);
     console.log(`=========================================\n`);
