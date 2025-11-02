@@ -20,7 +20,7 @@ Features
 Installation
 
 # Clone the repository
-git clone https://github.com/yourusername/MINI-JESUS-CRASH.git
+git clone https://github.com/DAWENS-BOY904/MINI-JESUS-CRASH.git
 
 # Navigate to project folder
 cd MINI-JESUS-CRASH
