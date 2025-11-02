@@ -187,14 +187,6 @@ app.get('/signup', (req, res) => {
     res.sendFile(path.join(__path, 'signup.html'));
 });
 
-// Route HTML principale - SERVIR pair.html
-app.get('/pair', (req, res) => {
-    res.sendFile(path.join(__path, 'pair.html'));
-});
-
-// Route API WhatsApp (pair) - CORRECTION ICI: utilisation de /api/pair
-app.use('/api/pair', pairRouter);
-
 // ==================== API Routes pour configurations utilisateur ====================
 
 // API pour sauvegarder owner
