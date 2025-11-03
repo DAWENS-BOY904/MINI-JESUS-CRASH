@@ -3,6 +3,7 @@ import { sessionGuard, loadMegaSession } from "./autoUpdater.js";
 import { antiSpam, loadSessions, saveSessions } from "./autoUpdater2.js";
 import pairRouter from './pair.js';
 import axios from 'axios';
+import { createRequire } from 'module';
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -20,11 +21,19 @@ import { Strategy as GitHubStrategy } from 'passport-github2';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { Strategy as AppleStrategy } from 'passport-apple';
 
+// permet require
+const require = createRequire(import.meta.url);
+
 // --- Config ---
 dotenv.config();
 
+// ----------------- CommonJS modules -----------------
+const pair = require('./pair.js');            // Router CommonJS
+const startBotCJS = require('./bot/index.js'); // Bot mini-server
+
+
 // Import des fonctions depuis index.js
-import { activeSessions, loadConfig, startBotForSession } from './index.js';
+import { activeSessions, loadConfig, startBotForSession } from './index-esm.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,7 +45,7 @@ const configPath = path.join(databaseDir, 'config.json');
 
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 // ✅ CORRECT OpenAI initialization
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -172,19 +181,26 @@ function formatToJid(number) {
   return cleanNumber + '@s.whatsapp.net';
 }
 
-// ==================== Routes ====================
+// ----------------- Routes HTML -----------------
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'login.html'));
-});
+// Page pairing WhatsApp
+app.get('/pair', (req, res) => res.sendFile(path.join(__dirname, 'pair.html')));
 
-app.get('/index', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+// Page login
+app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'login.html')));
+
+// Page signup
+app.get('/signup', (req, res) => res.sendFile(path.join(__dirname, 'signup.html')));
+
+// Page principale
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'main.html')));
+
+// ----------------- CommonJS router -----------------
+app.use('/code', pair);
 
 // Route HTML principale - SERVIR pair.html
-app.get('/signup', (req, res) => {
-    res.sendFile(path.join(__path, 'signup.html'));
+app.get('/index', (req, res) => {
+    res.sendFile(path.join(__path, 'index.html'));
 });
 
 // ==================== API Routes pour configurations utilisateur ====================
@@ -1043,10 +1059,13 @@ app.post("/api/ai", async (req, res) => {
     res.json({ ok: false, error: err.message });
   }
 })
-// ==================== START SERVER ====================
+// ==================== Start server ====================
 app.listen(PORT, () => {
+  console.log(`\n🔥 MINI JESUS Server started at http://localhost:${PORT}`);
   startKeepAlive();
-  console.log(`✅ Serveur démarré sur le port ${PORT}`);
+
+  // Start CommonJS bot mini-server
+  startBotCJS;
 });
 
 export default app;
