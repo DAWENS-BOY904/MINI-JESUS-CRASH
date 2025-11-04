@@ -13,7 +13,7 @@ import OpenAI from "openai";
 import bodyParser from 'body-parser';
 import sqlite3 from 'sqlite3';
 import bcrypt from 'bcrypt';
-import session from 'cookie-session';
+import cookieSession from 'cookie-session';
 
 // permet require
 const require = createRequire(import.meta.url);
