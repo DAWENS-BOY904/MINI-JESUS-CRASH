@@ -32,7 +32,7 @@ const configPath = path.join(databaseDir, 'config.json');
 
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 
 // ✅ CORRECT OpenAI initialization
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -901,5 +901,7 @@ app.post("/api/ai", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`\n🔥 MINI JESUS Server started at http://localhost:${PORT}`);
   startKeepAlive();
+});
 
+// Export app for testing or other modules
 export default app;
