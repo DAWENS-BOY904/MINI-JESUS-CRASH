@@ -3295,7 +3295,7 @@ case 'apk': {
             break;
         }
 
-        const { name, lastup, package, size, icon, dllink } = data.result;
+        const { name, lastup, package: pkg, size, icon, dllink } = data.result;
         if (!name || !dllink) {
             console.error('Invalid result data:', data.result);
             await socket.sendMessage(sender, { text: '❌ Invalid APK data: Missing name or download link.' }, { quoted: fakevCard });
