@@ -2,7 +2,6 @@
 import { sessionGuard, loadMegaSession } from "./autoUpdater.js";
 import { antiSpam, loadSessions, saveSessions } from "./autoUpdater2.js";
 import axios from 'axios';
-import { createRequire } from 'module';
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -16,15 +15,8 @@ import bcrypt from 'bcrypt';
 import passport from 'passport';
 import cookieSession from 'cookie-session';
 
-// permet require
-const require = createRequire(import.meta.url);
-
 // --- Config ---
 dotenv.config();
-
-// ----------------- CommonJS modules -----------------
-const pair = require('./pair.js');            // Router CommonJS
-const startBotCJS = require('./bot/index.js'); // Bot mini-server
 
 
 // Import des fonctions depuis index.js
@@ -909,9 +901,5 @@ app.post("/api/ai", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`\n🔥 MINI JESUS Server started at http://localhost:${PORT}`);
   startKeepAlive();
-
-  // Start CommonJS bot mini-server
-  startBotCJS(); // ajoute () pou kouri
-});
 
 export default app;
