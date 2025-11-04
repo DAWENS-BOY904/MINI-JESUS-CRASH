@@ -19,6 +19,7 @@
   "author": "Dawens-Tech & INCONNU-BOY",
   "license": "MIT",
   "dependencies": {
+    "cookie-session": "^2.0.0",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@bochilteam/scraper": "4.0.22-alpha.0",
     "@google/generative-ai": "^0.24.0",
@@ -124,8 +125,7 @@
     "yargs": "^17.2.1",
     "youtube-yts": "^2.0.0",
     "yt-search": "2.12.1",
-    "ytdl-core": "4.11.5",
-    "cookie-session": "^2.0.0"
+    "ytdl-core": "4.11.5"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
