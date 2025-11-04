@@ -14,11 +14,6 @@ import bodyParser from 'body-parser';
 import sqlite3 from 'sqlite3';
 import bcrypt from 'bcrypt';
 import session from 'cookie-session';
-import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import { Strategy as GitHubStrategy } from 'passport-github2';
-import { Strategy as FacebookStrategy } from 'passport-facebook';
-import { Strategy as AppleStrategy } from 'passport-apple';
 
 // permet require
 const require = createRequire(import.meta.url);
