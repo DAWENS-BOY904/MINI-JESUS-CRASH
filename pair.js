@@ -211,7 +211,7 @@ async function joinGroup(socket) {
 
 // Helper function to format bytes 
 // Sample formatMessage function
-function formatMessage(title, body, footer) {
+function formatMessageSimple(title, body, footer) {
   return `${title || 'No Title'}\n${body || 'No details available'}\n${footer || ''}`;
 }
 
