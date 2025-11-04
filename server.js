@@ -171,9 +171,6 @@ function formatToJid(number) {
 
 // ----------------- Routes HTML -----------------
 
-// Page pairing WhatsApp
-app.get('/pair', (req, res) => res.sendFile(path.join(__dirname, 'pair.html')));
-
 // Page login
 app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'login.html')));
 
@@ -181,15 +178,8 @@ app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'login.html'))
 app.get('/signup', (req, res) => res.sendFile(path.join(__dirname, 'signup.html')));
 
 // Page principale
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'main.html')));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 
-// ----------------- CommonJS router -----------------
-app.use('/code', pair);
-
-// Route HTML principale - SERVIR pair.html
-app.get('/index', (req, res) => {
-    res.sendFile(path.join(__path, 'index.html'));
-});
 
 // ==================== API Routes pour configurations utilisateur ====================
 
