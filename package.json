@@ -19,8 +19,8 @@
   "author": "Dawens-Tech & INCONNU-BOY",
   "license": "MIT",
   "dependencies": {
-    "cookie-session": "^2.0.0",
     "simple-git": "^3.19.1",
+    "cookie-session": "^2.0.0",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@bochilteam/scraper": "4.0.22-alpha.0",
     "@google/generative-ai": "^0.24.0",
