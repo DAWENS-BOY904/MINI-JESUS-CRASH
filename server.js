@@ -737,12 +737,9 @@ app.use((error, req, res, next) => {
 });
     console.log(`=========================================`);
     console.log(`🚀 Déploiement: http://localhost:${PORT}`);
-   console.log(`📱 Pairing WhatsApp: http://localhost:${PORT}/pair`);
     console.log(`🔧 API Config: http://localhost:${PORT}/api/config`);
     console.log(`📊 Sessions: http://localhost:${PORT}/api/sessions/active`);
     console.log(`❤️  Health: http://localhost:${PORT}/api/health`);
-    console.log(`🤖 API Pairing: http://localhost:${PORT}/api/pair`);
-    console.log(`👤 Multi-utilisateur: Système activé`);
     console.log(`🫀 Keep-alive: http://localhost:${PORT}/api/ping`);
     console.log(`📈 Stats: http://localhost:${PORT}/api/stats`);
     console.log(`=========================================\n`);
