@@ -75,29 +75,46 @@ input:focus { border-color: var(--accent); box-shadow:0 0 10px var(--accent);}
 <audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
 
   <!-- Photo upload -->
-  <div class="photo-box" id="photoBox">Photo</div>
-  <input type="file" id="photoInput">
+  <div class="photo-box" id="photoBox">
+    <img src="https://files.catbox.moe/ijo0fe.png" alt="Default Avatar">
+  </div>
+  <input type="file" id="photoInput" accept="image/*">
 
-  <!-- Login form -->
   <input type="email" id="email" placeholder="Email">
   <input type="password" id="password" placeholder="Password">
   <button class="primary" id="loginBtn">Login</button>
 
   <div class="oauth-row">
-    <a class="oauth" href="/auth/google"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google"> Google</a>
-    <a class="oauth" href="/auth/github"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"> GitHub</a>
+    <a id="googleBtn" class="oauth" href="#"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google"> Google</a>
+    <a id="githubBtn" class="oauth" href="#"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"> GitHub</a>
   </div>
 
-  <span class="switch" onclick="window.location='index.html'">Don't have an account? Sign up</span>
-
+  <span class="switch" onclick="window.location='index.html'">Don't have an account? Sign Up</span>
   <div class="footer">© 2025 MINI JESUS LOGIN</div>
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.16.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "https://www.gstatic.com/firebasejs/10.16.0/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.16.0/firebase-firestore.js";
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_MESSAGING_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// --- Photo preview ---
 const photoInput = document.getElementById('photoInput');
 const photoBox = document.getElementById('photoBox');
-
-// Photo preview
 photoInput.addEventListener('change', e => {
   const file = e.target.files[0];
   if (file) {
@@ -109,7 +126,7 @@ photoInput.addEventListener('change', e => {
   }
 });
 
-// Login button click
+// --- Email/password login ---
 document.getElementById('loginBtn').addEventListener('click', async () => {
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value.trim();
@@ -120,23 +137,32 @@ document.getElementById('loginBtn').addEventListener('click', async () => {
   }
 
   try {
-    const res = await fetch('/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-
-    // If login is successful, redirect to index.html
-    if (res.ok) {
-      window.location.href = 'signup.html';
-    } else {
-      const msg = await res.text();
-      alert(msg || 'Login failed.');
-    }
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    alert("Login successful! Welcome " + (userCredential.user.displayName || email));
+    window.location.href = 'signup.html'; // redirect after login
   } catch (err) {
-    console.error(err);
-    alert('An error occurred during login.');
+    alert(err.message);
   }
+});
+
+// --- OAuth providers ---
+const providers = {
+  google: new GoogleAuthProvider(),
+  github: new GithubAuthProvider()
+};
+
+document.getElementById('googleBtn').addEventListener('click', e => {
+  e.preventDefault();
+  signInWithPopup(auth, providers.google).then(async (result)=>{
+    alert("Welcome " + (result.user.displayName || result.user.email));
+  }).catch(err=>alert(err.message));
+});
+
+document.getElementById('githubBtn').addEventListener('click', e => {
+  e.preventDefault();
+  signInWithPopup(auth, providers.github).then(async (result)=>{
+    alert("Welcome " + (result.user.displayName || result.user.email));
+  }).catch(err=>alert(err.message));
 });
 </script>
 </body>

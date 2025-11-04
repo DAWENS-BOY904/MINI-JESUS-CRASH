@@ -12,16 +12,6 @@
   --border: rgba(255, 255, 255, 0.08);
   --muted: #9ba0b0;
   --accent: #6c63ff;
-  --neon1: #00ffff;
-  --neon2: #ff00ff;
-  --neon3: #ff4b2b;
-  --neon4: #39ff14;
-  --neon5: #ffbf00;
-  --neon6: #ff0099;
-  --neon7: #00ffcc;
-  --neon8: #ff66cc;
-  --neon9: #33ccff;
-  --neon10: #d3ff00;
   --radius: 16px;
   --blur: 24px;
   --transition: all 0.4s ease;
@@ -32,15 +22,15 @@ html,body{width:100%;height:100%;font-family:"Poppins","Segoe UI",sans-serif;bac
 .card{position:relative;background:var(--card-bg);border:1px solid var(--border);backdrop-filter:blur(var(--blur));padding:32px;width:92%;max-width:420px;border-radius:var(--radius);box-shadow:0 0 40px rgba(0,0,0,0.6),0 0 15px var(--accent);transition:var(--transition);text-align:center;}
 .logo{font-size:2.5rem;font-weight:800;color:var(--accent);text-shadow:var(--glow);margin-bottom:8px;}
 .header-title{font-weight:600;font-size:1.3rem;margin-bottom:20px;}
-input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background: rgba(255,255,255,0.06);color:#fff;margin-bottom:12px;outline:none;transition:0.3s;}
-input:focus{border-color:var(--accent);box-shadow:0 0 10px var(--accent);}
-.primary{width:100%;padding:12px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;transition:0.3s;margin-bottom:15px;}
+input{width:100%;padding:12px 14px;border-radius:8px;border:1px solid var(--border);background: rgba(255,255,255,0.06);color:#fff;margin-bottom:12px;outline:none;transition:0.3s;}
+input:focus{border-color:var(--accent);box-shadow:0 0 12px var(--accent);}
+.primary{width:100%;padding:12px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;transition:0.3s;margin-bottom:15px;font-size:1rem;}
 .primary:hover{filter:brightness(1.2);box-shadow:0 0 20px var(--accent);}
-.oauth-row{display:flex;justify-content:center;gap:10px;margin-bottom:15px;flex-wrap:wrap;}
-.oauth{padding:8px 12px;border:1px solid var(--accent);border-radius:8px;text-decoration:none;color:var(--accent);display:flex;align-items:center;gap:6px;transition:0.3s;font-weight:500;}
-.oauth img{width:20px;height:20px;}
+.oauth-row{display:flex;justify-content:center;gap:12px;margin-bottom:15px;flex-wrap:wrap;}
+.oauth{padding:10px 14px;border:1px solid var(--accent);border-radius:10px;text-decoration:none;color:var(--accent);display:flex;align-items:center;gap:8px;transition:0.3s;font-weight:500;font-size:0.9rem;box-shadow:0 0 8px rgba(0,0,0,0.3);}
+.oauth img{width:22px;height:22px;transition:0.3s;}
 .oauth:hover{background:var(--accent);color:#000;box-shadow:0 0 20px var(--accent);}
-.photo-box{width:80px;height:80px;margin:0 auto 15px;border:2px dashed var(--accent);border-radius:12px;display:flex;justify-content:center;align-items:center;overflow:hidden;background:rgba(0,0,0,0.1);}
+.photo-box{width:90px;height:90px;margin:0 auto 15px;border:2px dashed var(--accent);border-radius:16px;display:flex;justify-content:center;align-items:center;overflow:hidden;background:rgba(0,0,0,0.1);}
 .photo-box img{width:100%;height:100%;object-fit:cover;}
 .switch{font-size:0.9rem;color:var(--accent);cursor:pointer;text-decoration:underline;display:block;margin-top:10px;}
 .footer{text-align:center;margin-top:20px;font-size:0.8rem;color:var(--muted);border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;}
@@ -52,6 +42,7 @@ input:focus{border-color:var(--accent);box-shadow:0 0 10px var(--accent);}
 </style>
 </head>
 <body>
+
 <!-- Background music autoplay -->
 <audio src="https://files.catbox.moe/634q9l.mp4" autoplay loop></audio>
 
@@ -70,37 +61,91 @@ input:focus{border-color:var(--accent);box-shadow:0 0 10px var(--accent);}
   <input type="password" id="password" placeholder="Password">
   <button class="primary" id="signupBtn">Sign Up</button>
 
+  <!-- OAuth -->
   <div class="oauth-row">
-    <a class="oauth" href="/auth/google"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google"> Google</a>
-    <a class="oauth" href="/auth/github"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"> GitHub</a>
-    <a class="oauth" href="/auth/apple"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg" alt="Apple"> Apple</a>
-    <a class="oauth" href="/auth/facebook"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg" alt="Facebook"> Facebook</a>
+    <a id="googleBtn" class="oauth" href="#"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google"> Google</a>
+    <a id="githubBtn" class="oauth" href="#"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"> GitHub</a>
+    <a id="appleBtn" class="oauth" href="#"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg" alt="Apple"> Apple</a>
+    <a id="facebookBtn" class="oauth" href="#"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg" alt="Facebook"> Facebook</a>
   </div>
 
   <span class="switch" onclick="window.location='login.html'">Already have an account? Login</span>
   <div class="footer">© 2025 MINI JESUS SIGNUP</div>
 </div>
 
-<script>
-// Automatic photo stays default; can be changed to upload if needed
-const photoBox=document.getElementById('photoBox');
-photoBox.addEventListener('click', ()=>{
-  alert('Photo is default avatar; upload can be added later.');
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.16.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, FacebookAuthProvider, OAuthProvider, updateProfile } from "https://www.gstatic.com/firebasejs/10.16.0/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.16.0/firebase-firestore.js";
+
+// --- Firebase config ---
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_MESSAGING_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// --- Save user in Firestore ---
+async function saveUser(user) {
+  await setDoc(doc(db, "users", user.uid), {
+    name: user.displayName || '',
+    email: user.email,
+    photoURL: user.photoURL || '',
+    lastLogin: new Date()
+  }, { merge: true });
+}
+
+// --- Signup with email/password ---
+document.getElementById('signupBtn').addEventListener('click', async () => {
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // Update displayName
+    await updateProfile(user, { displayName: name });
+
+    // Save in Firestore
+    await saveUser(user);
+
+    alert("Signup successful! Welcome " + name);
+  } catch (error) {
+    alert(error.message);
+  }
 });
 
-// Signup button
-document.getElementById('signupBtn').addEventListener('click', async ()=>{
-  const name=document.getElementById('name').value;
-  const email=document.getElementById('email').value;
-  const password=document.getElementById('password').value;
-  const res=await fetch('/signup',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({name,email,password})
-  });
-  if(res.redirected) window.location=res.url;
-  else alert(await res.text());
-});
+// --- OAuth Providers ---
+const providers = {
+  google: new GoogleAuthProvider(),
+  github: new GithubAuthProvider(),
+  facebook: new FacebookAuthProvider(),
+  apple: new OAuthProvider('apple.com')
+};
+
+// --- Generic OAuth login ---
+async function oauthLogin(provider) {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    await saveUser(result.user);
+    alert("Welcome " + result.user.displayName);
+  } catch(e) { alert(e.message); }
+}
+
+// --- Buttons ---
+document.getElementById('googleBtn').addEventListener('click', (e)=>{e.preventDefault(); oauthLogin(providers.google);});
+document.getElementById('githubBtn').addEventListener('click', (e)=>{e.preventDefault(); oauthLogin(providers.github);});
+document.getElementById('facebookBtn').addEventListener('click', (e)=>{e.preventDefault(); oauthLogin(providers.facebook);});
+document.getElementById('appleBtn').addEventListener('click', (e)=>{e.preventDefault(); oauthLogin(providers.apple);});
 </script>
 </body>
 </html>
