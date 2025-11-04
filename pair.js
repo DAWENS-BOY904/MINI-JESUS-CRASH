@@ -3340,8 +3340,11 @@ case 'apk': {
             fileName: `${name.replace(/[^a-zA-Z0-9]/g, '_')}.apk`, // Sanitize filename
             caption: formatMessage(
                 '📦 𝐀𝐏𝐊 𝐃𝐄𝐓𝐀𝐈𝐋𝐒',
-                `🔖 ɴᴀᴍᴇ: ${name || 'N/A'}\n📅 ʟᴀsᴛ ᴜᴘᴅᴀᴛᴇ: ${lastup || 'N/A'}\n📦 ᴘᴀᴄᴋᴀɢᴇ: ${package || 'N/A'}\n📏 Size: ${size || 'N/A'}`,
-                'JESUS CRASH V2'
+                `🔖 ɴᴀᴍᴇ: ${name || 'N/A'}
+📅 ʟᴀsᴛ ᴜᴘᴅᴀᴛᴇ: ${lastup || 'N/A'}
+📦 ᴘᴀᴄᴋᴀɢᴇ: ${pkg || 'N/A'}
+📏 Size: ${size || 'N/A'}`,
+'JESUS CRASH V2'
             )
         }, { quoted: fakevCard });
 
