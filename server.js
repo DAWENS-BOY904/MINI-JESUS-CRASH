@@ -13,6 +13,7 @@ import OpenAI from "openai";
 import bodyParser from 'body-parser';
 import sqlite3 from 'sqlite3';
 import bcrypt from 'bcrypt';
+import passport from 'passport';
 import cookieSession from 'cookie-session';
 
 // permet require
@@ -66,7 +67,7 @@ app.post("/api/chat", async (req, res) => {
       {
         headers: {
           "Content-Type": "application/json",
-          "x-goog-api-key": GEMINI_KEY
+          "x-goog-api-key": GEMINI_API_KEY
         }
       }
     );
@@ -85,7 +86,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-app.use(session({
+app.use(cookieSession({
   name: 'session',
   keys: ['secretkey1','secretkey2'],
   maxAge: 24*60*60*1000
@@ -93,6 +94,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 const __path = process.cwd();
 // ==================== KEEP ALIVE SYSTEM ====================
@@ -909,7 +911,7 @@ app.listen(PORT, () => {
   startKeepAlive();
 
   // Start CommonJS bot mini-server
-  startBotCJS;
+  startBotCJS(); // ajoute () pou kouri
 });
 
 export default app;
